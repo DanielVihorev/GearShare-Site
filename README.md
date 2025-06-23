@@ -1,2 +1,2 @@
-# GearShare-Site-
+# GearShare-Site
 GearShare Site 
