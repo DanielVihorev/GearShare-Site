@@ -4,6 +4,7 @@ Welcome to the backend API of **GearShare** — the platform for car parts shari
 
 This repository contains the **FastAPI web service** and **AWS RDS integration** that powers the GearShare iOS application.
 
+You can also click the link: http://gearshare.site/
 ---
 
 ## 🚀 What This Repo Is
