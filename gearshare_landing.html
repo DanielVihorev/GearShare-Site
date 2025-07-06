@@ -271,14 +271,42 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        .floating-dot:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .floating-dot:nth-child(2) { top: 40%; right: 15%; animation-delay: 1s; }
-        .floating-dot:nth-child(3) { top: 60%; left: 20%; animation-delay: 2s; }
-        .floating-dot:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
+        .floating-dot:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-dot:nth-child(2) {
+            top: 40%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-dot:nth-child(3) {
+            top: 60%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .floating-dot:nth-child(4) {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 3s;
+        }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); opacity: 0.3; }
-            50% { transform: translateY(-20px); opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: translateY(-20px);
+                opacity: 0.8;
+            }
         }
 
         .section-title {
@@ -301,15 +329,15 @@
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-            
+
             .hero-text h2 {
                 font-size: 2.5rem;
             }
-            
+
             .nav-links {
                 display: none;
             }
-            
+
             .phone {
                 width: 250px;
                 height: 500px;
@@ -349,7 +377,8 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h2>Easy locate.<br>Fast buy.<br>Simple collect.</h2>
-                    <p>Connect with millions of auto parts across the globe. Perfect for mechanics, dealers, and automotive professionals seeking quality parts at competitive prices.</p>
+                    <p>Connect with millions of auto parts across the globe. Perfect for mechanics, dealers, and
+                        automotive professionals seeking quality parts at competitive prices.</p>
                     <div class="cta-buttons">
                         <a href="#" class="btn btn-primary">Download App</a>
                         <a href="#" class="btn btn-secondary">Learn More</a>
@@ -361,28 +390,37 @@
                             <div style="background: #e5e7eb; border-radius: 20px; padding: 15px; margin-bottom: 20px;">
                                 <div style="color: #6b7280; font-size: 14px;">🔍 Search auto parts</div>
                             </div>
-                            
+
                             <div style="display: flex; flex-direction: column; gap: 15px;">
-                                <div style="background: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                                    <div style="width: 40px; height: 40px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🔧</div>
+                                <div
+                                    style="background: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                    <div
+                                        style="width: 40px; height: 40px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        🔧</div>
                                     <div style="flex: 1;">
                                         <div style="font-weight: 600; color: #1f2937;">Alternator</div>
                                         <div style="color: #6b7280; font-size: 14px;">Toyota Camry 2015</div>
                                     </div>
                                     <div style="font-weight: 700; color: #1f2937;">$80</div>
                                 </div>
-                                
-                                <div style="background: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                                    <div style="width: 40px; height: 40px; background: #fee2e2; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🚨</div>
+
+                                <div
+                                    style="background: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                    <div
+                                        style="width: 40px; height: 40px; background: #fee2e2; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        🚨</div>
                                     <div style="flex: 1;">
                                         <div style="font-weight: 600; color: #1f2937;">Taillight</div>
                                         <div style="color: #6b7280; font-size: 14px;">Ford F-150 2010</div>
                                     </div>
                                     <div style="font-weight: 700; color: #1f2937;">$120</div>
                                 </div>
-                                
-                                <div style="background: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                                    <div style="width: 40px; height: 40px; background: #f0f9ff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">🏎️</div>
+
+                                <div
+                                    style="background: white; border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                    <div
+                                        style="width: 40px; height: 40px; background: #f0f9ff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        🏎️</div>
                                     <div style="flex: 1;">
                                         <div style="font-weight: 600; color: #1f2937;">Engine</div>
                                         <div style="color: #6b7280; font-size: 14px;">Honda Civic 2010</div>
@@ -401,7 +439,8 @@
         <div class="container">
             <h2 class="section-title">Powering the Global Auto Parts Market</h2>
             <p class="section-subtitle">Connecting professionals worldwide with comprehensive automotive solutions</p>
-            
+            <p>API URL Test: <strong id="api-url-placeholder"></strong></p>
+
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number">2.3M+</div>
@@ -427,42 +466,48 @@
         <div class="container">
             <h2 class="section-title">Built for Automotive Professionals</h2>
             <p class="section-subtitle">Everything you need to run your automotive business efficiently</p>
-            
+
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🔍</div>
                     <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Smart Search</h3>
-                    <p style="opacity: 0.9; line-height: 1.6;">Find exact parts using VIN, part numbers, or vehicle specifications. Our AI-powered search covers OEM, aftermarket, and used parts.</p>
+                    <p style="opacity: 0.9; line-height: 1.6;">Find exact parts using VIN, part numbers, or vehicle
+                        specifications. Our AI-powered search covers OEM, aftermarket, and used parts.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <div class="feature-icon">⚡</div>
                     <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Instant Quotes</h3>
-                    <p style="opacity: 0.9; line-height: 1.6;">Get real-time pricing from multiple suppliers. Compare costs, availability, and delivery times in seconds.</p>
+                    <p style="opacity: 0.9; line-height: 1.6;">Get real-time pricing from multiple suppliers. Compare
+                        costs, availability, and delivery times in seconds.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <div class="feature-icon">🚚</div>
                     <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Local & Global Network</h3>
-                    <p style="opacity: 0.9; line-height: 1.6;">Access both local suppliers for quick delivery and global inventory for rare parts. Same-day pickup available in major cities.</p>
+                    <p style="opacity: 0.9; line-height: 1.6;">Access both local suppliers for quick delivery and global
+                        inventory for rare parts. Same-day pickup available in major cities.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <div class="feature-icon">💼</div>
                     <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Business Tools</h3>
-                    <p style="opacity: 0.9; line-height: 1.6;">Manage your shop's inventory, track orders, and connect with trusted suppliers. Built-in invoicing and warranty tracking.</p>
+                    <p style="opacity: 0.9; line-height: 1.6;">Manage your shop's inventory, track orders, and connect
+                        with trusted suppliers. Built-in invoicing and warranty tracking.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <div class="feature-icon">🛡️</div>
                     <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Quality Guarantee</h3>
-                    <p style="opacity: 0.9; line-height: 1.6;">All parts come with authenticity verification and warranty protection. Secure payments and dispute resolution included.</p>
+                    <p style="opacity: 0.9; line-height: 1.6;">All parts come with authenticity verification and
+                        warranty protection. Secure payments and dispute resolution included.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
                     <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Analytics Dashboard</h3>
-                    <p style="opacity: 0.9; line-height: 1.6;">Track your purchasing patterns, identify cost savings opportunities, and manage supplier relationships with detailed insights.</p>
+                    <p style="opacity: 0.9; line-height: 1.6;">Track your purchasing patterns, identify cost savings
+                        opportunities, and manage supplier relationships with detailed insights.</p>
                 </div>
             </div>
         </div>
@@ -471,15 +516,22 @@
     <section style="padding: 100px 0; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);" id="download">
         <div class="container" style="text-align: center;">
             <h2 class="section-title">Ready to Transform Your Business?</h2>
-            <p class="section-subtitle" style="margin-bottom: 40px;">Join thousands of mechanics, dealers, and automotive professionals already using GearShare</p>
-            
+            <p class="section-subtitle" style="margin-bottom: 40px;">Join thousands of mechanics, dealers, and
+                automotive professionals already using GearShare</p>
+
             <div class="cta-buttons" style="justify-content: center;">
-                <a href="#" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 40px;">📱 Download for iOS</a>
-                <a href="#" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 40px;">🤖 Download for Android</a>
+                <a href="#" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 40px;">📱 Download for
+                    iOS</a>
+                <a href="#" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 40px;">🤖 Download for
+                    Android</a>
             </div>
-            
+
             <p style="margin-top: 30px; opacity: 0.8;">Free to download • No setup fees • Start finding parts today</p>
         </div>
     </section>
+    <script src="/config.js"></script>
+    <script>
+        document.getElementById('api-url-placeholder').textContent = window.API_ENDPOINT || 'Not found';
+    </script>
 </body>
 </html>
