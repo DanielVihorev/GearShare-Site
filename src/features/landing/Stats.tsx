@@ -1,0 +1,35 @@
+import React from "react";
+
+const statsData = [
+  { number: "2.3M+", label: "Auto Parts Available" },
+  { number: "45,000+", label: "Car Models Supported" },
+  { number: "180+", label: "Countries & Regions" },
+  { number: "500K+", label: "Active Mechanics & Dealers" },
+];
+
+export const Stats: React.FC = () => {
+  return (
+    <section id='stats' className='py-24 bg-white/10 backdrop-blur-md'>
+      <div className='container mx-auto px-6 text-center'>
+        <h2 className='text-4xl font-bold mb-4'>
+          Powering the Global Auto Parts Market
+        </h2>
+        <p className='text-lg text-white/80 max-w-2xl mx-auto mb-16'>
+          Connecting professionals worldwide with comprehensive automotive
+          solutions.
+        </p>
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-8'>
+          {statsData.map((stat, index) => (
+            <div
+              key={index}
+              className='bg-white/10 p-6 rounded-xl border border-white/20 transform hover:-translate-y-2 transition-transform duration-300'
+            >
+              <div className='text-4xl font-bold mb-2'>{stat.number}</div>
+              <div className='text-white/80'>{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};

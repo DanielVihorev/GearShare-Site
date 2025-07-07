@@ -1,40 +1,69 @@
-# GearShare Site 🌐🔧
+# React + TypeScript + Vite
 
-Welcome to the backend API of **GearShare** — the platform for car parts sharing and lending between vehicle owners and mechanics.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This repository contains the **FastAPI web service** and **AWS RDS integration** that powers the GearShare iOS application.
+Currently, two official plugins are available:
 
-You can also click the link: http://gearshare.site/
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## 🚀 What This Repo Is
+## Expanding the ESLint configuration
 
-✅ API server using FastAPI  
-✅ Connects to an AWS RDS MSSQL database  
-✅ Handles user registration, login, and item management  
-❌ This is **not** the iOS app codebase  
-❌ No frontend/UI in this repository
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
----
+```js
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## 📱 Try the iOS App
+      // Remove tseslint.configs.recommended and replace with this
+      ...tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      ...tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      ...tseslint.configs.stylisticTypeChecked,
 
-> 🔗 [Download GearShare on TestFlight](https://testflight.apple.com/join/YOUR-LINK)  
-> 📦 [View iOS App Source Code](https://github.com/DanielVihorev/GearShare-IOS)
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## 🔌 API Features (Backed by RDS)
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-This backend connects to an **Amazon RDS (Microsoft SQL Server)** instance and provides the following endpoints:
-
-### ✅ `POST /register`
-Register a new user.
-
-**Payload**:
-```json
-{
-  "username": "daniel",
-  "email": "daniel@example.com",
-  "password": "12345678"
-}
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
