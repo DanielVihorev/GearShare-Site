@@ -5,6 +5,7 @@ interface ButtonProps {
   onClick?: () => void;
   variant?: "primary" | "secondary";
   className?: string;
+  type?: "button" | "submit" | "reset"; // Good practice for buttons in forms
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -12,6 +13,7 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   variant = "primary",
   className = "",
+  type = "button", // Default to "button"
 }) => {
   const baseClasses =
     "px-6 py-3 font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-opacity-50";
@@ -24,12 +26,12 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <a
-      href='#'
+    <button
+      type={type} // Use the type attribute
       onClick={onClick}
       className={`${baseClasses} ${variantClasses[variant]} ${className}`}
     >
       {children}
-    </a>
+    </button>
   );
 };
