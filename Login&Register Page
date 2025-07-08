@@ -1,0 +1,503 @@
+import React, { useState, useRef, useEffect } from ‘react’;
+import { Eye, EyeOff, User, Mail, Lock, Smartphone, Shield, ArrowRight, CheckCircle, AlertCircle } from ‘lucide-react’;
+
+// Mock GeeTest component (replace with actual react-geetest-v4 when installed)
+const GeeTest = ({ captchaId, containerId, onSuccess, onError, onReady }) => {
+const [isLoaded, setIsLoaded] = useState(false);
+const [isVerified, setIsVerified] = useState(false);
+
+useEffect(() => {
+// Simulate GeeTest loading
+const timer = setTimeout(() => {
+setIsLoaded(true);
+onReady && onReady();
+}, 1000);
+
+```
+return () => clearTimeout(timer);
+```
+
+}, [onReady]);
+
+const handleVerify = () => {
+// Simulate captcha verification
+setIsVerified(true);
+onSuccess && onSuccess({
+geetest_challenge: ‘mock_challenge’,
+geetest_validate: ‘mock_validate’,
+geetest_seccode: ‘mock_seccode’
+});
+};
+
+return (
+<div className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+{!isLoaded ? (
+<div className="flex items-center justify-center h-16">
+<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+<span className="ml-2 text-gray-600">Loading GeeTest…</span>
+</div>
+) : !isVerified ? (
+<div className="flex items-center justify-center h-16">
+<button
+onClick={handleVerify}
+className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+>
+<Shield className="w-4 h-4 mr-2" />
+Verify Human
+</button>
+</div>
+) : (
+<div className="flex items-center justify-center h-16 text-green-600">
+<CheckCircle className="w-5 h-5 mr-2" />
+<span>Verification Complete</span>
+</div>
+)}
+</div>
+);
+};
+
+const AuthPage = () => {
+const [isLogin, setIsLogin] = useState(true);
+const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+const [isLoading, setIsLoading] = useState(false);
+const [captchaVerified, setCaptchaVerified] = useState(false);
+const [formData, setFormData] = useState({
+email: ‘’,
+password: ‘’,
+confirmPassword: ‘’,
+firstName: ‘’,
+lastName: ‘’,
+phone: ‘’
+});
+const [errors, setErrors] = useState({});
+const [notification, setNotification] = useState({ show: false, type: ‘’, message: ‘’ });
+
+const captchaRef = useRef(null);
+
+const showNotification = (type, message) => {
+setNotification({ show: true, type, message });
+setTimeout(() => setNotification({ show: false, type: ‘’, message: ‘’ }), 5000);
+};
+
+const validateForm = () => {
+const newErrors = {};
+
+```
+if (!formData.email) {
+  newErrors.email = 'Email is required';
+} else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+  newErrors.email = 'Email format is invalid';
+}
+
+if (!formData.password) {
+  newErrors.password = 'Password is required';
+} else if (formData.password.length < 8) {
+  newErrors.password = 'Password must be at least 8 characters';
+}
+
+if (!isLogin) {
+  if (!formData.firstName) newErrors.firstName = 'First name is required';
+  if (!formData.lastName) newErrors.lastName = 'Last name is required';
+  if (!formData.phone) newErrors.phone = 'Phone number is required';
+  if (formData.password !== formData.confirmPassword) {
+    newErrors.confirmPassword = 'Passwords do not match';
+  }
+}
+
+if (!captchaVerified) {
+  newErrors.captcha = 'Please complete the captcha verification';
+}
+
+setErrors(newErrors);
+return Object.keys(newErrors).length === 0;
+```
+
+};
+
+const handleInputChange = (e) => {
+const { name, value } = e.target;
+setFormData(prev => ({
+…prev,
+[name]: value
+}));
+
+```
+// Clear error when user starts typing
+if (errors[name]) {
+  setErrors(prev => ({
+    ...prev,
+    [name]: ''
+  }));
+}
+```
+
+};
+
+const handleSubmit = async () => {
+
+```
+if (!validateForm()) {
+  showNotification('error', 'Please fix the errors below');
+  return;
+}
+
+setIsLoading(true);
+
+try {
+  // Simulate API call
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
+  // Mock API response
+  const mockResponse = {
+    success: true,
+    message: isLogin ? 'Login successful!' : 'Registration successful!',
+    user: {
+      id: '12345',
+      email: formData.email,
+      firstName: formData.firstName,
+      lastName: formData.lastName
+    }
+  };
+  
+  if (mockResponse.success) {
+    showNotification('success', mockResponse.message);
+    // Reset form
+    setFormData({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      firstName: '',
+      lastName: '',
+      phone: ''
+    });
+    setCaptchaVerified(false);
+    
+    // Redirect to dashboard or handle successful auth
+    setTimeout(() => {
+      console.log('Redirecting to dashboard...');
+    }, 1500);
+  }
+} catch (error) {
+  showNotification('error', 'An error occurred. Please try again.');
+} finally {
+  setIsLoading(false);
+}
+```
+
+};
+
+const handleCaptchaSuccess = (captchaData) => {
+setCaptchaVerified(true);
+console.log(‘Captcha verified:’, captchaData);
+if (errors.captcha) {
+setErrors(prev => ({
+…prev,
+captcha: ‘’
+}));
+}
+};
+
+const handleCaptchaError = (error) => {
+setCaptchaVerified(false);
+console.error(‘Captcha error:’, error);
+showNotification(‘error’, ‘Captcha verification failed. Please try again.’);
+};
+
+const toggleAuthMode = () => {
+setIsLogin(!isLogin);
+setFormData({
+email: ‘’,
+password: ‘’,
+confirmPassword: ‘’,
+firstName: ‘’,
+lastName: ‘’,
+phone: ‘’
+});
+setErrors({});
+setCaptchaVerified(false);
+};
+
+return (
+<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+{/* Notification */}
+{notification.show && (
+<div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${ notification.type === 'success' ? 'bg-green-500' : 'bg-red-500' } text-white flex items-center space-x-2`}>
+{notification.type === ‘success’ ? (
+<CheckCircle className="w-5 h-5" />
+) : (
+<AlertCircle className="w-5 h-5" />
+)}
+<span>{notification.message}</span>
+</div>
+)}
+
+```
+  <div className="w-full max-w-md">
+    {/* Header */}
+    <div className="text-center mb-8">
+      <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl mb-4">
+        <Smartphone className="w-8 h-8 text-white" />
+      </div>
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">GearShareIOS</h1>
+      <p className="text-gray-600">
+        {isLogin ? 'Welcome back! Sign in to your account' : 'Create your account to get started'}
+      </p>
+    </div>
+
+    {/* Auth Form */}
+    <div className="bg-white rounded-2xl shadow-xl p-8">
+      <div className="mb-6">
+        <div className="flex bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={() => setIsLogin(true)}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              isLogin ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => setIsLogin(false)}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              !isLogin ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {/* Registration Fields */}
+        {!isLogin && (
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                First Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    errors.firstName ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="John"
+                />
+              </div>
+              {errors.firstName && (
+                <p className="mt-1 text-sm text-red-600">{errors.firstName}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Last Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    errors.lastName ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Doe"
+                />
+              </div>
+              {errors.lastName && (
+                <p className="mt-1 text-sm text-red-600">{errors.lastName}</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Email Field */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Email Address
+          </label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                errors.email ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="john@example.com"
+            />
+          </div>
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+          )}
+        </div>
+
+        {/* Phone Field (Register only) */}
+        {!isLogin && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Phone Number
+            </label>
+            <div className="relative">
+              <Smartphone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  errors.phone ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+            {errors.phone && (
+              <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
+            )}
+          </div>
+        )}
+
+        {/* Password Field */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Password
+          </label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className={`w-full pl-10 pr-12 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                errors.password ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+            >
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+          )}
+        </div>
+
+        {/* Confirm Password Field (Register only) */}
+        {!isLogin && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className={`w-full pl-10 pr-12 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+              >
+                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+            {errors.confirmPassword && (
+              <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
+            )}
+          </div>
+        )}
+
+        {/* GeeTest Captcha */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Security Verification
+          </label>
+          <GeeTest
+            ref={captchaRef}
+            captchaId="your-geetest-captcha-id"
+            containerId="geetest-container"
+            onSuccess={handleCaptchaSuccess}
+            onError={handleCaptchaError}
+            onReady={() => console.log('GeeTest ready')}
+          />
+          {errors.captcha && (
+            <p className="mt-1 text-sm text-red-600">{errors.captcha}</p>
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={isLoading}
+          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center space-x-2"
+        >
+          {isLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              <span>Processing...</span>
+            </>
+          ) : (
+            <>
+              <span>{isLogin ? 'Sign In' : 'Create Account'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Footer */}
+      <div className="mt-6 text-center">
+        <p className="text-sm text-gray-600">
+          {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
+          <button
+            onClick={toggleAuthMode}
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
+            {isLogin ? 'Sign up' : 'Sign in'}
+          </button>
+        </p>
+      </div>
+
+      {isLogin && (
+        <div className="mt-4 text-center">
+          <button className="text-sm text-blue-600 hover:text-blue-700">
+            Forgot your password?
+          </button>
+        </div>
+      )}
+    </div>
+
+    {/* Footer Note */}
+    <div className="mt-8 text-center text-sm text-gray-500">
+      <p>Protected by GeeTest • Secure Authentication</p>
+    </div>
+  </div>
+</div>
+```
+
+);
+};
+
+export default AuthPage;
