@@ -1,0 +1,257 @@
+import React, { useState } from ‘react’;
+import { Calendar, Tag, Clock, ChevronRight, Bell, Smartphone, Users, Star } from ‘lucide-react’;
+
+const NewsPage = () => {
+const [selectedCategory, setSelectedCategory] = useState(‘all’);
+
+const newsItems = [
+{
+id: 1,
+title: “GearShareIOS 2.1 Now Available”,
+excerpt: “Enhanced sharing features, improved user interface, and better notification system.”,
+content: “We’re excited to announce the release of GearShareIOS 2.1! This update brings significant improvements to the sharing experience with a redesigned interface that makes it easier than ever to connect with your community. The new notification system ensures you never miss important updates about your gear requests.”,
+date: “2025-01-15”,
+category: “app-update”,
+featured: true,
+author: “GearShare Team”,
+readTime: “3 min read”,
+image: “/api/placeholder/600/300”
+},
+{
+id: 2,
+title: “New Community Features Launch”,
+excerpt: “Introducing group sharing, community ratings, and enhanced messaging.”,
+content: “Connect with like-minded adventurers through our new community features. Create and join groups based on your interests, rate and review shared gear, and communicate seamlessly with our enhanced messaging system.”,
+date: “2025-01-10”,
+category: “feature”,
+featured: false,
+author: “Product Team”,
+readTime: “4 min read”,
+image: “/api/placeholder/600/300”
+},
+{
+id: 3,
+title: “Safety First: New Verification System”,
+excerpt: “Enhanced user verification and safety measures for secure gear sharing.”,
+content: “Your safety is our priority. We’ve implemented a comprehensive verification system that includes identity verification, gear condition reports, and enhanced user profiles to ensure safe and reliable sharing experiences.”,
+date: “2025-01-05”,
+category: “safety”,
+featured: false,
+author: “Security Team”,
+readTime: “5 min read”,
+image: “/api/placeholder/600/300”
+},
+{
+id: 4,
+title: “Holiday Sharing Statistics”,
+excerpt: “Amazing community growth and sharing milestones from the holiday season.”,
+content: “This holiday season saw incredible growth in our community! Over 10,000 gear items were shared, helping thousands of adventurers enjoy their activities while building stronger community connections.”,
+date: “2025-01-02”,
+category: “community”,
+featured: false,
+author: “Community Team”,
+readTime: “2 min read”,
+image: “/api/placeholder/600/300”
+},
+{
+id: 5,
+title: “iOS 18 Compatibility Update”,
+excerpt: “Full compatibility with iOS 18 and improved performance optimizations.”,
+content: “GearShareIOS is now fully optimized for iOS 18, bringing improved performance, better battery efficiency, and enhanced integration with system features like widgets and shortcuts.”,
+date: “2024-12-28”,
+category: “app-update”,
+featured: false,
+author: “Development Team”,
+readTime: “3 min read”,
+image: “/api/placeholder/600/300”
+}
+];
+
+const categories = [
+{ id: ‘all’, name: ‘All News’, icon: Bell },
+{ id: ‘app-update’, name: ‘App Updates’, icon: Smartphone },
+{ id: ‘feature’, name: ‘Features’, icon: Star },
+{ id: ‘community’, name: ‘Community’, icon: Users },
+{ id: ‘safety’, name: ‘Safety’, icon: Tag }
+];
+
+const filteredNews = selectedCategory === ‘all’
+? newsItems
+: newsItems.filter(item => item.category === selectedCategory);
+
+const featuredNews = newsItems.filter(item => item.featured);
+
+const formatDate = (dateString) => {
+const date = new Date(dateString);
+return date.toLocaleDateString(‘en-US’, {
+year: ‘numeric’,
+month: ‘long’,
+day: ‘numeric’
+});
+};
+
+return (
+<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+{/* Header */}
+<header className="bg-white shadow-sm border-b">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+<div className="flex items-center justify-between">
+<div>
+<h1 className="text-3xl font-bold text-gray-900">GearShare News</h1>
+<p className="text-gray-600 mt-2">Stay updated with the latest app updates and community news</p>
+</div>
+<div className="flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-full">
+<Bell className="h-5 w-5 text-blue-600" />
+<span className="text-blue-600 font-medium">Latest Updates</span>
+</div>
+</div>
+</div>
+</header>
+
+```
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {/* Featured Section */}
+    {featuredNews.length > 0 && (
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured</h2>
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+          <div className="md:flex">
+            <div className="md:w-1/2">
+              <div className="h-64 md:h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                <Smartphone className="h-16 w-16 text-white" />
+              </div>
+            </div>
+            <div className="md:w-1/2 p-8">
+              <div className="flex items-center space-x-2 mb-4">
+                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                  Featured
+                </span>
+                <span className="text-gray-500 text-sm">
+                  {formatDate(featuredNews[0].date)}
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {featuredNews[0].title}
+              </h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                {featuredNews[0].content}
+              </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  <span>{featuredNews[0].author}</span>
+                  <span>•</span>
+                  <span className="flex items-center space-x-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{featuredNews[0].readTime}</span>
+                  </span>
+                </div>
+                <button className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 font-medium">
+                  <span>Read More</span>
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* Category Filter */}
+    <div className="mb-8">
+      <div className="flex flex-wrap gap-2">
+        {categories.map((category) => {
+          const IconComponent = category.icon;
+          return (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                selectedCategory === category.id
+                  ? 'bg-blue-600 text-white shadow-lg'
+                  : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+              }`}
+            >
+              <IconComponent className="h-4 w-4" />
+              <span>{category.name}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+
+    {/* News Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {filteredNews.map((item) => (
+        <article
+          key={item.id}
+          className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group"
+        >
+          <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+            <Smartphone className="h-12 w-12 text-white group-hover:scale-110 transition-transform duration-300" />
+          </div>
+          
+          <div className="p-6">
+            <div className="flex items-center space-x-2 mb-3">
+              <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                item.category === 'app-update' ? 'bg-green-100 text-green-800' :
+                item.category === 'feature' ? 'bg-purple-100 text-purple-800' :
+                item.category === 'community' ? 'bg-blue-100 text-blue-800' :
+                'bg-orange-100 text-orange-800'
+              }`}>
+                {categories.find(cat => cat.id === item.category)?.name}
+              </span>
+              <span className="text-gray-500 text-xs">
+                {formatDate(item.date)}
+              </span>
+            </div>
+            
+            <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+              {item.title}
+            </h3>
+            
+            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+              {item.excerpt}
+            </p>
+            
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3 text-xs text-gray-500">
+                <span>{item.author}</span>
+                <span>•</span>
+                <span className="flex items-center space-x-1">
+                  <Clock className="h-3 w-3" />
+                  <span>{item.readTime}</span>
+                </span>
+              </div>
+              <button className="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center space-x-1">
+                <span>Read</span>
+                <ChevronRight className="h-3 w-3" />
+              </button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    {/* Load More Button */}
+    <div className="text-center mt-12">
+      <button className="bg-blue-600 text-white px-8 py-3 rounded-full font-medium hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl">
+        Load More News
+      </button>
+    </div>
+  </div>
+
+  {/* Footer */}
+  <footer className="bg-white border-t mt-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="text-center text-gray-600">
+        <p>© 2025 GearShareIOS. Stay connected with your adventure community.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+```
+
+);
+};
+
+export default NewsPage;
