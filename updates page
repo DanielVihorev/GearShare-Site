@@ -1,0 +1,339 @@
+import React, { useState } from ‘react’;
+import { Calendar, Download, Star, Bug, Zap, Shield, Users, Search } from ‘lucide-react’;
+
+const UpdatesPage = () => {
+const [selectedVersion, setSelectedVersion] = useState(null);
+
+const updates = [
+{
+version: “2.1.0”,
+date: “2025-01-15”,
+type: “major”,
+status: “latest”,
+title: “Enhanced Social Features & Performance Boost”,
+description: “Major update focusing on community features and app performance improvements.”,
+features: [
+“New social feed with gear recommendations from friends”,
+“Real-time chat system for gear negotiations”,
+“Enhanced search with AI-powered gear matching”,
+“Improved camera integration for better gear photos”,
+“Performance optimizations - 40% faster load times”
+],
+bugFixes: [
+“Fixed notification delivery issues”,
+“Resolved GPS accuracy problems in gear location”,
+“Fixed crash when uploading large images”
+],
+downloadSize: “45.2 MB”,
+compatibility: “iOS 14.0+”,
+featured: true
+},
+{
+version: “2.0.3”,
+date: “2024-12-20”,
+type: “patch”,
+status: “stable”,
+title: “Holiday Bug Fixes & Security Updates”,
+description: “Critical security patches and bug fixes for the holiday season.”,
+features: [
+“Enhanced security for payment processing”,
+“Improved offline mode functionality”,
+“Better error handling for network issues”
+],
+bugFixes: [
+“Fixed payment gateway timeout issues”,
+“Resolved profile image sync problems”,
+“Fixed duplicate notification bug”
+],
+downloadSize: “42.8 MB”,
+compatibility: “iOS 14.0+”,
+featured: false
+},
+{
+version: “2.0.2”,
+date: “2024-11-28”,
+type: “patch”,
+status: “stable”,
+title: “Black Friday Performance & UI Improvements”,
+description: “Optimizations for high-traffic periods and user interface enhancements.”,
+features: [
+“Redesigned gear browsing interface”,
+“Quick filter options for gear categories”,
+“Enhanced user profile customization”
+],
+bugFixes: [
+“Improved app stability during peak usage”,
+“Fixed sorting issues in gear listings”,
+“Resolved login session timeout problems”
+],
+downloadSize: “41.5 MB”,
+compatibility: “iOS 13.0+”,
+featured: false
+},
+{
+version: “2.0.1”,
+date: “2024-10-15”,
+type: “patch”,
+status: “stable”,
+title: “Initial 2.0 Bug Fixes”,
+description: “Quick fixes for issues discovered after the 2.0 launch.”,
+features: [
+“Improved onboarding flow for new users”,
+“Better gear condition assessment tools”
+],
+bugFixes: [
+“Fixed gear sharing permissions”,
+“Resolved calendar integration issues”,
+“Fixed user rating display problems”
+],
+downloadSize: “40.1 MB”,
+compatibility: “iOS 13.0+”,
+featured: false
+},
+{
+version: “2.0.0”,
+date: “2024-09-30”,
+type: “major”,
+status: “stable”,
+title: “GearShare 2.0 - Complete Redesign”,
+description: “Complete app redesign with new features and improved user experience.”,
+features: [
+“Brand new user interface design”,
+“Advanced gear management system”,
+“Integrated payment processing”,
+“Social features and user ratings”,
+“Smart gear recommendations”,
+“Enhanced security and privacy controls”
+],
+bugFixes: [
+“Complete rewrite addressed all previous stability issues”,
+“Improved memory management”,
+“Better error handling throughout the app”
+],
+downloadSize: “38.7 MB”,
+compatibility: “iOS 13.0+”,
+featured: false
+}
+];
+
+const getTypeColor = (type) => {
+switch (type) {
+case ‘major’: return ‘bg-purple-100 text-purple-800 border-purple-200’;
+case ‘minor’: return ‘bg-blue-100 text-blue-800 border-blue-200’;
+case ‘patch’: return ‘bg-green-100 text-green-800 border-green-200’;
+default: return ‘bg-gray-100 text-gray-800 border-gray-200’;
+}
+};
+
+const getStatusColor = (status) => {
+switch (status) {
+case ‘latest’: return ‘bg-gradient-to-r from-green-500 to-green-600 text-white’;
+case ‘stable’: return ‘bg-blue-500 text-white’;
+case ‘beta’: return ‘bg-yellow-500 text-white’;
+default: return ‘bg-gray-500 text-white’;
+}
+};
+
+const getTypeIcon = (type) => {
+switch (type) {
+case ‘major’: return <Star className="w-4 h-4" />;
+case ‘minor’: return <Zap className="w-4 h-4" />;
+case ‘patch’: return <Bug className="w-4 h-4" />;
+default: return <Download className="w-4 h-4" />;
+}
+};
+
+return (
+<div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+{/* Header */}
+<div className="bg-white shadow-sm border-b">
+<div className="max-w-6xl mx-auto px-4 py-6">
+<div className="flex items-center justify-between">
+<div>
+<h1 className="text-3xl font-bold text-gray-900">GearShareIOS Updates</h1>
+<p className="text-gray-600 mt-1">Stay up to date with the latest features and improvements</p>
+</div>
+<div className="flex items-center space-x-4">
+<div className="flex items-center space-x-2 bg-green-50 px-4 py-2 rounded-full">
+<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+<span className="text-green-700 font-medium">Latest: v{updates[0].version}</span>
+</div>
+<button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2">
+<Download className="w-4 h-4" />
+<span>Download Latest</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+
+```
+  {/* Stats Section */}
+  <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-600">Current Version</p>
+            <p className="text-2xl font-bold text-gray-900">{updates[0].version}</p>
+          </div>
+          <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+            <Download className="w-6 h-6 text-blue-600" />
+          </div>
+        </div>
+      </div>
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-600">Total Updates</p>
+            <p className="text-2xl font-bold text-gray-900">{updates.length}</p>
+          </div>
+          <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+            <Zap className="w-6 h-6 text-green-600" />
+          </div>
+        </div>
+      </div>
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-600">Last Updated</p>
+            <p className="text-2xl font-bold text-gray-900">{new Date(updates[0].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+          </div>
+          <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+            <Calendar className="w-6 h-6 text-purple-600" />
+          </div>
+        </div>
+      </div>
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-600">Compatibility</p>
+            <p className="text-2xl font-bold text-gray-900">iOS 14.0+</p>
+          </div>
+          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+            <Shield className="w-6 h-6 text-orange-600" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Updates List */}
+    <div className="space-y-6">
+      {updates.map((update, index) => (
+        <div key={update.version} className={`bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden ${update.featured ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
+          <div className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center space-x-4">
+                <div className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(update.status)}`}>
+                  {update.status.charAt(0).toUpperCase() + update.status.slice(1)}
+                </div>
+                <div className={`px-3 py-1 rounded-full text-sm font-medium border ${getTypeColor(update.type)} flex items-center space-x-1`}>
+                  {getTypeIcon(update.type)}
+                  <span>{update.type.charAt(0).toUpperCase() + update.type.slice(1)}</span>
+                </div>
+                {update.featured && (
+                  <div className="px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+                    ⭐ Featured
+                  </div>
+                )}
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-bold text-gray-900">v{update.version}</p>
+                <p className="text-sm text-gray-500 flex items-center">
+                  <Calendar className="w-4 h-4 mr-1" />
+                  {new Date(update.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </p>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">{update.title}</h3>
+              <p className="text-gray-600">{update.description}</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                  <Zap className="w-4 h-4 mr-2 text-green-600" />
+                  New Features & Improvements
+                </h4>
+                <ul className="space-y-2">
+                  {update.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                  <Bug className="w-4 h-4 mr-2 text-red-600" />
+                  Bug Fixes
+                </h4>
+                <ul className="space-y-2">
+                  {update.bugFixes.map((fix, idx) => (
+                    <li key={idx} className="flex items-start space-x-2">
+                      <div className="w-1.5 h-1.5 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-700">{fix}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-6 text-sm text-gray-600">
+                  <span className="flex items-center">
+                    <Download className="w-4 h-4 mr-1" />
+                    {update.downloadSize}
+                  </span>
+                  <span className="flex items-center">
+                    <Shield className="w-4 h-4 mr-1" />
+                    {update.compatibility}
+                  </span>
+                </div>
+                <button 
+                  onClick={() => setSelectedVersion(selectedVersion === update.version ? null : update.version)}
+                  className="text-blue-600 hover:text-blue-800 font-medium flex items-center space-x-1"
+                >
+                  <span>{selectedVersion === update.version ? 'Hide Details' : 'View Details'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Footer */}
+    <div className="mt-12 text-center">
+      <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Stay Updated</h3>
+        <p className="text-gray-600 mb-6">
+          Enable automatic updates in your device settings to always have the latest features and security improvements.
+        </p>
+        <div className="flex justify-center space-x-4">
+          <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-medium transition-colors duration-200">
+            Release Notes
+          </button>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
+            App Store
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+);
+};
+
+export default UpdatesPage;
