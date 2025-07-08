@@ -1,69 +1,42 @@
-# React + TypeScript + Vite
+# GearShare App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the GearShare App, a modern web application for automotive professionals to find, buy, and manage auto parts. This project is built with a focus on a clean, scalable, and feature-based architecture.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Responsive Landing Page**: A fully responsive, modern landing page to introduce the application.
+- **Multi-Page Routing**: Client-side routing set up with `react-router-dom` to handle navigation between pages.
+- **Mobile-First Navigation**: Includes a fully functional "burger" menu for a seamless experience on mobile devices.
+- **Authentication Flow**: Placeholder pages and components for user Login and Registration.
+- **404 Not Found Page**: A user-friendly 404 page for handling invalid URLs.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+This project is built using a modern, robust tech stack:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Framework**: [React](https://reactjs.org/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Routing**: [React Router](https://reactrouter.com/)
+- **Code Quality**: ESLint
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 📁 Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+This project follows a `feature-based` directory structure to keep the codebase organized and scalable.
+
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+/src
+|-- /app                # Global settings, providers (to be added)
+|-- /assets             # Static assets like images, fonts
+|-- /components         # Globally reusable, "dumb" UI components (e.g., Button, Input)
+|   |-- /ui
+|   |-- /icons
+|-- /features           # Contains distinct application features
+|   |-- /authentication # Logic and components for login/register
+|   |-- /landing        # Components specific to the landing page experience
+|-- /hooks              # Global, reusable custom hooks
+|-- /layout             # Shared layout components (e.g., MainLayout with Header/Footer)
+|-- /pages              # Top-level components for each application route
+|-- /lib                # Library configurations (e.g., axios instances)
 ```
