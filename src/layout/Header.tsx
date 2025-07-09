@@ -97,6 +97,14 @@ export const Header: React.FC = () => {
                   News
                 </Link>
               </li>
+              <li>
+                <Link
+                  to='/updates'
+                  className='hover:text-white/80 transition-colors'
+                >
+                  Updates
+                </Link>
+              </li>
             </ul>
             <div className='flex items-center gap-2'>
               <Link to='/login'>
@@ -164,6 +172,15 @@ export const Header: React.FC = () => {
                 className='text-2xl font-semibold text-white'
               >
                 News
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/updates'
+                onClick={() => setIsMenuOpen(false)}
+                className='text-2xl font-semibold text-white'
+              >
+                Updates
               </Link>
             </li>
           </ul>

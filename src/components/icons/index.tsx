@@ -253,3 +253,66 @@ export const StarIcon: React.FC<IconProps> = (props) => (
     <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2' />
   </svg>
 );
+
+export const DownloadIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' />
+    <polyline points='7 10 12 15 17 10' />
+    <line x1='12' x2='12' y1='15' y2='3' />
+  </svg>
+);
+
+export const BugIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <path d='m8 2 1.88 1.88' />
+    <path d='M14.12 3.88 16 2' />
+    <path d='M9 7.13v-1a3.003 3.003 0 1 1 6 0v1' />
+    <path d='M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6' />
+    <path d='M12 20v-9' />
+    <path d='M6.53 9C4.6 9 3 7.4 3 5.5S4.6 2 6.5 2' />
+    <path d='M17.47 9c1.9 0 3.5-1.6 3.5-3.5S19.4 2 17.5 2' />
+    <path d='M2 13h2' />
+    <path d='M20 13h2' />
+    <path d='m5 17 1-1' />
+    <path d='m18 16 1 1' />
+  </svg>
+);
+
+export const ShieldIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' />
+  </svg>
+);
