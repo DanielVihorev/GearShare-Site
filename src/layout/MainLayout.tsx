@@ -1,7 +1,7 @@
 // src/layout/MainLayout.tsx
 
 import React from "react";
-import { Header } from "../features/landing/Header"; // We'll move this later if needed
+import { Header } from "./Header"; // We'll move this later if needed
 
 interface MainLayoutProps {
   children: React.ReactNode;

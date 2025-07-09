@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { CogIcon } from "../../components/icons";
-import { Button } from "../../components/ui/Button";
+import { CogIcon } from "../components/icons";
+import { Button } from "../components/ui/Button";
 
 // Simple icons for Menu and Close, you can replace these with your own SVG components
 const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -89,6 +89,14 @@ export const Header: React.FC = () => {
                   Download
                 </a>
               </li>
+              <li>
+                <Link
+                  to='/news'
+                  className='hover:text-white/80 transition-colors'
+                >
+                  News
+                </Link>
+              </li>
             </ul>
             <div className='flex items-center gap-2'>
               <Link to='/login'>
@@ -148,6 +156,15 @@ export const Header: React.FC = () => {
               >
                 Download
               </a>
+            </li>
+            <li>
+              <Link
+                to='/news'
+                onClick={() => setIsMenuOpen(false)}
+                className='text-2xl font-semibold text-white'
+              >
+                News
+              </Link>
             </li>
           </ul>
           <div className='mt-12 flex flex-col gap-4 w-48'>
