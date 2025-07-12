@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { mockParts, type Part } from "../features/parts/PartsData";
 import { Button } from "../components/ui/Button";
-import { SearchIcon } from "../components/icons";
+import { SearchIcon, LocateIcon } from "../components/icons"; // Assuming LocateIcon exists
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import { reverseGeocode, forwardGeocode } from "../lib/opencage";
 
 // Fix for default Leaflet icon issue with bundlers
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -15,38 +16,70 @@ const DefaultIcon = L.icon({
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
-
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // --- Sub-components for better organization ---
 
-const SearchFilters: React.FC = () => (
-  <div className='bg-white/5 border border-white/20 rounded-2xl p-6 backdrop-blur-lg'>
-    <div className='flex flex-col md:flex-row gap-4 mb-4'>
-      <input
-        type='text'
-        placeholder='Search for car parts (e.g., brake pads...)'
-        className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
-      />
-      <Button variant='primary' className='w-full md:w-auto justify-center'>
-        <SearchIcon className='w-5 h-5 mr-2' />
-        Search
-      </Button>
+interface SearchFiltersProps {
+  onLocationSet: (location: string) => void;
+}
+
+const SearchFilters: React.FC<SearchFiltersProps> = ({ onLocationSet }) => {
+  const [locationInput, setLocationInput] = useState("");
+
+  const handleLocationSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (locationInput) {
+      onLocationSet(locationInput);
+    }
+  };
+
+  return (
+    <div className='bg-white/5 border border-white/20 rounded-2xl p-6 backdrop-blur-lg'>
+      <div className='flex flex-col md:flex-row gap-4 mb-4'>
+        <input
+          type='text'
+          placeholder='Search for car parts...'
+          className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
+        />
+        <Button variant='primary' className='w-full md:w-auto justify-center'>
+          <SearchIcon className='w-5 h-5 mr-2' />
+          Search
+        </Button>
+      </div>
+      <form
+        onSubmit={handleLocationSubmit}
+        className='flex flex-col md:flex-row gap-4 mb-4 border-t border-white/10 pt-4'
+      >
+        <input
+          type='text'
+          value={locationInput}
+          onChange={(e) => setLocationInput(e.target.value)}
+          placeholder='Or set your location manually (e.g., Tel Aviv)'
+          className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
+        />
+        <Button
+          type='submit'
+          variant='secondary'
+          className='w-full md:w-auto justify-center'
+        >
+          Set Location
+        </Button>
+      </form>
+      <div className='flex flex-wrap gap-4'>
+        <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+          <option>All Categories</option>
+        </select>
+        <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+          <option>Any Condition</option>
+        </select>
+        <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+          <option>Any Distance</option>
+        </select>
+      </div>
     </div>
-    <div className='flex flex-wrap gap-4'>
-      {/* Filter dropdowns would go here */}
-      <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
-        <option>All Categories</option>
-      </select>
-      <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
-        <option>Any Condition</option>
-      </select>
-      <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
-        <option>Any Distance</option>
-      </select>
-    </div>
-  </div>
-);
+  );
+};
 
 const PartCard: React.FC<{ part: Part }> = ({ part }) => (
   <div className='bg-white/5 border border-white/20 rounded-xl overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 flex flex-col'>
@@ -73,58 +106,70 @@ const PartCard: React.FC<{ part: Part }> = ({ part }) => (
   </div>
 );
 
+const LocationDisplay: React.FC<{ address: string }> = ({ address }) => (
+  <div className='text-center mb-12'>
+    <h1 className='text-5xl font-extrabold text-white mb-4'>
+      Find Parts Near You
+    </h1>
+    <p className='text-xl text-white/80 max-w-3xl mx-auto'>
+      Your current location:{" "}
+      <span className='font-semibold text-blue-300'>{address}</span>
+    </p>
+  </div>
+);
+
 // --- Main Map Page Component ---
 
 export const MapPage: React.FC = () => {
   const [parts, setParts] = useState<Part[]>([]);
   const [userLocation, setUserLocation] = useState<[number, number]>([
     31.7917, 34.6431,
-  ]); // Default to Ashdod, IL
+  ]);
+  const [address, setAddress] = useState<string>("Detecting location...");
 
   useEffect(() => {
-    // In a real app, you'd fetch this data from an API
     setParts(mockParts);
-
-    // Get user's actual location
     if (navigator.geolocation) {
       const options = {
         enableHighAccuracy: true,
-        timeout: 10000, // 10 seconds
+        timeout: 10000,
         maximumAge: 0,
       };
-
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const { latitude, longitude } = position.coords;
           setUserLocation([latitude, longitude]);
+          const fetchedAddress = await reverseGeocode(latitude, longitude);
+          setAddress(fetchedAddress);
         },
         (error) => {
           console.error("Error getting user location:", error.message);
-          // Keep default location if user denies permission or there's an error
+          setAddress("Could not determine location. Set manually below.");
         },
-        options // Pass the options object to the call
+        options
       );
+    } else {
+      setAddress("Geolocation is not supported. Set manually below.");
     }
-  }, []); // Empty dependency array means this runs once when the component mounts
+  }, []);
+
+  const handleManualLocationSet = async (locationName: string) => {
+    const coords = await forwardGeocode(locationName);
+    if (coords) {
+      setUserLocation(coords);
+      setAddress(locationName);
+    } else {
+      alert("Could not find coordinates for that location. Please try again.");
+    }
+  };
 
   return (
     <div className='container mx-auto px-6 py-8'>
-      <div className='text-center mb-12'>
-        <h1 className='text-5xl font-extrabold text-white mb-4'>
-          Find Parts Near You
-        </h1>
-        <p className='text-xl text-white/80 max-w-3xl mx-auto'>
-          Use our interactive map to search for auto parts from suppliers in
-          your area.
-        </p>
-      </div>
-
+      <LocationDisplay address={address} />
       <div className='mb-8'>
-        <SearchFilters />
+        <SearchFilters onLocationSet={handleManualLocationSet} />
       </div>
-
       <div className='grid lg:grid-cols-3 gap-8'>
-        {/* Map Column */}
         <div className='lg:col-span-2 h-[600px] rounded-2xl overflow-hidden border-2 border-white/20'>
           <MapContainer
             key={userLocation.toString()}
@@ -157,8 +202,6 @@ export const MapPage: React.FC = () => {
             </Marker>
           </MapContainer>
         </div>
-
-        {/* Parts List Column */}
         <div className='lg:col-span-1 h-[600px] overflow-y-auto pr-2 space-y-4'>
           {parts.map((part) => (
             <PartCard key={part.id} part={part} />
