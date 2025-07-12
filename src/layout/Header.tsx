@@ -66,6 +66,14 @@ export const Header: React.FC = () => {
           <div className='hidden md:flex items-center gap-4'>
             <ul className='flex items-center gap-8 font-medium'>
               <li>
+                <Link
+                  to='/map'
+                  className='hover:text-white/80 transition-colors'
+                >
+                  Map
+                </Link>
+              </li>
+              <li>
                 <a
                   href='/#features'
                   className='hover:text-white/80 transition-colors'
@@ -138,6 +146,15 @@ export const Header: React.FC = () => {
         </div>
         <div className='flex flex-col items-center justify-center h-full -mt-16'>
           <ul className='text-center space-y-8'>
+            <li>
+              <Link
+                to='/map'
+                onClick={() => setIsMenuOpen(false)}
+                className='text-2xl font-semibold text-white'
+              >
+                Map
+              </Link>
+            </li>
             <li>
               <a
                 href='/#features'

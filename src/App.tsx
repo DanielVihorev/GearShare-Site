@@ -3,6 +3,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "./layout/MainLayout";
 import { HomePage } from "./pages/HomePage";
+import { MapPage } from "./pages/MapPage";
 import { AuthPage } from "./pages/AuthPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { NewsPage } from "./pages/NewsPage";
@@ -14,6 +15,7 @@ function App() {
       <MainLayout>
         <Routes>
           <Route path='/' element={<HomePage />} />
+          <Route path='/map' element={<MapPage />} />
           <Route path='/login' element={<AuthPage />} />
           <Route path='/register' element={<AuthPage />} />
           <Route path='/news' element={<NewsPage />} />
