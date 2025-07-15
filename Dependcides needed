@@ -1,0 +1,27 @@
+Creating an API for integrating Wise.com as a payment option involves designing a backend in Python, which will handle transactions and integrate seamlessly with the Wise API. The backend will then expose endpoints that can be consumed by a Swift-based iOS app and a React frontend.
+
+Here’s an overview of the steps:
+
+
+1. Understand Wise’s API
+
+• Visit Wise’s API documentation: Wise API Docs.
+
+• Familiarize yourself with endpoints for:
+
+• Creating a recipient account.
+
+• Initiating a transfer.
+
+• Fetching transfer status.
+
+• Obtain an API key from Wise by signing up and creating an application.
+
+
+2. Backend Implementation (Python)
+
+Use frameworks like Flask or FastAPI to build the API.
+
+Dependencies
+
+Install necessary libraries:
