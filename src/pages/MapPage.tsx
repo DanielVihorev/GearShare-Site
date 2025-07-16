@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { mockParts, type Part } from "../features/parts/PartsData";
 import { Button } from "../components/ui/Button";
-import { SearchIcon, LocateIcon } from "../components/icons"; // Assuming LocateIcon exists
+import { SearchIcon } from "../components/icons"; // Assuming LocateIcon exists
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { reverseGeocode, forwardGeocode } from "../lib/opencage";
