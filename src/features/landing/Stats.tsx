@@ -1,5 +1,8 @@
+// src/features/landing/Stats.tsx
+
 import React from "react";
 
+// The data remains the same
 const statsData = [
   { number: "2.3M+", label: "Auto Parts Available" },
   { number: "45,000+", label: "Car Models Supported" },
@@ -19,13 +22,18 @@ export const Stats: React.FC = () => {
           solutions.
         </p>
         <div className='grid grid-cols-2 md:grid-cols-4 gap-8'>
-          {statsData.map((stat, index) => (
+          {statsData.map((stat) => (
             <div
-              key={index}
+              key={stat.label}
               className='bg-white/10 p-6 rounded-xl border border-white/20 transform hover:-translate-y-2 transition-transform duration-300'
             >
-              <div className='text-4xl font-bold mb-2'>{stat.number}</div>
-              <div className='text-white/80'>{stat.label}</div>
+              <div className='text-2xl sm:text-3xl md:text-4xl font-bold mb-2 whitespace-nowrap'>
+                {stat.number}
+              </div>
+
+              <div className='text-white/80 text-sm md:text-base h-12 flex items-center justify-center'>
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
