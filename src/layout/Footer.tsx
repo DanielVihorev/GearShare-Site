@@ -1,5 +1,3 @@
-// src/layout/Footer.tsx
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { CogIcon } from "../components/icons";
@@ -48,26 +46,15 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className='font-semibold text-white mb-4'>Resources</h3>
             <ul className='space-y-2 text-white/60'>
-              {/* Here is the link to your whitepaper */}
               <li>
-                <a
-                  href='/whitepaper.pdf'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='hover:text-white'
-                >
-                  Whitepaper
-                </a>
-              </li>
-              <li>
-                <a href='#' className='hover:text-white'>
+                <Link to='/contact' className='hover:text-white'>
                   Support
-                </a>
+                </Link>
               </li>
               <li>
-                <a href='#' className='hover:text-white'>
+                <Link to='/faq' className='hover:text-white'>
                   FAQ
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -76,15 +63,16 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className='font-semibold text-white mb-4'>Legal</h3>
             <ul className='space-y-2 text-white/60'>
+              {/* Updated Links */}
               <li>
-                <a href='#' className='hover:text-white'>
-                  Terms of Service
-                </a>
+                <Link to='/terms-of-use' className='hover:text-white'>
+                  Terms of Use
+                </Link>
               </li>
               <li>
-                <a href='#' className='hover:text-white'>
+                <Link to='/privacy-policy' className='hover:text-white'>
                   Privacy Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

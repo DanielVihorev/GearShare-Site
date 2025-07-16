@@ -8,6 +8,10 @@ import { AuthPage } from "./pages/AuthPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { NewsPage } from "./pages/NewsPage";
 import { UpdatesPage } from "./pages/UpdatesPage";
+import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
+import { TermsOfUsePage } from "./pages/TermsOfUsePage";
+import { ContactPage } from "./pages/ContactPage";
+import { FAQPage } from "./pages/FAQPage";
 
 function App() {
   return (
@@ -20,6 +24,10 @@ function App() {
           <Route path='/register' element={<AuthPage />} />
           <Route path='/news' element={<NewsPage />} />
           <Route path='/updates' element={<UpdatesPage />} />
+          <Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
+          <Route path='/terms-of-use' element={<TermsOfUsePage />} />
+          <Route path='/contact' element={<ContactPage />} />
+          <Route path='/faq' element={<FAQPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </MainLayout>
