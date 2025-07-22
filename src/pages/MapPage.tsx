@@ -66,16 +66,18 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ onLocationSet }) => {
           Set Location
         </Button>
       </form>
-      <div className='flex flex-wrap gap-4'>
-        <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+        <div className='flex flex-wrap gap-4'>
+         <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
           <option>All Categories</option>
-        </select>
-        <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
-          <option>Any Condition</option>
-        </select>
-        <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+           </select>
+           <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
+           <option>Any Condition</option>
+         </select>
+         <select className='bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none'>
           <option>Any Distance</option>
-        </select>
+           </select>
+          </div>
+
       </div>
     </div>
   );
