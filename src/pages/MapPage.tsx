@@ -77,7 +77,6 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ onLocationSet }) => {
           <option>Any Distance</option>
         </select>
       </div>
-    </div>
   );
 };
 
