@@ -1,0 +1,6 @@
+CREATE TABLE Users (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    username NVARCHAR(100) NOT NULL,
+    email NVARCHAR(100) NOT NULL,
+    created_at DATETIME NOT NULL
+);
