@@ -74,6 +74,14 @@ export const Header: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link
+                  to='/pricing'
+                  className='hover:text-white/80 transition-colors'
+                >
+                  Pricing
+                </Link>
+              </li>
+              <li>
                 <a
                   href='/#features'
                   className='hover:text-white/80 transition-colors'
@@ -153,6 +161,15 @@ export const Header: React.FC = () => {
                 className='text-2xl font-semibold text-white'
               >
                 Map
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/pricing'
+                onClick={() => setIsMenuOpen(false)}
+                className='text-2xl font-semibold text-white'
+              >
+                Pricing
               </Link>
             </li>
             <li>

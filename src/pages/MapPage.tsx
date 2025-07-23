@@ -6,7 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { reverseGeocode, forwardGeocode } from "../lib/opencage";
 
-// Fix for default Leaflet icon issue with bundlers
+// Fix for default Leaflet icon issue with bundlers 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 

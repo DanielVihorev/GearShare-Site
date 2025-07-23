@@ -11,6 +11,7 @@ import { UpdatesPage } from "./pages/UpdatesPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsOfUsePage } from "./pages/TermsOfUsePage";
 import { ContactPage } from "./pages/ContactPage";
+import { PricingPage } from "./pages/PricingPage";
 import { FAQPage } from "./pages/FAQPage";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path='/terms-of-use' element={<TermsOfUsePage />} />
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/faq' element={<FAQPage />} />
+          <Route path='/pricing' element={<PricingPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </MainLayout>
