@@ -1,51 +1,25 @@
-// src/features/landing/Header.tsx
-
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { CogIcon } from "../components/icons";
+import { Link, useNavigate } from "react-router-dom";
+import { CogIcon, UserIcon, MenuIcon, XIcon } from "../components/icons"; // Import MenuIcon and XIcon
 import { Button } from "../components/ui/Button";
-
-// Simple icons for Menu and Close, you can replace these with your own SVG components
-const MenuIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    width='24'
-    height='24'
-    viewBox='0 0 24 24'
-    fill='none'
-    stroke='currentColor'
-    strokeWidth='2'
-    strokeLinecap='round'
-    strokeLinejoin='round'
-    {...props}
-  >
-    <line x1='4' x2='20' y1='12' y2='12' />
-    <line x1='4' x2='20' y1='6' y2='6' />
-    <line x1='4' x2='20' y1='18' y2='18' />
-  </svg>
-);
-
-const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    width='24'
-    height='24'
-    viewBox='0 0 24 24'
-    fill='none'
-    stroke='currentColor'
-    strokeWidth='2'
-    strokeLinecap='round'
-    strokeLinejoin='round'
-    {...props}
-  >
-    <line x1='18' x2='6' y1='6' y2='18' />
-    <line x1='6' x2='18' y1='6' y2='18' />
-  </svg>
-);
+import { useAuth } from "../hooks/useAuth";
+import { auth } from "../lib/firebaseAuth";
+import { signOut } from "firebase/auth";
 
 export const Header: React.FC = () => {
-  // State to manage the visibility of the mobile menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    setIsMenuOpen(false);
+    try {
+      await signOut(auth);
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   return (
     <header className='py-5 relative z-10'>
@@ -82,30 +56,6 @@ export const Header: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <a
-                  href='/#features'
-                  className='hover:text-white/80 transition-colors'
-                >
-                  Features
-                </a>
-              </li>
-              <li>
-                <a
-                  href='/#stats'
-                  className='hover:text-white/80 transition-colors'
-                >
-                  Stats
-                </a>
-              </li>
-              <li>
-                <a
-                  href='/#download'
-                  className='hover:text-white/80 transition-colors'
-                >
-                  Download
-                </a>
-              </li>
-              <li>
                 <Link
                   to='/news'
                   className='hover:text-white/80 transition-colors'
@@ -123,12 +73,29 @@ export const Header: React.FC = () => {
               </li>
             </ul>
             <div className='flex items-center gap-2'>
-              <Link to='/login'>
-                <Button variant='secondary'>Login</Button>
-              </Link>
-              <Link to='/register'>
-                <Button variant='primary'>Sign Up</Button>
-              </Link>
+              {currentUser ? (
+                <>
+                  <Link
+                    to='/dashboard'
+                    className='flex items-center gap-2 text-white font-semibold hover:text-white/80 transition-colors'
+                  >
+                    <UserIcon className='w-6 h-6' />
+                    <span>{currentUser.displayName || currentUser.email}</span>
+                  </Link>
+                  <Button variant='secondary' onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to='/login'>
+                    <Button variant='secondary'>Login</Button>
+                  </Link>
+                  <Link to='/register'>
+                    <Button variant='primary'>Sign Up</Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -173,33 +140,6 @@ export const Header: React.FC = () => {
               </Link>
             </li>
             <li>
-              <a
-                href='/#features'
-                onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
-              >
-                Features
-              </a>
-            </li>
-            <li>
-              <a
-                href='/#stats'
-                onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
-              >
-                Stats
-              </a>
-            </li>
-            <li>
-              <a
-                href='/#download'
-                onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
-              >
-                Download
-              </a>
-            </li>
-            <li>
               <Link
                 to='/news'
                 onClick={() => setIsMenuOpen(false)}
@@ -219,16 +159,38 @@ export const Header: React.FC = () => {
             </li>
           </ul>
           <div className='mt-12 flex flex-col gap-4 w-48'>
-            <Link to='/login' onClick={() => setIsMenuOpen(false)}>
-              <Button variant='secondary' className='w-full justify-center'>
-                Login
-              </Button>
-            </Link>
-            <Link to='/register' onClick={() => setIsMenuOpen(false)}>
-              <Button variant='primary' className='w-full justify-center'>
-                Sign Up
-              </Button>
-            </Link>
+            {currentUser ? (
+              <>
+                <Link
+                  to='/dashboard'
+                  onClick={() => setIsMenuOpen(false)}
+                  className='flex items-center justify-center gap-2 text-white text-lg mb-4'
+                >
+                  <UserIcon className='w-6 h-6' />
+                  <span>{currentUser.displayName || currentUser.email}</span>
+                </Link>
+                <Button
+                  variant='secondary'
+                  className='w-full justify-center'
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to='/login' onClick={() => setIsMenuOpen(false)}>
+                  <Button variant='secondary' className='w-full justify-center'>
+                    Login
+                  </Button>
+                </Link>
+                <Link to='/register' onClick={() => setIsMenuOpen(false)}>
+                  <Button variant='primary' className='w-full justify-center'>
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

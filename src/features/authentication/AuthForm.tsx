@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
 import {
   MailIcon,
@@ -10,6 +10,13 @@ import {
   AlertCircleIcon,
   CheckIcon,
 } from "../../components/icons";
+import { auth } from "../../lib/firebaseAuth"; // Import our initialized auth service
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  type AuthError,
+} from "firebase/auth";
 
 // Define a type for our form data for better type safety
 type FormData = {
@@ -22,6 +29,7 @@ type FormData = {
 
 export const AuthForm: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(location.pathname === "/login");
 
   const initialFormData = {
@@ -105,7 +113,6 @@ export const AuthForm: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const fieldName = name as keyof FormData;
-
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
     if (errors[fieldName]) {
       setErrors((prev) => ({ ...prev, [fieldName]: undefined }));
@@ -120,13 +127,53 @@ export const AuthForm: React.FC = () => {
     }
 
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsLoading(false);
 
-    showNotification(
-      isLogin ? "Login successful!" : "Account created successfully!",
-      "success"
-    );
+    try {
+      if (isLogin) {
+        // Firebase Sign In Logic
+        await signInWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+        showNotification("Login successful!", "success");
+        setTimeout(() => navigate("/dashboard"), 1500); // Redirect to dashboard on success
+      } else {
+        // Firebase Sign Up Logic
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+        // Update the new user's profile with their name
+        await updateProfile(userCredential.user, {
+          displayName: `${formData.firstName} ${formData.lastName}`,
+        });
+        showNotification("Account created successfully!", "success");
+        setTimeout(() => navigate("/dashboard"), 1500); // Redirect to dashboard on success
+      }
+    } catch (error) {
+      const authError = error as AuthError;
+      // Provide user-friendly error messages
+      let message = "An unknown error occurred.";
+      switch (authError.code) {
+        case "auth/user-not-found":
+        case "auth/wrong-password":
+          message = "Invalid email or password.";
+          break;
+        case "auth/email-already-in-use":
+          message = "An account with this email already exists.";
+          break;
+        case "auth/weak-password":
+          message = "Password is too weak. Please choose a stronger one.";
+          break;
+        default:
+          console.error("Firebase Auth Error:", authError);
+      }
+      showNotification(message, "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
