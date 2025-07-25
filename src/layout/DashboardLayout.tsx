@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Outlet, Link } from "react-router-dom";
+import { NavLink, Outlet, Link, useNavigation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import {
   LayoutDashboardIcon,
@@ -64,6 +64,7 @@ const SidebarContent: React.FC<{ onLinkClick?: () => void }> = ({
 export const DashboardLayout: React.FC = () => {
   const { currentUser } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigation = useNavigation(); // Get the navigation state
 
   return (
     <div className='grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]'>
@@ -118,6 +119,12 @@ export const DashboardLayout: React.FC = () => {
             <h1 className='text-lg font-semibold text-white'>
               Welcome, {currentUser?.displayName || "User"}!
             </h1>
+            {/* Add the loading indicator here */}
+            {navigation.state === "loading" && (
+              <div className='text-sm text-white/70 animate-pulse'>
+                Loading...
+              </div>
+            )}
           </div>
         </header>
         <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-gray-900/20'>

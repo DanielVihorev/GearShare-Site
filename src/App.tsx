@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MainLayout } from "./layout/MainLayout";
 import { HomePage } from "./pages/HomePage";
 import { AuthPage } from "./pages/AuthPage";
@@ -19,41 +19,52 @@ import { SalesPage } from "./pages/SalesPage";
 import { BillingPage } from "./pages/BillingPage";
 import { ContactsPage } from "./pages/ContactsPage";
 
+// Create the router configuration as an array of objects
+const router = createBrowserRouter([
+  {
+    // Public routes are nested under the MainLayout
+    element: <MainLayout />,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/map", element: <MapPage /> },
+      { path: "/news", element: <NewsPage /> },
+      { path: "/updates", element: <UpdatesPage /> },
+      { path: "/pricing", element: <PricingPage /> },
+      { path: "/login", element: <AuthPage /> },
+      { path: "/register", element: <AuthPage /> },
+      { path: "/contact", element: <ContactPage /> },
+      { path: "/faq", element: <FAQPage /> },
+      { path: "/privacy-policy", element: <PrivacyPolicyPage /> },
+      { path: "/terms-of-use", element: <TermsOfUsePage /> },
+    ],
+  },
+  {
+    // Protected routes are nested under the ProtectedRoute component
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <DashboardLayout />,
+        children: [
+          { index: true, element: <DashboardPage /> },
+          { path: "orders", element: <OrdersPage /> },
+          { path: "sales", element: <SalesPage /> },
+          { path: "billing", element: <BillingPage /> },
+          { path: "contacts", element: <ContactsPage /> },
+        ],
+      },
+    ],
+  },
+  {
+    // A top-level route for the 404 page
+    path: "*",
+    element: <NotFoundPage />,
+  },
+]);
+
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes with MainLayout */}
-        <Route element={<MainLayout />}>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/map' element={<MapPage />} />
-          <Route path='/news' element={<NewsPage />} />
-          <Route path='/updates' element={<UpdatesPage />} />
-          <Route path='/pricing' element={<PricingPage />} />
-          <Route path='/login' element={<AuthPage />} />
-          <Route path='/register' element={<AuthPage />} />
-          <Route path='/contact' element={<ContactPage />} />
-          <Route path='/faq' element={<FAQPage />} />
-          <Route path='/privacy-policy' element={<PrivacyPolicyPage />} />
-          <Route path='/terms-of-use' element={<TermsOfUsePage />} />
-        </Route>
-
-        {/* Protected Dashboard Routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route path='/dashboard' element={<DashboardLayout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path='orders' element={<OrdersPage />} />
-            <Route path='sales' element={<SalesPage />} />
-            <Route path='billing' element={<BillingPage />} />
-            <Route path='contacts' element={<ContactsPage />} />
-          </Route>
-        </Route>
-
-        {/* Fallback Not Found Route */}
-        <Route path='*' element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  // The App component now simply provides the router to the application
+  return <RouterProvider router={router} />;
 }
 
 export default App;
