@@ -154,21 +154,20 @@ export const AuthForm: React.FC = () => {
       }
     } catch (error) {
       const authError = error as AuthError;
-      // Provide user-friendly error messages
       let message = "An unknown error occurred.";
       switch (authError.code) {
         case "auth/user-not-found":
         case "auth/wrong-password":
+        case "auth/invalid-credential":
+        case "auth/invalid-email":
           message = "Invalid email or password.";
+          // ADD THIS PART:
+          setErrors({
+            email: "Invalid email or password.",
+            password: " ", // Add a space to trigger the error state without a message
+          });
           break;
-        case "auth/email-already-in-use":
-          message = "An account with this email already exists.";
-          break;
-        case "auth/weak-password":
-          message = "Password is too weak. Please choose a stronger one.";
-          break;
-        default:
-          console.error("Firebase Auth Error:", authError);
+        // ... other cases
       }
       showNotification(message, "error");
     } finally {
