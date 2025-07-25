@@ -5,7 +5,46 @@ export const OrdersPage: React.FC = () => {
   return (
     <div>
       <h1 className='text-3xl font-bold text-white mb-6'>Your Orders</h1>
-      <div className='bg-white/5 border border-white/10 rounded-xl'>
+
+      {/* Mobile View: Card List */}
+      <div className='grid gap-4 md:hidden'>
+        {mockOrders.map((order) => (
+          <div
+            key={order.id}
+            className='bg-white/5 border border-white/10 rounded-lg p-4 space-y-2'
+          >
+            <div className='flex justify-between items-center'>
+              <span className='font-bold text-white'>{order.id}</span>
+              <span
+                className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                  order.status === "Shipped"
+                    ? "bg-blue-500/20 text-blue-300"
+                    : order.status === "Processing"
+                    ? "bg-yellow-500/20 text-yellow-300"
+                    : "bg-green-500/20 text-green-300"
+                }`}
+              >
+                {order.status}
+              </span>
+            </div>
+            <div className='text-sm text-white/80'>
+              <p>
+                <span className='font-semibold'>Customer:</span>{" "}
+                {order.customer}
+              </p>
+              <p>
+                <span className='font-semibold'>Date:</span> {order.date}
+              </p>
+            </div>
+            <div className='text-right font-bold text-lg text-white'>
+              {order.total}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop View: Table */}
+      <div className='hidden md:block bg-white/5 border border-white/10 rounded-xl'>
         <div className='overflow-x-auto'>
           <table className='w-full text-sm text-left text-white/80'>
             <thead className='text-xs text-white uppercase bg-white/10'>
