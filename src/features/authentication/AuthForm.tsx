@@ -1,29 +1,153 @@
-// src/features/authentication/AuthForm.tsx
-
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom"; // Import Link
+import { useLocation, Link } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
+import {
+  MailIcon,
+  LockIcon,
+  UserIcon,
+  EyeIcon,
+  EyeOffIcon,
+  AlertCircleIcon,
+  CheckIcon,
+} from "../../components/icons";
+
+// Define a type for our form data for better type safety
+type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export const AuthForm: React.FC = () => {
-  // Get the current location object, which contains the URL path
   const location = useLocation();
-
-  // The state now defaults based on the URL path
   const [isLogin, setIsLogin] = useState(location.pathname === "/login");
 
-  // This effect will run if the component is already on the page
-  // and the user navigates between /login and /register.
+  const initialFormData = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+    type: "success" as "success" | "error",
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   useEffect(() => {
     setIsLogin(location.pathname === "/login");
+    setFormData(initialFormData);
+    setErrors({});
   }, [location.pathname]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const showNotification = (message: string, type: "success" | "error") => {
+    setNotification({ show: true, message, type });
+    setTimeout(
+      () => setNotification({ show: false, message: "", type: "success" }),
+      5000
+    );
+  };
+
+  const validateField = (name: keyof FormData, value: string) => {
+    switch (name) {
+      case "email":
+        if (!value) return "Email is required";
+        if (!/\S+@\S+\.\S+/.test(value)) return "Email address is invalid";
+        break;
+      case "password":
+        if (!value) return "Password is required";
+        if (value.length < 8) return "Password must be at least 8 characters";
+        break;
+      case "firstName":
+        if (!isLogin && !value) return "First name is required";
+        break;
+      case "lastName":
+        if (!isLogin && !value) return "Last name is required";
+        break;
+      case "confirmPassword":
+        if (!isLogin && value !== formData.password)
+          return "Passwords do not match";
+        break;
+      default:
+        break;
+    }
+    return "";
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const fieldName = name as keyof FormData;
+    const error = validateField(fieldName, value);
+    setErrors((prev) => ({ ...prev, [fieldName]: error || undefined }));
+  };
+
+  const validateForm = () => {
+    const newErrors: Partial<FormData> = {};
+    (Object.keys(formData) as Array<keyof FormData>).forEach((key) => {
+      const error = validateField(key, formData[key]);
+      if (error) {
+        newErrors[key] = error;
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const fieldName = name as keyof FormData;
+
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+    if (errors[fieldName]) {
+      setErrors((prev) => ({ ...prev, [fieldName]: undefined }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted");
+    if (!validateForm()) {
+      showNotification("Please fix the errors below.", "error");
+      return;
+    }
+
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setIsLoading(false);
+
+    showNotification(
+      isLogin ? "Login successful!" : "Account created successfully!",
+      "success"
+    );
   };
 
   return (
     <div className='w-full max-w-md mx-auto'>
+      {notification.show && (
+        <div
+          className={`fixed top-24 right-4 z-50 p-4 rounded-lg shadow-lg flex items-center gap-3 ${
+            notification.type === "success" ? "bg-green-600" : "bg-red-600"
+          }`}
+        >
+          {notification.type === "success" ? (
+            <CheckIcon className='w-6 h-6 text-white' />
+          ) : (
+            <AlertCircleIcon className='w-6 h-6 text-white' />
+          )}
+          <span className='text-white font-semibold'>
+            {notification.message}
+          </span>
+        </div>
+      )}
+
       <div className='bg-white/5 border border-white/20 rounded-2xl shadow-xl p-8 backdrop-blur-lg'>
         <h2 className='text-center text-3xl font-bold text-white mb-2'>
           {isLogin ? "Welcome Back" : "Create Account"}
@@ -32,60 +156,187 @@ export const AuthForm: React.FC = () => {
           {isLogin ? "Sign in to continue" : "Get started with GearShare"}
         </p>
 
-        <form onSubmit={handleSubmit} className='space-y-6'>
-          {/* We will add form fields here */}
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          {!isLogin && (
+            <div className='flex flex-col md:flex-row gap-4'>
+              <div>
+                <label className='block text-sm font-medium text-white/90 mb-2'>
+                  First Name
+                </label>
+                <div className='relative'>
+                  <UserIcon className='absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50' />
+                  <input
+                    type='text'
+                    name='firstName'
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    placeholder='John'
+                    required
+                    className={`w-full bg-white/10 border rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-white/50 focus:ring-2 focus:outline-none transition ${
+                      errors.firstName
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-white/20 focus:ring-blue-400"
+                    }`}
+                  />
+                </div>
+                {errors.firstName && (
+                  <p className='mt-1 text-sm text-red-400'>
+                    {errors.firstName}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className='block text-sm font-medium text-white/90 mb-2'>
+                  Last Name
+                </label>
+                <div className='relative'>
+                  <UserIcon className='absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50' />
+                  <input
+                    type='text'
+                    name='lastName'
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    placeholder='Doe'
+                    required
+                    className={`w-full bg-white/10 border rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-white/50 focus:ring-2 focus:outline-none transition ${
+                      errors.lastName
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-white/20 focus:ring-blue-400"
+                    }`}
+                  />
+                </div>
+                {errors.lastName && (
+                  <p className='mt-1 text-sm text-red-400'>{errors.lastName}</p>
+                )}
+              </div>
+            </div>
+          )}
           <div>
-            <label
-              htmlFor='email'
-              className='block text-sm font-medium text-white/90 mb-2'
-            >
+            <label className='block text-sm font-medium text-white/90 mb-2'>
               Email Address
             </label>
-            <input
-              type='email'
-              name='email'
-              id='email'
-              placeholder='you@example.com'
-              className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
-              required
-            />
+            <div className='relative'>
+              <MailIcon className='absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50' />
+              <input
+                type='email'
+                name='email'
+                value={formData.email}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                placeholder='you@example.com'
+                required
+                className={`w-full bg-white/10 border rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-white/50 focus:ring-2 focus:outline-none transition ${
+                  errors.email
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-white/20 focus:ring-blue-400"
+                }`}
+              />
+            </div>
+            {errors.email && (
+              <p className='mt-1 text-sm text-red-400'>{errors.email}</p>
+            )}
           </div>
-
           <div>
-            <label
-              htmlFor='password'
-              className='block text-sm font-medium text-white/90 mb-2'
-            >
+            <label className='block text-sm font-medium text-white/90 mb-2'>
               Password
             </label>
-            <input
-              type='password'
-              name='password'
-              id='password'
-              placeholder='••••••••'
-              className='w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
-              required
-            />
+            <div className='relative'>
+              <LockIcon className='absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50' />
+              <input
+                type={showPassword ? "text" : "password"}
+                name='password'
+                value={formData.password}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                placeholder='••••••••'
+                required
+                className={`w-full bg-white/10 border rounded-lg pl-10 pr-10 py-2.5 text-white placeholder-white/50 focus:ring-2 focus:outline-none transition ${
+                  errors.password
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-white/20 focus:ring-blue-400"
+                }`}
+              />
+              <button
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}
+                className='absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white'
+              >
+                {showPassword ? (
+                  <EyeOffIcon className='h-5 w-5' />
+                ) : (
+                  <EyeIcon className='h-5 w-5' />
+                )}
+              </button>
+            </div>
+            {errors.password && (
+              <p className='mt-1 text-sm text-red-400'>{errors.password}</p>
+            )}
           </div>
-
-          <div>
+          {!isLogin && (
+            <div>
+              <label className='block text-sm font-medium text-white/90 mb-2'>
+                Confirm Password
+              </label>
+              <div className='relative'>
+                <LockIcon className='absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50' />
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name='confirmPassword'
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  placeholder='••••••••'
+                  required
+                  className={`w-full bg-white/10 border rounded-lg pl-10 pr-10 py-2.5 text-white placeholder-white/50 focus:ring-2 focus:outline-none transition ${
+                    errors.confirmPassword
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-white/20 focus:ring-blue-400"
+                  }`}
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className='absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white'
+                >
+                  {showConfirmPassword ? (
+                    <EyeOffIcon className='h-5 w-5' />
+                  ) : (
+                    <EyeIcon className='h-5 w-5' />
+                  )}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p className='mt-1 text-sm text-red-400'>
+                  {errors.confirmPassword}
+                </p>
+              )}
+            </div>
+          )}
+          <div className='pt-2'>
             <Button
               type='submit'
               variant='primary'
               className='w-full justify-center text-base py-3'
+              disabled={isLoading}
             >
-              {isLogin ? "Sign In" : "Create Account"}
+              {isLoading ? (
+                <div className='animate-spin rounded-full h-5 w-5 border-b-2 border-white'></div>
+              ) : isLogin ? (
+                "Sign In"
+              ) : (
+                "Create Account"
+              )}
             </Button>
           </div>
         </form>
-
         <div className='mt-6 text-center'>
           <p className='text-sm text-white/70'>
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-            {/* UPDATED: Use Link to navigate and change the URL */}
             <Link
               to={isLogin ? "/register" : "/login"}
-              className='font-medium text-blue-400 hover:text-blue-300 focus:outline-none'
+              className='font-medium text-blue-400 hover:text-blue-300'
             >
               {isLogin ? "Sign up" : "Sign in"}
             </Link>
