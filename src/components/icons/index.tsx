@@ -1607,3 +1607,115 @@ export const XIcon: React.FC<IconProps> = (props) => (
     <line x1='6' x2='18' y1='6' y2='18' />
   </svg>
 );
+
+export const LayoutDashboardIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <rect width='7' height='9' x='3' y='3' rx='1' />
+    <rect width='7' height='5' x='14' y='3' rx='1' />
+    <rect width='7' height='9' x='14' y='12' rx='1' />
+    <rect width='7' height='5' x='3' y='16' rx='1' />
+  </svg>
+);
+
+export const ShoppingCartIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <circle cx='8' cy='21' r='1' />
+    <circle cx='19' cy='21' r='1' />
+    <path d='M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12' />
+  </svg>
+);
+
+export const DollarSignIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <line x1='12' x2='12' y1='2' y2='22' />
+    <path d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+  </svg>
+);
+
+export const CreditCardIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <rect width='20' height='14' x='2' y='5' rx='2' />
+    <line x1='2' x2='22' y1='10' y2='10' />
+  </svg>
+);
+
+export const Users2Icon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <path d='M14 19a6 6 0 0 0-12 0' />
+    <circle cx='8' cy='9' r='4' />
+    <path d='M22 19a6 6 0 0 0-6-6 4 4 0 1 0 0-8' />
+  </svg>
+);
+
+export const ArrowLeftIcon: React.FC<IconProps> = (props) => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    stroke='currentColor'
+    strokeWidth='2'
+    strokeLinecap='round'
+    strokeLinejoin='round'
+    {...props}
+  >
+    <path d='m12 19-7-7 7-7' />
+    <path d='M19 12H5' />
+  </svg>
+);
