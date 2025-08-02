@@ -10,6 +10,7 @@ import { TermsOfUsePage } from "./pages/TermsOfUsePage";
 import { ContactPage } from "./pages/ContactPage";
 import { FAQPage } from "./pages/FAQPage";
 import { PricingPage } from "./pages/PricingPage";
+import { DonationPage } from "./pages/DonationPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { DashboardLayout } from "./layout/DashboardLayout";
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "/news", element: <NewsPage /> },
       { path: "/updates", element: <UpdatesPage /> },
       { path: "/pricing", element: <PricingPage /> },
+      { path: "/donate", element: <DonationPage /> },
       { path: "/login", element: <AuthPage /> },
       { path: "/register", element: <AuthPage /> },
       { path: "/contact", element: <ContactPage /> },

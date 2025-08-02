@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CogIcon, UserIcon, MenuIcon, XIcon } from "../components/icons";
+import { CogIcon, UserIcon, MenuIcon, XIcon, HeartIcon } from "../components/icons";
 import { Button } from "../components/ui/Button";
 import { useAuth } from "../hooks/useAuth";
 import { auth } from "../lib/firebaseAuth";
@@ -73,6 +73,15 @@ export const Header: React.FC = () => {
                     className='hover:text-white/80 transition-colors'
                   >
                     Updates
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='/donate'
+                    className='hover:text-white/80 transition-colors flex items-center gap-1'
+                  >
+                    <span>Donate</span>
+                    <HeartIcon className='w-4 h-4 text-red-400' />
                   </Link>
                 </li>
               </ul>
@@ -174,6 +183,15 @@ export const Header: React.FC = () => {
                 className='text-2xl font-semibold text-white'
               >
                 Updates
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/donate'
+                onClick={() => setIsMenuOpen(false)}
+                className='text-2xl font-semibold text-white'
+              >
+                Donate
               </Link>
             </li>
           </ul>
