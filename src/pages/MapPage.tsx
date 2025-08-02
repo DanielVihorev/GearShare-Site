@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { mockParts, type Part } from "../features/parts/PartsData";
 import { Button } from "../components/ui/Button";
 import { SearchIcon } from "../components/icons";
@@ -14,6 +14,7 @@ export const MapPage: React.FC = () => {
     31.7917, 34.6431,
   ]);
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
     setParts(mockParts);
@@ -42,10 +43,22 @@ export const MapPage: React.FC = () => {
     });
   };
 
+  const handleZoomIn = () => {
+    if (mapRef.current) {
+      mapRef.current.zoomIn();
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (mapRef.current) {
+      mapRef.current.zoomOut();
+    }
+  };
+
   return (
     <div className='h-[calc(100vh-88px)] w-full relative'>
       {/* Search and Filter Bar */}
-      <div className='absolute top-4 left-4 right-4 sm:left-1/2 sm:-translate-x-1/2 sm:w-full sm:max-w-md z-10 space-y-2'>
+      <div className='absolute top-4 left-4 right-20 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:w-full sm:max-w-md z-20 space-y-2'>
         <div className='relative'>
           <SearchIcon className='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60' />
           <input
@@ -76,6 +89,8 @@ export const MapPage: React.FC = () => {
         zoom={13}
         scrollWheelZoom={false}
         className='h-full w-full z-0'
+        zoomControl={false} // Disable default zoom control
+        ref={mapRef}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -97,6 +112,48 @@ export const MapPage: React.FC = () => {
           />
         ))}
       </MapContainer>
+
+      {/* Custom Zoom Controls */}
+      <div className='absolute top-4 right-4 z-20 flex flex-col gap-2'>
+        <button
+          onClick={handleZoomIn}
+          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/20 rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:bg-white transition-colors'
+          aria-label='Zoom in'
+        >
+          <svg
+            className='w-5 h-5'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M12 6v6m0 0v6m0-6h6m-6 0H6'
+            />
+          </svg>
+        </button>
+        <button
+          onClick={handleZoomOut}
+          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/20 rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:bg-white transition-colors'
+          aria-label='Zoom out'
+        >
+          <svg
+            className='w-5 h-5'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M20 12H4'
+            />
+          </svg>
+        </button>
+      </div>
 
       {/* Part Detail Bottom Sheet */}
       <PartDetailSheet
