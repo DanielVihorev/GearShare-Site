@@ -9,7 +9,7 @@ interface CarPart {
   location: string;
 }
 
-const OPENCAGE_API_KEY = 'YOUR_OPENCAGE_API_KEY'; // <-- Replace with your OpenCage API key
+const OPENCAGE_API_KEY = 'a883a4704d6040c9b1d13f8fa96887c6'; // <-- Replace with your OpenCage API key
 
 export default function MainPage() {
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
