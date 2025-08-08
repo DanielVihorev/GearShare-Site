@@ -2,7 +2,13 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CogIcon, UserIcon, MenuIcon, XIcon, HeartIcon } from "../components/icons";
+import {
+  CogIcon,
+  UserIcon,
+  MenuIcon,
+  XIcon,
+  HeartIcon,
+} from "../components/icons";
 import { Button } from "../components/ui/Button";
 import { useAuth } from "../hooks/useAuth";
 import { auth } from "../lib/firebaseAuth";
@@ -26,7 +32,7 @@ export const Header: React.FC = () => {
   return (
     // Use a React Fragment to return multiple top-level elements
     <>
-      <header className='sticky top-0 z-30 py-5 bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900/80 backdrop-blur-lg border-b border-white/10'>
+      <header className='sticky top-0 z-30 py-5 bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900/90 backdrop-blur-lg border-b border-white/20 shadow-lg'>
         <div className='container mx-auto px-6'>
           <nav className='flex justify-between items-center'>
             {/* Logo and Site Title */}
@@ -35,7 +41,9 @@ export const Header: React.FC = () => {
                 <CogIcon className='text-blue-600 w-8 h-8' />
               </div>
               <div>
-                <h1 className='text-3xl font-bold tracking-tight'>GearShare</h1>
+                <h1 className='text-3xl font-bold tracking-tight text-white'>
+                  GearShare
+                </h1>
                 <p className='text-sm text-white/80 -mt-1'>App</p>
               </div>
             </Link>
@@ -46,7 +54,7 @@ export const Header: React.FC = () => {
                 <li>
                   <Link
                     to='/map'
-                    className='hover:text-white/80 transition-colors'
+                    className='text-white/90 hover:text-white transition-colors'
                   >
                     Map
                   </Link>
@@ -54,7 +62,7 @@ export const Header: React.FC = () => {
                 <li>
                   <Link
                     to='/pricing'
-                    className='hover:text-white/80 transition-colors'
+                    className='text-white/90 hover:text-white transition-colors'
                   >
                     Pricing
                   </Link>
@@ -62,7 +70,7 @@ export const Header: React.FC = () => {
                 <li>
                   <Link
                     to='/news'
-                    className='hover:text-white/80 transition-colors'
+                    className='text-white/90 hover:text-white transition-colors'
                   >
                     News
                   </Link>
@@ -70,7 +78,7 @@ export const Header: React.FC = () => {
                 <li>
                   <Link
                     to='/updates'
-                    className='hover:text-white/80 transition-colors'
+                    className='text-white/90 hover:text-white transition-colors'
                   >
                     Updates
                   </Link>
@@ -78,7 +86,7 @@ export const Header: React.FC = () => {
                 <li>
                   <Link
                     to='/donate'
-                    className='hover:text-white/80 transition-colors flex items-center gap-1'
+                    className='text-white/90 hover:text-white transition-colors flex items-center gap-1'
                   >
                     <span>Donate</span>
                     <HeartIcon className='w-4 h-4 text-red-400' />
@@ -134,10 +142,10 @@ export const Header: React.FC = () => {
         }`}
         onClick={() => setIsMenuOpen(false)}
       >
-        <div className='bg-gray-900/80 backdrop-blur-sm h-full' />
+        <div className='bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900/80 backdrop-blur-sm h-full' />
       </div>
       <div
-        className={`fixed top-0 left-0 h-full w-3/4 max-w-xs bg-gray-900 border-r border-white/10 z-50 md:hidden transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-3/4 max-w-xs bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900 border-r border-white/20 z-50 md:hidden transition-transform duration-300 ease-in-out ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -153,7 +161,7 @@ export const Header: React.FC = () => {
               <Link
                 to='/map'
                 onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
+                className='text-2xl font-semibold text-white hover:text-white/80 transition-colors'
               >
                 Map
               </Link>
@@ -162,7 +170,7 @@ export const Header: React.FC = () => {
               <Link
                 to='/pricing'
                 onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
+                className='text-2xl font-semibold text-white hover:text-white/80 transition-colors'
               >
                 Pricing
               </Link>
@@ -171,7 +179,7 @@ export const Header: React.FC = () => {
               <Link
                 to='/news'
                 onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
+                className='text-2xl font-semibold text-white hover:text-white/80 transition-colors'
               >
                 News
               </Link>
@@ -180,7 +188,7 @@ export const Header: React.FC = () => {
               <Link
                 to='/updates'
                 onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
+                className='text-2xl font-semibold text-white hover:text-white/80 transition-colors'
               >
                 Updates
               </Link>
@@ -189,7 +197,7 @@ export const Header: React.FC = () => {
               <Link
                 to='/donate'
                 onClick={() => setIsMenuOpen(false)}
-                className='text-2xl font-semibold text-white'
+                className='text-2xl font-semibold text-white hover:text-white/80 transition-colors'
               >
                 Donate
               </Link>

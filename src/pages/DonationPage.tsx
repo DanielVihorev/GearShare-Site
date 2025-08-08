@@ -24,11 +24,11 @@ export const DonationPage: React.FC = () => {
         <div className='container mx-auto px-6'>
           <div className='text-center max-w-4xl mx-auto'>
             <div className='flex justify-center mb-6'>
-              <div className='w-20 h-20 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center'>
+              <div className='w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg'>
                 <HeartIcon className='w-10 h-10 text-red-400' />
               </div>
             </div>
-            <h1 className='text-5xl md:text-6xl font-extrabold leading-tight mb-6'>
+            <h1 className='text-5xl md:text-6xl font-extrabold leading-tight mb-6 text-white'>
               Support GearShare
             </h1>
             <p className='text-xl text-white/90 mb-8 max-w-2xl mx-auto'>
@@ -45,35 +45,35 @@ export const DonationPage: React.FC = () => {
         <div className='container mx-auto px-6'>
           <div className='max-w-2xl mx-auto'>
             {/* What Your Donation Supports */}
-            <div className='bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 mb-8'>
+            <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 mb-8 shadow-xl'>
               <h2 className='text-2xl font-bold text-white mb-6 text-center'>
                 What Your Donation Supports
               </h2>
               <div className='grid md:grid-cols-3 gap-6'>
                 <div className='text-center'>
-                  <div className='w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4'>
-                    <CogIcon className='w-6 h-6 text-blue-400' />
+                  <div className='w-12 h-12 bg-blue-500/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg'>
+                    <CogIcon className='w-6 h-6 text-blue-300' />
                   </div>
                   <h3 className='font-semibold text-white mb-2'>Development</h3>
-                  <p className='text-sm text-white/70'>
+                  <p className='text-sm text-white/80'>
                     New features and improvements to make finding parts easier
                   </p>
                 </div>
                 <div className='text-center'>
-                  <div className='w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4'>
-                    <StarIcon className='w-6 h-6 text-green-400' />
+                  <div className='w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg'>
+                    <StarIcon className='w-6 h-6 text-yellow-300' />
                   </div>
                   <h3 className='font-semibold text-white mb-2'>Quality</h3>
-                  <p className='text-sm text-white/70'>
+                  <p className='text-sm text-white/80'>
                     Maintaining high standards and reliable service
                   </p>
                 </div>
                 <div className='text-center'>
-                  <div className='w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4'>
-                    <UsersIcon className='w-6 h-6 text-purple-400' />
+                  <div className='w-12 h-12 bg-blue-400/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg'>
+                    <UsersIcon className='w-6 h-6 text-blue-200' />
                   </div>
                   <h3 className='font-semibold text-white mb-2'>Community</h3>
-                  <p className='text-sm text-white/70'>
+                  <p className='text-sm text-white/80'>
                     Growing our network of automotive professionals
                   </p>
                 </div>
@@ -81,7 +81,7 @@ export const DonationPage: React.FC = () => {
             </div>
 
             {/* Donation Amount Selection */}
-            <div className='bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8'>
+            <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-xl'>
               <h2 className='text-2xl font-bold text-white mb-6 text-center'>
                 Choose Your Donation Amount
               </h2>
@@ -97,8 +97,8 @@ export const DonationPage: React.FC = () => {
                     }}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       selectedAmount === amount && !customAmount
-                        ? "border-blue-400 bg-blue-500/20 text-white"
-                        : "border-white/20 bg-white/5 text-white/80 hover:border-white/40 hover:bg-white/10"
+                        ? "border-blue-400 bg-blue-500/30 text-white shadow-lg"
+                        : "border-white/30 bg-white/10 text-white hover:border-white/50 hover:bg-white/20"
                     }`}
                   >
                     <span className='text-lg font-bold'>${amount}</span>
@@ -108,11 +108,11 @@ export const DonationPage: React.FC = () => {
 
               {/* Custom Amount */}
               <div className='mb-6'>
-                <label className='block text-white/80 mb-2 text-sm font-medium'>
+                <label className='block text-white/90 mb-2 text-sm font-medium'>
                   Or enter a custom amount
                 </label>
                 <div className='relative'>
-                  <span className='absolute left-4 top-1/2 -translate-y-1/2 text-white/60'>
+                  <span className='absolute left-4 top-1/2 -translate-y-1/2 text-white/70'>
                     $
                   </span>
                   <input
@@ -123,7 +123,7 @@ export const DonationPage: React.FC = () => {
                       setSelectedAmount(0);
                     }}
                     placeholder='Enter amount'
-                    className='w-full bg-white/10 border border-white/20 rounded-xl pl-8 pr-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
+                    className='w-full bg-white/10 border border-white/30 rounded-xl pl-8 pr-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
                     min='1'
                     step='1'
                   />
@@ -141,14 +141,14 @@ export const DonationPage: React.FC = () => {
                 Donate via PayPal
               </Button>
 
-              <p className='text-center text-white/60 text-sm mt-4'>
+              <p className='text-center text-white/70 text-sm mt-4'>
                 Secure payment processed by PayPal
               </p>
             </div>
 
             {/* Thank You Message */}
             <div className='text-center mt-8'>
-              <p className='text-white/80'>
+              <p className='text-white/90'>
                 Thank you for supporting GearShare! Your contribution helps us
                 continue building amazing tools for the automotive community.
               </p>

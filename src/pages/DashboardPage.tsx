@@ -7,21 +7,21 @@ const StatCard: React.FC<{
   icon: React.ElementType;
   change: string;
 }> = ({ title, value, icon: Icon, change }) => (
-  <div className='bg-white/5 border border-white/10 rounded-xl p-6'>
+  <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow'>
     <div className='flex flex-row items-center justify-between space-y-0 pb-2'>
-      <h3 className='text-sm font-medium text-white/80'>{title}</h3>
-      <Icon className='h-5 w-5 text-white/60' />
+      <h3 className='text-sm font-medium text-white/90'>{title}</h3>
+      <Icon className='h-5 w-5 text-blue-300' />
     </div>
     <div>
       <div className='text-3xl font-bold text-white'>{value}</div>
-      <p className='text-xs text-white/60'>{change}</p>
+      <p className='text-xs text-white/70'>{change}</p>
     </div>
   </div>
 );
 
 export const DashboardPage: React.FC = () => {
   return (
-    <div>
+    <div className='min-h-screen bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900 p-6'>
       <h1 className='text-3xl font-bold text-white mb-6'>Dashboard Overview</h1>
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-4'>
         {stats.map((stat) => (

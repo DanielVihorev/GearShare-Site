@@ -35,7 +35,7 @@ export const MapPage: React.FC = () => {
   const createPriceMarkerIcon = (price: number, isSelected: boolean) => {
     return L.divIcon({
       html: `<div class="flex items-center justify-center font-bold text-sm rounded-full shadow-lg h-8 px-3 ${
-        isSelected ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        isSelected ? "bg-blue-600 text-white" : "bg-white text-blue-600"
       }">$${price}</div>`,
       className: "", // important to clear default leaflet styles
       iconSize: [60, 32],
@@ -60,23 +60,23 @@ export const MapPage: React.FC = () => {
       {/* Search and Filter Bar */}
       <div className='absolute top-4 left-4 right-20 sm:left-1/2 sm:-translate-x-1/2 sm:right-auto sm:w-full sm:max-w-md z-20 space-y-2'>
         <div className='relative'>
-          <SearchIcon className='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60' />
+          <SearchIcon className='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/70' />
           <input
             type='text'
             placeholder='000-906-69-06-80'
-            className='w-full bg-gray-900/80 backdrop-blur-md border border-white/20 rounded-xl pl-11 pr-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
+            className='w-full bg-white/20 backdrop-blur-md border border-white/30 rounded-xl pl-11 pr-4 py-3 text-white placeholder-white/60 focus:ring-2 focus:ring-blue-400 focus:outline-none transition'
           />
         </div>
         <div className='flex gap-2'>
           <Button
             variant='secondary'
-            className='bg-gray-900/80 backdrop-blur-md'
+            className='bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30'
           >
             Filter
           </Button>
           <Button
             variant='secondary'
-            className='bg-gray-900/80 backdrop-blur-md'
+            className='bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30'
           >
             Sort
           </Button>
@@ -117,7 +117,7 @@ export const MapPage: React.FC = () => {
       <div className='absolute top-4 right-4 z-20 flex flex-col gap-2'>
         <button
           onClick={handleZoomIn}
-          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/20 rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:bg-white transition-colors'
+          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/30 rounded-lg shadow-lg flex items-center justify-center text-blue-600 hover:bg-white transition-colors'
           aria-label='Zoom in'
         >
           <svg
@@ -136,7 +136,7 @@ export const MapPage: React.FC = () => {
         </button>
         <button
           onClick={handleZoomOut}
-          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/20 rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:bg-white transition-colors'
+          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/30 rounded-lg shadow-lg flex items-center justify-center text-blue-600 hover:bg-white transition-colors'
           aria-label='Zoom out'
         >
           <svg
