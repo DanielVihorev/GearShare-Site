@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const OPENCAGE_API_KEY = "740aafbaa019412c92f7d0935953dd48"; // <-- Replace with your OpenCage API key
-const OPENCAGE_BASE_URL = "https://api.opencagedata.com/geocode/v1/json";
+const OPENCAGE_API_KEY = import.meta.env.VITE_OPENCAGE_API_KEY as string;
+const OPENCAGE_BASE_URL =
+  (import.meta.env.VITE_OPENCAGE_BASE_URL as string) ||
+  "https://api.opencagedata.com/geocode/v1/json";
 
 // Moved to the top level to be accessible by both functions
 const isApiKeyMissing = !OPENCAGE_API_KEY;
