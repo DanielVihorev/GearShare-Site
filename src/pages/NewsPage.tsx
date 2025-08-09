@@ -22,7 +22,7 @@ const NewsCard: React.FC<{ item: NewsItem }> = ({ item }) => {
   const category = categories.find((cat) => cat.id === item.category);
   const Icon = item.icon;
   return (
-    <article className='bg-white/10 backdrop-blur-md border border-white/20 rounded-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300 flex flex-col shadow-lg hover:shadow-xl'>
+    <article className='bg-white/10 backdrop-blur-md border border-white/20 rounded-xl overflow-hidden cursor-pointer transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 flex flex-col shadow-lg hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'>
       <div className='h-48 bg-gradient-to-br from-blue-600/20 to-indigo-700/20 flex items-center justify-center border-b border-white/10'>
         <Icon className='h-16 w-16 text-blue-300' />
       </div>
@@ -104,7 +104,10 @@ export const NewsPage: React.FC = () => {
 
         {/* Load More Button */}
         <div className='text-center mt-16'>
-          <Button variant='primary' className='px-8 py-3 text-base'>
+          <Button
+            variant='primary'
+            className='px-8 py-3 text-base hover:transform hover:scale-105 transition-transform duration-200'
+          >
             Load More News
           </Button>
         </div>

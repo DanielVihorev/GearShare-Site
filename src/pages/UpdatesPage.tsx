@@ -47,8 +47,10 @@ const UpdateCard: React.FC<{ item: UpdateItem }> = ({ item }) => {
 
   return (
     <div
-      className={`bg-white/5 border border-white/20 rounded-2xl overflow-hidden ${
-        item.featured ? "ring-2 ring-blue-500" : ""
+      className={`bg-white/5 border border-white/20 rounded-2xl overflow-hidden cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400 ${
+        item.featured
+          ? "ring-2 ring-blue-500 hover:ring-4 hover:ring-blue-400"
+          : ""
       }`}
     >
       <div className='p-6'>
@@ -130,7 +132,12 @@ const UpdateCard: React.FC<{ item: UpdateItem }> = ({ item }) => {
               {item.compatibility}
             </span>
           </div>
-          <Button variant='secondary'>Download</Button>
+          <Button
+            variant='secondary'
+            className='hover:transform hover:scale-105 transition-transform duration-200'
+          >
+            Download
+          </Button>
         </div>
       </div>
     </div>

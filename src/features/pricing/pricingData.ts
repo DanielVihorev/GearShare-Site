@@ -12,7 +12,7 @@ export interface Plan {
 export const pricingPlans: Plan[] = [
   {
     name: "Hobbyist",
-    description: "For individuals and small-scale mechanics getting started.",
+    description: "For individual mechanics getting started.",
     price: { monthly: 8, annually: Math.round(8 * 12 * 0.8) },
     features: [
       "50 part searches per month",
@@ -24,7 +24,7 @@ export const pricingPlans: Plan[] = [
   },
   {
     name: "Professional",
-    description: "For established shops and dealers who need more power.",
+    description: "For established shops and dealers.",
     price: { monthly: 25, annually: Math.round(25 * 12 * 0.8) },
     features: [
       "Unlimited part searches",
@@ -37,7 +37,7 @@ export const pricingPlans: Plan[] = [
   },
   {
     name: "Enterprise",
-    description: "For large operations and multi-location businesses.",
+    description: "For large operations and businesses.",
     price: { monthly: 45, annually: Math.round(45 * 12 * 0.8) },
     features: [
       "All Professional features",

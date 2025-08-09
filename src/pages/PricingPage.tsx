@@ -12,19 +12,23 @@ const PricingCard: React.FC<{ plan: Plan; isAnnual: boolean }> = ({
 
   return (
     <div
-      className={`bg-white/5 border rounded-2xl p-8 flex flex-col ${
+      className={`bg-white/5 border rounded-2xl p-8 flex flex-col transition-all duration-300 cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 ${
         plan.isFeatured
-          ? "border-blue-500 ring-2 ring-blue-500"
-          : "border-white/20"
+          ? "border-blue-500 ring-2 ring-blue-500 hover:ring-4 hover:ring-blue-400"
+          : "border-white/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400"
       }`}
     >
-      {plan.isFeatured && (
+      {plan.isFeatured ? (
         <div className='bg-blue-500 text-white text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full self-start mb-4'>
           Most Popular
         </div>
+      ) : (
+        <div className='h-8 mb-4'></div>
       )}
       <h3 className='text-2xl font-bold text-white'>{plan.name}</h3>
-      <p className='text-white/70 mt-2 mb-6 flex-grow'>{plan.description}</p>
+      <p className='text-white/70 mt-2 mb-6 h-12 flex items-start'>
+        {plan.description}
+      </p>
       <div className='mb-8'>
         <span className='text-5xl font-extrabold text-white'>${fullPrice}</span>
         <span className='text-white/70'>{billingCycle}</span>
@@ -44,7 +48,7 @@ const PricingCard: React.FC<{ plan: Plan; isAnnual: boolean }> = ({
       </ul>
       <Button
         variant={plan.isFeatured ? "primary" : "secondary"}
-        className='w-full mt-auto justify-center'
+        className='w-full mt-auto justify-center hover:transform hover:scale-105 transition-transform duration-200'
       >
         Choose Plan
       </Button>
