@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, Outlet, Link, useNavigation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { ScrollToTop } from "../components/ScrollToTop";
 import {
   LayoutDashboardIcon,
   ShoppingCartIcon,
@@ -68,6 +69,7 @@ export const DashboardLayout: React.FC = () => {
 
   return (
     <div className='grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]'>
+      <ScrollToTop />
       {/* Desktop Sidebar */}
       <div className='hidden border-r border-white/20 bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900 md:block'>
         <div className='flex h-full max-h-screen flex-col gap-2'>
