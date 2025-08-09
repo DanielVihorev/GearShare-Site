@@ -70,13 +70,13 @@ export const MapPage: React.FC = () => {
         <div className='flex gap-2'>
           <Button
             variant='secondary'
-            className='bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30'
+            className='bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 hover:transform hover:scale-105 transition-transform duration-200'
           >
             Filter
           </Button>
           <Button
             variant='secondary'
-            className='bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30'
+            className='bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/30 hover:transform hover:scale-105 transition-transform duration-200'
           >
             Sort
           </Button>
@@ -117,7 +117,7 @@ export const MapPage: React.FC = () => {
       <div className='absolute top-4 right-4 z-20 flex flex-col gap-2'>
         <button
           onClick={handleZoomIn}
-          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/30 rounded-lg shadow-lg flex items-center justify-center text-blue-600 hover:bg-white transition-colors'
+          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/30 rounded-lg shadow-lg flex items-center justify-center text-blue-600 hover:bg-white hover:transform hover:scale-105 transition-all duration-200'
           aria-label='Zoom in'
         >
           <svg
@@ -136,7 +136,7 @@ export const MapPage: React.FC = () => {
         </button>
         <button
           onClick={handleZoomOut}
-          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/30 rounded-lg shadow-lg flex items-center justify-center text-blue-600 hover:bg-white transition-colors'
+          className='w-10 h-10 bg-white/90 backdrop-blur-md border border-white/30 rounded-lg shadow-lg flex items-center justify-center text-blue-600 hover:bg-white hover:transform hover:scale-105 transition-all duration-200'
           aria-label='Zoom out'
         >
           <svg

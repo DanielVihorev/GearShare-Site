@@ -61,7 +61,7 @@ export const Features: React.FC = () => {
           {featuresData.map((feature, index) => (
             <div
               key={index}
-              className='bg-white/10 p-8 rounded-xl border border-white/20 text-center transform hover:-translate-y-2 transition-transform duration-300'
+              className='bg-white/10 p-8 rounded-xl border border-white/20 text-center cursor-pointer transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'
             >
               <div className='w-16 h-16 bg-white text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg'>
                 {React.cloneElement(feature.icon, { className: "w-8 h-8" })}

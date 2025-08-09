@@ -21,8 +21,18 @@ export const Hero: React.FC = () => {
               parts at competitive prices.
             </p>
             <div className='flex justify-center md:justify-start gap-4'>
-              <Button variant='primary'>Download App</Button>
-              <Button variant='secondary'>Learn More</Button>
+              <Button
+                variant='primary'
+                className='hover:transform hover:scale-105 transition-transform duration-200'
+              >
+                Download App
+              </Button>
+              <Button
+                variant='secondary'
+                className='hover:transform hover:scale-105 transition-transform duration-200'
+              >
+                Learn More
+              </Button>
             </div>
           </div>
           <IphoneMockup />

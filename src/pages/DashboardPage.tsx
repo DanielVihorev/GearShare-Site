@@ -7,7 +7,7 @@ const StatCard: React.FC<{
   icon: React.ElementType;
   change: string;
 }> = ({ title, value, icon: Icon, change }) => (
-  <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow'>
+  <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'>
     <div className='flex flex-row items-center justify-between space-y-0 pb-2'>
       <h3 className='text-sm font-medium text-white/90'>{title}</h3>
       <Icon className='h-5 w-5 text-blue-300' />

@@ -16,7 +16,7 @@ export const ContactPage: React.FC = () => {
 
       <div className='mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto'>
         {/* Email Contact Card */}
-        <div className='bg-white/10 p-8 rounded-2xl border border-white/20 text-center'>
+        <div className='bg-white/10 p-8 rounded-2xl border border-white/20 text-center cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'>
           <div className='w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4'>
             <MailIcon className='w-8 h-8 text-white' />
           </div>
@@ -31,7 +31,7 @@ export const ContactPage: React.FC = () => {
         </div>
 
         {/* Phone Contact Card */}
-        <div className='bg-white/10 p-8 rounded-2xl border border-white/20 text-center'>
+        <div className='bg-white/10 p-8 rounded-2xl border border-white/20 text-center cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'>
           <div className='w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4'>
             <PhoneIcon className='w-8 h-8 text-white' />
           </div>

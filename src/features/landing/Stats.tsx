@@ -25,7 +25,7 @@ export const Stats: React.FC = () => {
           {statsData.map((stat) => (
             <div
               key={stat.label}
-              className='bg-white/10 p-6 rounded-xl border border-white/20 transform hover:-translate-y-2 transition-transform duration-300'
+              className='bg-white/10 p-6 rounded-xl border border-white/20 cursor-pointer transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'
             >
               <div className='text-2xl sm:text-3xl md:text-4xl font-bold mb-2 whitespace-nowrap'>
                 {stat.number}

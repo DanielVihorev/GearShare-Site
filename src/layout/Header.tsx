@@ -105,17 +105,31 @@ export const Header: React.FC = () => {
                         {currentUser.displayName || currentUser.email}
                       </span>
                     </Link>
-                    <Button variant='secondary' onClick={handleLogout}>
+                    <Button
+                      variant='secondary'
+                      onClick={handleLogout}
+                      className='hover:transform hover:scale-105 transition-transform duration-200'
+                    >
                       Logout
                     </Button>
                   </>
                 ) : (
                   <>
                     <Link to='/login'>
-                      <Button variant='secondary'>Login</Button>
+                      <Button
+                        variant='secondary'
+                        className='hover:transform hover:scale-105 transition-transform duration-200'
+                      >
+                        Login
+                      </Button>
                     </Link>
                     <Link to='/register'>
-                      <Button variant='primary'>Sign Up</Button>
+                      <Button
+                        variant='primary'
+                        className='hover:transform hover:scale-105 transition-transform duration-200'
+                      >
+                        Sign Up
+                      </Button>
                     </Link>
                   </>
                 )}
@@ -216,7 +230,7 @@ export const Header: React.FC = () => {
                 </Link>
                 <Button
                   variant='secondary'
-                  className='w-full justify-center'
+                  className='w-full justify-center hover:transform hover:scale-105 transition-transform duration-200'
                   onClick={handleLogout}
                 >
                   Logout
@@ -225,12 +239,18 @@ export const Header: React.FC = () => {
             ) : (
               <>
                 <Link to='/login' onClick={() => setIsMenuOpen(false)}>
-                  <Button variant='secondary' className='w-full justify-center'>
+                  <Button
+                    variant='secondary'
+                    className='w-full justify-center hover:transform hover:scale-105 transition-transform duration-200'
+                  >
                     Login
                   </Button>
                 </Link>
                 <Link to='/register' onClick={() => setIsMenuOpen(false)}>
-                  <Button variant='primary' className='w-full justify-center'>
+                  <Button
+                    variant='primary'
+                    className='w-full justify-center hover:transform hover:scale-105 transition-transform duration-200'
+                  >
                     Sign Up
                   </Button>
                 </Link>
