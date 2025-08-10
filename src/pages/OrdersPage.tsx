@@ -4,30 +4,30 @@ import { mockOrders } from "../features/orders/ordersData";
 export const OrdersPage: React.FC = () => {
   return (
     <div>
-      <h1 className='text-3xl font-bold text-white mb-6'>Your Orders</h1>
+      <h1 className='text-3xl font-bold text-gray-900 mb-6'>Your Orders</h1>
 
       {/* Mobile View: Card List */}
       <div className='grid gap-4 md:hidden'>
         {mockOrders.map((order) => (
           <div
             key={order.id}
-            className='bg-white/5 border border-white/10 rounded-lg p-4 space-y-2'
+            className='bg-white border border-gray-200 rounded-lg p-4 space-y-2 shadow-sm hover:shadow-md transition-shadow'
           >
             <div className='flex justify-between items-center'>
-              <span className='font-bold text-white'>{order.id}</span>
+              <span className='font-bold text-gray-900'>{order.id}</span>
               <span
                 className={`px-2 py-1 rounded-full text-xs font-semibold ${
                   order.status === "Shipped"
-                    ? "bg-blue-500/20 text-blue-300"
+                    ? "bg-blue-100 text-blue-800"
                     : order.status === "Processing"
-                    ? "bg-yellow-500/20 text-yellow-300"
-                    : "bg-green-500/20 text-green-300"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-green-100 text-green-800"
                 }`}
               >
                 {order.status}
               </span>
             </div>
-            <div className='text-sm text-white/80'>
+            <div className='text-sm text-gray-600'>
               <p>
                 <span className='font-semibold'>Customer:</span>{" "}
                 {order.customer}
@@ -36,7 +36,7 @@ export const OrdersPage: React.FC = () => {
                 <span className='font-semibold'>Date:</span> {order.date}
               </p>
             </div>
-            <div className='text-right font-bold text-lg text-white'>
+            <div className='text-right font-bold text-lg text-gray-900'>
               {order.total}
             </div>
           </div>
@@ -44,10 +44,10 @@ export const OrdersPage: React.FC = () => {
       </div>
 
       {/* Desktop View: Table */}
-      <div className='hidden md:block bg-white/5 border border-white/10 rounded-xl'>
+      <div className='hidden md:block bg-white border border-gray-200 rounded-xl shadow-sm'>
         <div className='overflow-x-auto'>
-          <table className='w-full text-sm text-left text-white/80'>
-            <thead className='text-xs text-white uppercase bg-white/10'>
+          <table className='w-full text-sm text-left text-gray-700'>
+            <thead className='text-xs text-gray-500 uppercase bg-gray-50 border-b border-gray-200'>
               <tr>
                 <th scope='col' className='px-6 py-3'>
                   Order ID
@@ -70,25 +70,25 @@ export const OrdersPage: React.FC = () => {
               {mockOrders.map((order) => (
                 <tr
                   key={order.id}
-                  className='border-b border-white/10 hover:bg-white/5'
+                  className='border-b border-gray-100 hover:bg-gray-50 transition-colors'
                 >
                   <th
                     scope='row'
-                    className='px-6 py-4 font-medium text-white whitespace-nowrap'
+                    className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'
                   >
                     {order.id}
                   </th>
-                  <td className='px-6 py-4'>{order.customer}</td>
-                  <td className='px-6 py-4'>{order.date}</td>
-                  <td className='px-6 py-4'>{order.total}</td>
+                  <td className='px-6 py-4 text-gray-700'>{order.customer}</td>
+                  <td className='px-6 py-4 text-gray-700'>{order.date}</td>
+                  <td className='px-6 py-4 text-gray-700'>{order.total}</td>
                   <td className='px-6 py-4'>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-semibold ${
                         order.status === "Shipped"
-                          ? "bg-blue-500/20 text-blue-300"
+                          ? "bg-blue-100 text-blue-800"
                           : order.status === "Processing"
-                          ? "bg-yellow-500/20 text-yellow-300"
-                          : "bg-green-500/20 text-green-300"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-green-100 text-green-800"
                       }`}
                     >
                       {order.status}

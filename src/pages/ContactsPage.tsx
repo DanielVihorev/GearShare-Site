@@ -4,22 +4,22 @@ import { mockContacts } from "../features/contacts/contactsData";
 export const ContactsPage: React.FC = () => {
   return (
     <div>
-      <h1 className='text-3xl font-bold text-white mb-6'>Your Contacts</h1>
+      <h1 className='text-3xl font-bold text-gray-900 mb-6'>Your Contacts</h1>
 
       {/* Mobile View: Card List */}
       <div className='grid gap-4 md:hidden'>
         {mockContacts.map((contact) => (
           <div
             key={contact.id}
-            className='bg-white/5 border border-white/10 rounded-lg p-4 space-y-2'
+            className='bg-white border border-gray-200 rounded-lg p-4 space-y-2 shadow-sm hover:shadow-md transition-shadow'
           >
             <div className='flex justify-between items-center'>
-              <span className='font-bold text-white'>{contact.name}</span>
-              <span className='text-xs bg-gray-500/20 text-gray-300 px-2 py-1 rounded-full'>
+              <span className='font-bold text-gray-900'>{contact.name}</span>
+              <span className='text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full'>
                 {contact.type}
               </span>
             </div>
-            <div className='text-sm text-white/80'>
+            <div className='text-sm text-gray-600'>
               <p>{contact.email}</p>
               <p>{contact.phone}</p>
             </div>
@@ -28,10 +28,10 @@ export const ContactsPage: React.FC = () => {
       </div>
 
       {/* Desktop View: Table */}
-      <div className='hidden md:block bg-white/5 border border-white/10 rounded-xl'>
+      <div className='hidden md:block bg-white border border-gray-200 rounded-xl shadow-sm'>
         <div className='overflow-x-auto'>
-          <table className='w-full text-sm text-left text-white/80'>
-            <thead className='text-xs text-white uppercase bg-white/10'>
+          <table className='w-full text-sm text-left text-gray-700'>
+            <thead className='text-xs text-gray-500 uppercase bg-gray-50 border-b border-gray-200'>
               <tr>
                 <th scope='col' className='px-6 py-3'>
                   Name
@@ -51,17 +51,17 @@ export const ContactsPage: React.FC = () => {
               {mockContacts.map((contact) => (
                 <tr
                   key={contact.id}
-                  className='border-b border-white/10 hover:bg-white/5'
+                  className='border-b border-gray-100 hover:bg-gray-50 transition-colors'
                 >
                   <th
                     scope='row'
-                    className='px-6 py-4 font-medium text-white whitespace-nowrap'
+                    className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'
                   >
                     {contact.name}
                   </th>
-                  <td className='px-6 py-4'>{contact.type}</td>
-                  <td className='px-6 py-4'>{contact.email}</td>
-                  <td className='px-6 py-4'>{contact.phone}</td>
+                  <td className='px-6 py-4 text-gray-700'>{contact.type}</td>
+                  <td className='px-6 py-4 text-gray-700'>{contact.email}</td>
+                  <td className='px-6 py-4 text-gray-700'>{contact.phone}</td>
                 </tr>
               ))}
             </tbody>

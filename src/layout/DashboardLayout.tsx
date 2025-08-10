@@ -28,7 +28,7 @@ const SidebarContent: React.FC<{ onLinkClick?: () => void }> = ({
     `flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${
       isActive
         ? "bg-blue-600 text-white shadow-lg"
-        : "text-white/80 hover:bg-white/10 hover:text-white"
+        : "text-gray-700 hover:bg-blue-50 hover:text-blue-700"
     }`;
 
   return (
@@ -49,10 +49,10 @@ const SidebarContent: React.FC<{ onLinkClick?: () => void }> = ({
           ))}
         </nav>
       </div>
-      <div className='mt-auto p-4 border-t border-white/20'>
+      <div className='mt-auto p-4 border-t border-gray-200'>
         <Link
           to='/'
-          className='flex items-center gap-3 rounded-lg px-3 py-2 text-white/80 transition-all hover:bg-white/10 hover:text-white'
+          className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-700'
         >
           <ArrowLeftIcon className='h-4 w-4' />
           Return to Main Site
@@ -71,9 +71,9 @@ export const DashboardLayout: React.FC = () => {
     <div className='grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]'>
       <ScrollToTop />
       {/* Desktop Sidebar */}
-      <div className='hidden border-r border-white/20 bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900 md:block'>
+      <div className='hidden border-r border-gray-200 bg-white md:block shadow-lg'>
         <div className='flex h-full max-h-screen flex-col gap-2'>
-          <div className='flex h-14 items-center border-b border-white/20 px-4 lg:h-[60px] lg:px-6'>
+          <div className='flex h-14 items-center border-b border-gray-200 px-4 lg:h-[60px] lg:px-6 bg-blue-600'>
             <h2 className='text-lg font-semibold text-white'>User Dashboard</h2>
           </div>
           <SidebarContent />
@@ -87,16 +87,16 @@ export const DashboardLayout: React.FC = () => {
         }`}
         onClick={() => setIsMobileMenuOpen(false)}
       >
-        <div className='bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900/80 backdrop-blur-sm h-full' />
+        <div className='bg-gray-900/80 backdrop-blur-sm h-full' />
       </div>
       <div
-        className={`fixed top-0 left-0 h-full w-3/4 max-w-xs bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900 border-r border-white/20 z-50 md:hidden transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-3/4 max-w-xs bg-white border-r border-gray-200 z-50 md:hidden transition-transform duration-300 ease-in-out ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className='flex h-full flex-col gap-2'>
-          <div className='flex h-14 items-center justify-between border-b border-white/20 px-4 lg:h-[60px] lg:px-6'>
+          <div className='flex h-14 items-center justify-between border-b border-gray-200 px-4 lg:h-[60px] lg:px-6 bg-blue-600'>
             <h2 className='text-lg font-semibold text-white'>Dashboard</h2>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
@@ -110,26 +110,26 @@ export const DashboardLayout: React.FC = () => {
       </div>
 
       <div className='flex flex-col'>
-        <header className='flex h-14 items-center gap-4 border-b border-white/20 bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900/90 backdrop-blur-lg px-4 lg:h-[60px] lg:px-6'>
+        <header className='flex h-14 items-center gap-4 border-b border-gray-200 bg-white px-4 lg:h-[60px] lg:px-6 shadow-sm'>
           <button
-            className='md:hidden text-white'
+            className='md:hidden text-gray-700'
             onClick={() => setIsMobileMenuOpen(true)}
           >
             <MenuIcon className='h-6 w-6' />
           </button>
           <div className='w-full flex-1 flex items-center justify-between'>
-            <h1 className='text-lg font-semibold text-white'>
+            <h1 className='text-lg font-semibold text-gray-900'>
               Welcome, {currentUser?.displayName || "User"}!
             </h1>
             {/* Add the loading indicator here */}
             {navigation.state === "loading" && (
-              <div className='text-sm text-white/80 animate-pulse'>
+              <div className='text-sm text-blue-600 animate-pulse'>
                 Loading...
               </div>
             )}
           </div>
         </header>
-        <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900'>
+        <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-gray-50'>
           <Outlet />
         </main>
       </div>
