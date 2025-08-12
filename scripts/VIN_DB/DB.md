@@ -7,8 +7,9 @@ This database is sourced from **NHTSA vPIC (Vehicle Product Information Catalog)
 - **Coverage**: All vehicles sold in the United States
 
 ## Extract Database Archive
-📥 **Download the database file from:** [NHTSA vPIC API Downloads](https://vpic.nhtsa.dot.gov/api/)
+Download the DB from here https://vpic.nhtsa.dot.gov/api/
 
+## Extract Database Archive
 ```bash
 unzip vPICList_lite_2025_07.bak.zip
 ```
