@@ -120,5 +120,5 @@ cython_debug/
 # IDE-specific
 #.idea/
 
-# Large files
-full_db.rar
+# Large files tracked with Git LFS
+# full_db.rar
