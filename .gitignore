@@ -103,4 +103,4 @@ cython_debug/
 .pdm-build/
 
 # Project-specific large files
-scripts/make_cars_db/full_db.rar
+# scripts/make_cars_db/full_db.rar (now tracked with Git LFS)
