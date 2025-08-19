@@ -8,8 +8,8 @@ import AuthProvider from "./context/AuthContext.tsx";
 import clarity from "@microsoft/clarity";
 
 // Initialize Clarity - Replace 'YOUR_CLARITY_PROJECT_ID' with your actual project ID
-if (import.meta.env.PROD) {
-  clarity.init("MY_CLARITY_PROJECT_ID");
+if (import.meta.env) {
+  clarity.init(import.meta.env.MY_CLARITY_PROJECT_ID);
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
