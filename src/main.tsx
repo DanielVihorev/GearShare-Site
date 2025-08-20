@@ -10,6 +10,7 @@ import clarity from "@microsoft/clarity";
 // Initialize Clarity
 const clarityID = import.meta.env.MY_CLARITY_PROJECT_ID;
 if (process.env.NODE_ENV === "production") {
+  console.log("Clarity ID", clarityID);
   clarity.init(clarityID);
 }
 
