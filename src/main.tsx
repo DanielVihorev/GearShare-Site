@@ -8,9 +8,9 @@ import AuthProvider from "./context/AuthContext.tsx";
 import clarity from "@microsoft/clarity";
 
 // Initialize Clarity
-const clarityID = import.meta.env.MY_CLARITY_PROJECT_ID;
-if (process.env.NODE_ENV === "production") {
-  console.log("Clarity ID", clarityID);
+const clarityID = import.meta.env.VITE_CLARITY_PROJECT_ID;
+
+if (clarityID && import.meta.env.PROD) {
   clarity.init(clarityID);
 }
 
