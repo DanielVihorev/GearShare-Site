@@ -6,6 +6,21 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import { PartDetailSheet } from "../features/parts/PartDetailSheet";
 
+interface CatalogSuggestion {
+  id: string;
+  brand: string;
+  partNumber: string;
+  priceUsd: string | null;
+}
+
+async function fetchSuggestions(q: string): Promise<CatalogSuggestion[]> {
+  if (q.trim().length < 2) return [];
+  const res = await fetch(`/api/catalog/search?q=${encodeURIComponent(q)}&limit=6`);
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.results ?? [];
+}
+
 const TEL_AVIV: [number, number] = [32.0853, 34.7818];
 const DEFAULT_RADIUS = 100;
 
@@ -17,6 +32,8 @@ export const MapPage: React.FC = () => {
   const [locationError, setLocationError] = useState<string | null>(null);
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState<CatalogSuggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -67,14 +84,24 @@ export const MapPage: React.FC = () => {
     if (userLocation) loadParts(userLocation, searchQuery);
   }, [userLocation]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Debounced search — re-fetch 400 ms after user stops typing
+  // Debounced search — re-fetch 400ms after typing stops + fetch catalog suggestions
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = e.target.value;
     setSearchQuery(q);
+    setShowSuggestions(true);
     if (searchTimer.current) clearTimeout(searchTimer.current);
     searchTimer.current = setTimeout(() => {
       if (userLocation) loadParts(userLocation, q);
+      fetchSuggestions(q).then(setSuggestions);
     }, 400);
+  };
+
+  const handleSuggestionClick = (s: CatalogSuggestion) => {
+    const q = s.partNumber;
+    setSearchQuery(q);
+    setShowSuggestions(false);
+    setSuggestions([]);
+    if (userLocation) loadParts(userLocation, q);
   };
 
   const createPriceMarkerIcon = (price: number, isSelected: boolean) =>
@@ -120,11 +147,33 @@ export const MapPage: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+            onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
             placeholder="Search part name, number or brand…"
             className="text-blue-600 w-full bg-white/95 backdrop-blur-md border border-gray-300 rounded-xl pl-11 pr-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none transition shadow-lg"
           />
           {isLoadingParts && (
             <div className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          )}
+          {/* Catalog autocomplete dropdown */}
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-xl z-30 overflow-hidden">
+              {suggestions.map((s) => (
+                <li
+                  key={s.id}
+                  onMouseDown={() => handleSuggestionClick(s)}
+                  className="flex items-center justify-between px-4 py-2.5 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-0"
+                >
+                  <div>
+                    <span className="font-medium text-gray-800 text-sm">{s.partNumber}</span>
+                    <span className="ml-2 text-xs text-gray-500">{s.brand}</span>
+                  </div>
+                  {s.priceUsd && (
+                    <span className="text-xs font-semibold text-blue-600">${s.priceUsd}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
 
