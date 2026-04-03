@@ -55,7 +55,7 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
             </div>
             <div className='flex items-center justify-between'>
               <span className='text-2xl font-extrabold text-white'>
-                ${part.price}
+                ₪{part.price}
               </span>
               <Button variant='primary' className='px-4 py-2 text-sm'>
                 Purchase
@@ -125,7 +125,7 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
             {/* Price and action */}
             <div className='flex items-center justify-between'>
               <span className='text-2xl font-extrabold text-white'>
-                ${part.price}
+                ₪{part.price}
               </span>
               <Button variant='primary' className='px-6 py-2'>
                 Purchase Now
