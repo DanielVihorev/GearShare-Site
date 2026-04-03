@@ -13,9 +13,11 @@ interface CatalogSuggestion {
   priceUsd: string | null;
 }
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+
 async function fetchSuggestions(q: string): Promise<CatalogSuggestion[]> {
   if (q.trim().length < 2) return [];
-  const res = await fetch(`/api/catalog/search?q=${encodeURIComponent(q)}&limit=6`);
+  const res = await fetch(`${API_BASE}/api/catalog/search?q=${encodeURIComponent(q)}&limit=6`);
   if (!res.ok) return [];
   const data = await res.json();
   return data.results ?? [];

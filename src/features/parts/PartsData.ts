@@ -45,6 +45,8 @@ export function apiPartToPart(p: ApiPart): Part {
   };
 }
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+
 export async function fetchNearbyParts(
   lat: number,
   lng: number,
@@ -58,7 +60,7 @@ export async function fetchNearbyParts(
     ...(query.trim() ? { query: query.trim() } : {}),
   });
 
-  const res = await fetch(`/api/parts/nearby?${params}`);
+  const res = await fetch(`${API_BASE}/api/parts/nearby?${params}`);
   if (!res.ok) throw new Error(`API error ${res.status}`);
 
   const data: { parts: ApiPart[] } = await res.json();
