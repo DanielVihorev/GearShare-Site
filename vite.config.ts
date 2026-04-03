@@ -6,9 +6,17 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   define: {
-    // Make environment variables available to the client
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },
-  // Ensure environment variables are loaded
   envPrefix: "VITE_",
+  server: {
+    proxy: {
+      // /api/parts/nearby → http://localhost:3000/parts/nearby
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

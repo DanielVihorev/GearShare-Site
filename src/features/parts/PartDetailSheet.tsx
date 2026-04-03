@@ -45,14 +45,11 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
                 <h2 className='text-lg font-bold text-white truncate'>
                   {part.name}
                 </h2>
-                <p className='text-xs text-white/60'>Part: 000-906-69-06-80</p>
+                <p className='text-xs text-white/60'>Part #: {part.partNumber}</p>
                 <div className='flex items-center gap-2 text-xs text-white/80 mt-1'>
-                  <div className='flex items-center gap-1'>
-                    <StarIcon className='w-3 h-3 text-yellow-400' />
-                    <span>4.8 (500)</span>
-                  </div>
+                  <span>{part.brand}</span>
                   <span>•</span>
-                  <span>{part.distance.toFixed(1)} miles</span>
+                  <span>{part.distance.toFixed(1)} km away</span>
                 </div>
               </div>
             </div>
@@ -113,17 +110,16 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
             {/* Part details */}
             <div className='space-y-2 mb-4'>
               <p className='text-sm text-white/60'>
-                Part Number: 000-906-69-06-80
+                Part #: {part.partNumber}
               </p>
               <div className='flex items-center gap-3 text-sm text-white/80'>
-                <div className='flex items-center gap-1'>
-                  <StarIcon className='w-4 h-4 text-yellow-400' />
-                  <span>4.8 (500 reviews)</span>
-                </div>
+                <span>{part.brand}</span>
                 <span>•</span>
-                <span>{part.distance.toFixed(1)} miles</span>
+                <span className='capitalize'>{part.condition}</span>
+                <span>•</span>
+                <span>{part.distance.toFixed(1)} km away</span>
               </div>
-              <p className='text-sm text-white/70'>{part.description}</p>
+              <p className='text-sm text-white/70'>Seller: {part.seller}</p>
             </div>
 
             {/* Price and action */}
