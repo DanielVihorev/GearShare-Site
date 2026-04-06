@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { type Part } from "./PartsData";
 import { Button } from "../../components/ui/Button";
 import { StarIcon } from "../../components/icons";
+import { PayPalCheckout } from "../payments/PayPalCheckout";
 
 interface PartDetailSheetProps {
   part: Part | null;
@@ -13,6 +14,14 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
   onClose,
 }) => {
   const isVisible = part !== null;
+  const [showPayPal, setShowPayPal] = useState(false);
+  const [paid, setPaid] = useState<string | null>(null);
+
+  // Reset payment state when part changes
+  React.useEffect(() => {
+    setShowPayPal(false);
+    setPaid(null);
+  }, [part?.id]);
 
   return (
     <>
@@ -57,10 +66,26 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
               <span className='text-2xl font-extrabold text-white'>
                 ₪{part.price}
               </span>
-              <Button variant='primary' className='px-4 py-2 text-sm'>
-                Purchase
-              </Button>
+              {!showPayPal && !paid && (
+                <Button variant='primary' className='px-4 py-2 text-sm' onClick={() => setShowPayPal(true)}>
+                  Purchase
+                </Button>
+              )}
             </div>
+            {paid && (
+              <p className='text-green-400 text-sm font-semibold text-center'>Payment complete! Ref: {paid}</p>
+            )}
+            {showPayPal && !paid && (
+              <div className='mt-2'>
+                <PayPalCheckout
+                  partId={part.id}
+                  partName={part.name}
+                  priceIls={part.price}
+                  onSuccess={(id) => { setPaid(id); setShowPayPal(false); }}
+                  onError={() => setShowPayPal(false)}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -127,10 +152,28 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
               <span className='text-2xl font-extrabold text-white'>
                 ₪{part.price}
               </span>
-              <Button variant='primary' className='px-6 py-2'>
-                Purchase Now
-              </Button>
+              {!showPayPal && !paid && (
+                <Button variant='primary' className='px-6 py-2' onClick={() => setShowPayPal(true)}>
+                  Purchase Now
+                </Button>
+              )}
             </div>
+            {paid && (
+              <p className='text-green-400 text-sm font-semibold text-center mt-2'>
+                Payment complete! Ref: {paid}
+              </p>
+            )}
+            {showPayPal && !paid && (
+              <div className='mt-3'>
+                <PayPalCheckout
+                  partId={part.id}
+                  partName={part.name}
+                  priceIls={part.price}
+                  onSuccess={(id) => { setPaid(id); setShowPayPal(false); }}
+                  onError={() => setShowPayPal(false)}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
