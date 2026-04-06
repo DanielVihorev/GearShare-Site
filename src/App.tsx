@@ -5,6 +5,7 @@ import { AuthPage } from "./pages/AuthPage";
 import { NewsPage } from "./pages/NewsPage";
 import { UpdatesPage } from "./pages/UpdatesPage";
 import { MapPage } from "./pages/MapPage";
+import { MechanicsMapPage } from "./pages/MechanicsMapPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsOfUsePage } from "./pages/TermsOfUsePage";
 import { ContactPage } from "./pages/ContactPage";
@@ -19,15 +20,15 @@ import { OrdersPage } from "./pages/OrdersPage";
 import { SalesPage } from "./pages/SalesPage";
 import { BillingPage } from "./pages/BillingPage";
 import { ContactsPage } from "./pages/ContactsPage";
+import { VehiclesPage } from "./pages/VehiclesPage";
 
-// Create the router configuration as an array of objects
 const router = createBrowserRouter([
   {
-    // Public routes are nested under the MainLayout
     element: <MainLayout />,
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/map", element: <MapPage /> },
+      { path: "/mechanics", element: <MechanicsMapPage /> },
       { path: "/news", element: <NewsPage /> },
       { path: "/updates", element: <UpdatesPage /> },
       { path: "/pricing", element: <PricingPage /> },
@@ -41,7 +42,6 @@ const router = createBrowserRouter([
     ],
   },
   {
-    // Protected routes are nested under the ProtectedRoute component
     element: <ProtectedRoute />,
     children: [
       {
@@ -53,19 +53,18 @@ const router = createBrowserRouter([
           { path: "sales", element: <SalesPage /> },
           { path: "billing", element: <BillingPage /> },
           { path: "contacts", element: <ContactsPage /> },
+          { path: "vehicles", element: <VehiclesPage /> },
         ],
       },
     ],
   },
   {
-    // A top-level route for the 404 page
     path: "*",
     element: <NotFoundPage />,
   },
 ]);
 
 function App() {
-  // The App component now simply provides the router to the application
   return <RouterProvider router={router} />;
 }
 

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { stats } from "../features/dashboard/dashboardData";
+import { AddPartForm } from "../features/parts/AddPartForm";
 
 const StatCard: React.FC<{
   title: string;
@@ -20,11 +21,27 @@ const StatCard: React.FC<{
 );
 
 export const DashboardPage: React.FC = () => {
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <div className='min-h-screen bg-gray-50 p-6'>
-      <h1 className='text-3xl font-bold text-gray-900 mb-6'>
-        Dashboard Overview
-      </h1>
+      <div className='flex items-center justify-between mb-6'>
+        <h1 className='text-3xl font-bold text-gray-900'>Dashboard Overview</h1>
+        <button
+          onClick={() => setShowForm((v) => !v)}
+          className='bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow transition-colors'
+        >
+          {showForm ? "Cancel" : "+ List a Part"}
+        </button>
+      </div>
+
+      {showForm && (
+        <div className='bg-white border border-gray-200 rounded-2xl shadow-sm p-6 mb-6'>
+          <h2 className='text-lg font-bold text-gray-800 mb-4'>List a Part for Sale</h2>
+          <AddPartForm onSuccess={() => setTimeout(() => setShowForm(false), 2000)} />
+        </div>
+      )}
+
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-4'>
         {stats.map((stat) => (
           <StatCard

@@ -78,6 +78,14 @@ export const Header: React.FC = () => {
                 </li>
                 <li>
                   <Link
+                    to='/mechanics'
+                    className='text-white/90 hover:text-white transition-colors'
+                  >
+                    Mechanics
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to='/pricing'
                     className='text-white/90 hover:text-white transition-colors'
                   >
