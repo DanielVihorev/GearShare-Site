@@ -66,8 +66,10 @@ export const AddPartForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess })
         }),
       });
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.message ?? `Error ${res.status}`);
+        const text = await res.text().catch(() => "");
+        let msg = `HTTP ${res.status}`;
+        try { const d = JSON.parse(text); msg = Array.isArray(d.message) ? d.message[0] : (d.message ?? msg); } catch {}
+        throw new Error(msg);
       }
       setSuccess(true);
       setForm({ partNumber: "", name: "", price: "", condition: "used", brandName: "", availableRadiusKm: "50" });
