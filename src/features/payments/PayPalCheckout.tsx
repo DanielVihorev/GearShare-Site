@@ -8,22 +8,29 @@ interface Props {
   partId: string;
   partName: string;
   /** Price in ILS — converted to USD at ~0.27 for PayPal */
-  priceIls: number;
+  priceIls?: number;
+  /** Price directly in USD — takes precedence over priceIls */
+  amountUsd?: number;
   onSuccess: (captureId: string) => void;
   onError?: (err: unknown) => void;
 }
 
-/** ILS → USD rough exchange rate */
 const ILS_TO_USD = 0.27;
 
 export const PayPalCheckout: React.FC<Props> = ({
   partId,
   partName,
   priceIls,
+  amountUsd: amountUsdProp,
   onSuccess,
   onError,
 }) => {
-  const amountUsd = Math.max(0.01, parseFloat((priceIls * ILS_TO_USD).toFixed(2)));
+  const amountUsd = Math.max(
+    0.01,
+    amountUsdProp !== undefined
+      ? parseFloat(amountUsdProp.toFixed(2))
+      : parseFloat(((priceIls ?? 0) * ILS_TO_USD).toFixed(2)),
+  );
 
   return (
     <PayPalScriptProvider options={{ clientId: CLIENT_ID, currency: "USD" }}>
