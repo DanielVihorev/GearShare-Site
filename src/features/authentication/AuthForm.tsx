@@ -62,8 +62,9 @@ async function syncWithBackend(
         if (json.accessToken) localStorage.setItem("gs_token", json.accessToken);
       }
     }
-  } catch {
-    // Backend sync is best-effort — Firebase is the source of truth for auth
+  } catch (err) {
+    // Backend sync is best-effort — Firebase is source of truth
+    console.error('[GearShare] Backend sync failed:', err);
   }
 }
 
@@ -122,7 +123,7 @@ export const AuthForm: React.FC = () => {
         break;
       case "password":
         if (!value) return "Password is required";
-        if (value.length < 8) return "Password must be at least 8 characters";
+        if (value.length < 6) return "Password must be at least 6 characters";
         break;
       case "firstName":
         if (!isLogin && !value) return "First name is required";

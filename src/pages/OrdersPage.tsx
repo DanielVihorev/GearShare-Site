@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { mockOrders, type OrderStatus } from "../features/orders/ordersData";
+import { apiBase } from "../lib/api";
 
 const STATUS_COLORS: Record<OrderStatus, string> = {
   Shipped:    "bg-blue-100 text-blue-800",
@@ -34,7 +35,7 @@ export const OrdersPage: React.FC = () => {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h1 className="text-3xl font-bold text-gray-900">Your Orders</h1>
         <a
-          href="http://localhost:3000/api/parts/export.csv"
+          href={`${apiBase}/api/parts/export.csv`}
           className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg transition-colors"
         >
           Export CSV

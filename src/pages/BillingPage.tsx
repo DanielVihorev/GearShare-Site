@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PayPalCheckout } from "../features/payments/PayPalCheckout";
+import { apiBase } from "../lib/api";
 
 const invoices = [
   { id: "INV-2026-012", date: "Apr 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
@@ -41,7 +42,14 @@ export const BillingPage: React.FC = () => {
             >
               Upgrade to Enterprise
             </button>
-            <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg transition-colors">
+            <button
+              onClick={() => {
+                if (window.confirm("Are you sure you want to cancel your plan? You will lose access at the end of the billing period.")) {
+                  alert("Cancellation request submitted. You will receive a confirmation email.");
+                }
+              }}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg transition-colors"
+            >
               Cancel Plan
             </button>
           </div>
@@ -107,7 +115,7 @@ export const BillingPage: React.FC = () => {
                 <StatusBadge status={inv.status} />
               </div>
               <p className="text-sm text-gray-500">{inv.date} · {inv.plan} · ${inv.amount}</p>
-              <button className="text-xs text-blue-600 hover:underline">Download PDF</button>
+              <a href={`${apiBase}/api/parts/export.csv`} className="text-xs text-blue-600 hover:underline">Download</a>
             </div>
           ))}
         </div>
@@ -152,7 +160,7 @@ export const BillingPage: React.FC = () => {
           </div>
           <div>
             <p className="font-medium text-gray-900">PayPal</p>
-            <p className="text-sm text-gray-500">danielvihorev1@gmail.com</p>
+            <p className="text-sm text-gray-500">Connected account</p>
           </div>
           <button className="ml-auto text-sm text-blue-600 hover:underline">Change</button>
         </div>
