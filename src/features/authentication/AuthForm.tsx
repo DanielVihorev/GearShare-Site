@@ -207,6 +207,7 @@ export const AuthForm: React.FC = () => {
       }
     } catch (error) {
       const authError = error as AuthError;
+      console.error('[GearShare] Firebase auth error:', authError.code, authError.message);
       let message = "An unknown error occurred.";
       switch (authError.code) {
         case "auth/user-not-found":
@@ -214,13 +215,27 @@ export const AuthForm: React.FC = () => {
         case "auth/invalid-credential":
         case "auth/invalid-email":
           message = "Invalid email or password.";
-          // ADD THIS PART:
-          setErrors({
-            email: "Invalid email or password.",
-            password: " ", // Add a space to trigger the error state without a message
-          });
+          setErrors({ email: "Invalid email or password.", password: " " });
           break;
-        // ... other cases
+        case "auth/email-already-in-use":
+          message = "An account with this email already exists. Please sign in.";
+          setErrors({ email: "Email already registered." });
+          break;
+        case "auth/weak-password":
+          message = "Password must be at least 6 characters.";
+          setErrors({ password: "Password must be at least 6 characters." });
+          break;
+        case "auth/too-many-requests":
+          message = "Too many attempts. Please wait a few minutes and try again.";
+          break;
+        case "auth/network-request-failed":
+          message = "Network error. Check your connection and try again.";
+          break;
+        case "auth/unauthorized-domain":
+          message = "This domain is not authorized. Please contact support.";
+          break;
+        default:
+          message = authError.message || "An unknown error occurred.";
       }
       showNotification(message, "error");
     } finally {
