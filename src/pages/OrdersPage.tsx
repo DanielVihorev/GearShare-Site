@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { mockOrders, type Order, type OrderStatus } from "../features/orders/ordersData";
+import { mockOrders, type OrderStatus } from "../features/orders/ordersData";
 
 const STATUS_COLORS: Record<OrderStatus, string> = {
   Shipped:    "bg-blue-100 text-blue-800",

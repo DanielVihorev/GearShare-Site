@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID as string;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { type Part } from "./PartsData";
 import { Button } from "../../components/ui/Button";
-import { StarIcon } from "../../components/icons";
 import { PayPalCheckout } from "../payments/PayPalCheckout";
 
 interface PartDetailSheetProps {
