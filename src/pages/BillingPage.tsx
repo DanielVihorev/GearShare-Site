@@ -2,14 +2,7 @@ import React, { useState } from "react";
 import { PayPalCheckout } from "../features/payments/PayPalCheckout";
 import { apiBase } from "../lib/api";
 
-const invoices = [
-  { id: "INV-2026-012", date: "Apr 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2026-011", date: "Mar 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2026-010", date: "Feb 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2026-009", date: "Jan 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2025-008", date: "Dec 1, 2025",  plan: "Hobbyist",      amount: 8,   status: "Paid" },
-  { id: "INV-2025-007", date: "Nov 1, 2025",  plan: "Hobbyist",      amount: 8,   status: "Paid" },
-];
+const invoices: { id: string; date: string; plan: string; amount: number; status: string }[] = [];
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
   <span className={`px-2 py-1 rounded-full text-xs font-semibold ${

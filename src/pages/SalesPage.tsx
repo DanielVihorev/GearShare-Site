@@ -11,29 +11,9 @@ import {
   Bar,
 } from "recharts";
 
-const monthlyRevenue = [
-  { month: "Jan", revenue: 4200, orders: 34 },
-  { month: "Feb", revenue: 5800, orders: 47 },
-  { month: "Mar", revenue: 7100, orders: 58 },
-  { month: "Apr", revenue: 6400, orders: 51 },
-  { month: "May", revenue: 9300, orders: 75 },
-  { month: "Jun", revenue: 8700, orders: 69 },
-  { month: "Jul", revenue: 11200, orders: 90 },
-  { month: "Aug", revenue: 10500, orders: 84 },
-  { month: "Sep", revenue: 12800, orders: 102 },
-  { month: "Oct", revenue: 13400, orders: 107 },
-  { month: "Nov", revenue: 15100, orders: 121 },
-  { month: "Dec", revenue: 17600, orders: 141 },
-];
+const monthlyRevenue: { month: string; revenue: number; orders: number }[] = [];
 
-const topParts = [
-  { name: "Brake Pads", sold: 312, revenue: 9360 },
-  { name: "Alternators", sold: 187, revenue: 22440 },
-  { name: "Shock Absorbers", sold: 245, revenue: 12250 },
-  { name: "Oil Filters", sold: 598, revenue: 5980 },
-  { name: "Headlights", sold: 163, revenue: 8150 },
-  { name: "Timing Belts", sold: 94, revenue: 7520 },
-];
+const topParts: { name: string; sold: number; revenue: number }[] = [];
 
 const StatCard: React.FC<{
   label: string;

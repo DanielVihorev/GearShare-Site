@@ -4,14 +4,7 @@ import { AddPartForm } from "../features/parts/AddPartForm";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 
-const recentActivity = [
-  { id: 1, type: "sale",    text: "Brake pads sold to Lior K.",        time: "2 min ago",  dot: "bg-green-500" },
-  { id: 2, type: "listing", text: "New part listed: Alternator 12V",   time: "18 min ago", dot: "bg-blue-500"  },
-  { id: 3, type: "sale",    text: "Headlight assembly sold to Guy M.", time: "1 hr ago",   dot: "bg-green-500" },
-  { id: 4, type: "inquiry", text: "New inquiry on Timing Belt",        time: "3 hr ago",   dot: "bg-yellow-500"},
-  { id: 5, type: "listing", text: "Part delisted: Shock Absorber",     time: "5 hr ago",   dot: "bg-gray-400"  },
-  { id: 6, type: "sale",    text: "Oil Filter (x3) sold to Noa S.",    time: "Yesterday",  dot: "bg-green-500" },
-];
+const recentActivity: { id: number; type: string; text: string; time: string; dot: string }[] = [];
 
 const StatCard: React.FC<{
   title: string;
