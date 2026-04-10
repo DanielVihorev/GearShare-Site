@@ -13,6 +13,7 @@ import {
   MenuIcon,
   XIcon,
   DownloadIcon,
+  BarChartIcon,
 } from "../components/icons";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
@@ -24,6 +25,7 @@ const navLinks = [
   { to: "/dashboard/sales", label: "Sales", icon: DollarSignIcon },
   { to: "/dashboard/billing", label: "Billing", icon: CreditCardIcon },
   { to: "/dashboard/contacts", label: "Contacts", icon: Users2Icon },
+  { to: "/dashboard/kafka",    label: "Kafka",    icon: BarChartIcon },
 ];
 
 const SidebarContent: React.FC<{ onLinkClick?: () => void }> = ({
