@@ -8,26 +8,26 @@ import {
 export const stats = [
   {
     title: "Total Sales",
-    value: "$45,231.89",
+    value: "$0",
     icon: DollarSignIcon,
-    change: "+20.1%",
+    change: "0%",
   },
   {
     title: "Active Listings",
-    value: "+2350",
+    value: "0",
     icon: ShoppingCartIcon,
-    change: "+180 since last week",
+    change: "+0 since last week",
   },
   {
     title: "New Contacts",
-    value: "+573",
+    value: "0",
     icon: Users2Icon,
-    change: "+3 since yesterday",
+    change: "0 since yesterday",
   },
   {
     title: "Pending Payouts",
-    value: "$1,982.40",
+    value: "$0",
     icon: CreditCardIcon,
-    change: "5 pending",
+    change: "0 pending",
   },
 ];
