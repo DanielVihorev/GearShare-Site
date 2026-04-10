@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { type Part } from "./PartsData";
 import { Button } from "../../components/ui/Button";
 import { PayPalCheckout } from "../payments/PayPalCheckout";
+import { PartChat } from "./PartChat";
 
 interface PartDetailSheetProps {
   part: Part | null;
@@ -15,11 +16,13 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
   const isVisible = part !== null;
   const [showPayPal, setShowPayPal] = useState(false);
   const [paid, setPaid] = useState<string | null>(null);
+  const [showChat, setShowChat] = useState(false);
 
-  // Reset payment state when part changes
+  // Reset payment/chat state when part changes
   React.useEffect(() => {
     setShowPayPal(false);
     setPaid(null);
+    setShowChat(false);
   }, [part?.id]);
 
   return (
@@ -85,6 +88,15 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
                 />
               </div>
             )}
+            <button
+              onClick={() => setShowChat(true)}
+              className='w-full mt-1 flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-white/20 text-white/80 hover:bg-white/10 transition-colors text-sm font-medium'
+            >
+              <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' />
+              </svg>
+              Chat with Seller
+            </button>
           </div>
         )}
       </div>
@@ -173,9 +185,27 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
                 />
               </div>
             )}
+            <button
+              onClick={() => setShowChat(true)}
+              className='w-full mt-2 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/20 text-white/80 hover:bg-white/10 transition-colors text-sm font-medium'
+            >
+              <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' />
+              </svg>
+              Chat with Seller
+            </button>
           </div>
         )}
       </div>
+
+      {/* Chat modal */}
+      {showChat && part && (
+        <PartChat
+          sellerName={part.seller}
+          partName={part.name}
+          onClose={() => setShowChat(false)}
+        />
+      )}
     </>
   );
 };
