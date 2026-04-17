@@ -1,39 +1,12 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env
-
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
 *$py.class
+
+# C extensions
 *.so
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -52,10 +25,16 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# PyInstaller
 *.manifest
 *.spec
+
+# Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+
+# Unit test / coverage reports
 htmlcov/
 .tox/
 .nox/
@@ -69,20 +48,55 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+
+# Translations
 *.mo
 *.pot
+
+# Django stuff:
+*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+
+# Flask stuff:
 instance/
 .webassets-cache
+
+# Scrapy stuff:
 .scrapy
+
+# Sphinx documentation
 docs/_build/
+
+# PyBuilder
 .pybuilder/
 target/
+
+# Jupyter Notebook
 .ipynb_checkpoints
+
+# IPython
 profile_default/
 ipython_config.py
+
+# pyenv
+# .python-version
+
+# pipenv
+#Pipfile.lock
+
+# poetry
+#poetry.lock
+#poetry.toml
+
+# pdm
+#pdm.lock
+#pdm.toml
+.pdm-python
+.pdm-build/
+
+# Environments
 .env
 .envrc
 .venv
@@ -91,6 +105,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Various project-specific settings
 .spyderproject
 .spyproject
 .ropeproject
@@ -100,8 +116,9 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
-.pdm-python
-.pdm-build/
 
-# Project-specific large files
-# scripts/make_cars_db/full_db.rar (now tracked with Git LFS)
+# IDE-specific
+#.idea/
+
+# Large files tracked with Git LFS
+# full_db.rar
