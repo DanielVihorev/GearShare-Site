@@ -1,20 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../components/ui/Button";
 import { HeartIcon, StarIcon, UsersIcon, CogIcon } from "../components/icons";
 
 export const DonationPage: React.FC = () => {
-  const [selectedAmount, setSelectedAmount] = useState<number>(10);
-  const [customAmount, setCustomAmount] = useState<string>("");
-
-  const presetAmounts = [5, 10, 25, 50, 100];
 
   const handleDonate = () => {
-    const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
-    if (amount && amount > 0) {
-      // PayPal donation URL - replace with your actual PayPal.me link
-      const paypalUrl = `https://www.paypal.com/donate/?hosted_button_id=YOUR_BUTTON_ID&amount=${amount}`;
-      window.open(paypalUrl, "_blank");
-    }
+    const paypalUrl = "https://www.paypal.com/ncp/links/88T8VR5ZABP5S";
+    window.open(paypalUrl, "_blank");
   };
 
   return (
@@ -80,62 +72,11 @@ export const DonationPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Donation Amount Selection */}
-            <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'>
-              <h2 className='text-2xl font-bold text-white mb-6 text-center'>
-                Choose Your Donation Amount
-              </h2>
-
-              {/* Preset Amounts */}
-              <div className='grid grid-cols-3 md:grid-cols-5 gap-3 mb-6'>
-                {presetAmounts.map((amount) => (
-                  <button
-                    key={amount}
-                    onClick={() => {
-                      setSelectedAmount(amount);
-                      setCustomAmount("");
-                    }}
-                    className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 ${
-                      selectedAmount === amount && !customAmount
-                        ? "border-blue-400 bg-blue-500/30 text-white shadow-lg"
-                        : "border-white/30 bg-white/10 text-white hover:border-white/50 hover:bg-white/20 hover:shadow-lg hover:shadow-blue-500/20"
-                    }`}
-                  >
-                    <span className='text-lg font-bold'>${amount}</span>
-                  </button>
-                ))}
-              </div>
-
-              {/* Custom Amount */}
-              <div className='mb-6'>
-                <label className='block text-white/90 mb-2 text-sm font-medium'>
-                  Or enter a custom amount
-                </label>
-                <div className='relative'>
-                  <span className='absolute left-4 top-1/2 -translate-y-1/2 text-white/70'>
-                    $
-                  </span>
-                  <input
-                    type='number'
-                    value={customAmount}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setSelectedAmount(0);
-                    }}
-                    placeholder='Enter amount'
-                    className='w-full bg-white/10 border border-white/30 rounded-xl pl-8 pr-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition-all duration-300 hover:border-white/50 hover:bg-white/20'
-                    min='1'
-                    step='1'
-                  />
-                </div>
-              </div>
-
               {/* Donate Button */}
               <Button
                 variant='primary'
                 onClick={handleDonate}
                 className='w-full py-4 text-lg font-semibold flex items-center justify-center transform hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20'
-                disabled={!selectedAmount && !customAmount}
               >
                 <HeartIcon className='w-5 h-5 mr-2 flex-shrink-0' />
                 Donate via PayPal
@@ -144,7 +85,6 @@ export const DonationPage: React.FC = () => {
               <p className='text-center text-white/70 text-sm mt-4'>
                 Secure payment processed by PayPal
               </p>
-            </div>
 
             {/* Thank You Message */}
             <div className='text-center mt-8 transform hover:scale-105 transition-all duration-300'>
