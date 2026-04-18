@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.0",
-    "@paypal/react-paypal-js": "^9.1.0",
+    "@paypal/react-paypal-js": "^9.1.1",
     "@types/leaflet": "^1.9.20",
     "axios": "^1.10.0",
     "firebase": "^12.0.0",
