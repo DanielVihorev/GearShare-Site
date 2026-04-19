@@ -1,159 +1,139 @@
 import React, { useState } from "react";
-import { Button } from "../components/ui/Button";
 import { HeartIcon, StarIcon, UsersIcon, CogIcon } from "../components/icons";
+import { PayPalCheckout } from "../features/payments/PayPalCheckout";
+
+const PRESETS = [10, 25, 50, 100];
 
 export const DonationPage: React.FC = () => {
-  const [selectedAmount, setSelectedAmount] = useState<number>(10);
-  const [customAmount, setCustomAmount] = useState<string>("");
+  const [amount, setAmount] = useState<number>(25);
+  const [custom, setCustom] = useState("");
+  const [paid, setPaid] = useState<string | null>(null);
+  const [showPayPal, setShowPayPal] = useState(false);
 
-  const presetAmounts = [5, 10, 25, 50, 100];
+  const finalAmount = custom ? parseFloat(custom) || 0 : amount;
 
-  const handleDonate = () => {
-    const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
-    if (amount && amount > 0) {
-      // PayPal donation URL - replace with your actual PayPal.me link
-      const paypalUrl = `https://www.paypal.com/donate/?hosted_button_id=YOUR_BUTTON_ID&amount=${amount}`;
-      window.open(paypalUrl, "_blank");
-    }
+  const handlePreset = (v: number) => {
+    setAmount(v);
+    setCustom("");
+    setShowPayPal(false);
+    setPaid(null);
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900'>
-      {/* Hero Section */}
-      <section className='py-20 relative overflow-hidden'>
-        <div className='container mx-auto px-6'>
-          <div className='text-center max-w-4xl mx-auto'>
-            <div className='flex justify-center mb-6'>
-              <div className='w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-all duration-300 hover:shadow-2xl hover:shadow-red-400/20'>
-                <HeartIcon className='w-10 h-10 text-red-400' />
-              </div>
-            </div>
-            <h1 className='text-5xl md:text-6xl font-extrabold leading-tight mb-6 text-white'>
-              Support GearShare
-            </h1>
-            <p className='text-xl text-white/90 mb-8 max-w-2xl mx-auto'>
-              Help us continue building the future of automotive parts
-              discovery. Your donation supports development, maintenance, and
-              new features.
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-blue-700 via-indigo-800 to-gray-900">
+      {/* Hero */}
+      <section className="py-20">
+        <div className="container mx-auto px-6 text-center max-w-4xl">
+          <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <HeartIcon className="w-10 h-10 text-red-400" />
           </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-6">Support GearShare</h1>
+          <p className="text-xl text-white/90 max-w-2xl mx-auto">
+            Help us continue building the future of automotive parts discovery in Israel.
+            Your donation supports development, infrastructure, and new features.
+          </p>
         </div>
       </section>
 
-      {/* Donation Options */}
-      <section className='py-16'>
-        <div className='container mx-auto px-6'>
-          <div className='max-w-2xl mx-auto'>
-            {/* What Your Donation Supports */}
-            <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 mb-8 shadow-xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'>
-              <h2 className='text-2xl font-bold text-white mb-6 text-center'>
-                What Your Donation Supports
-              </h2>
-              <div className='grid md:grid-cols-3 gap-6'>
-                <div className='text-center transform hover:scale-105 transition-all duration-300'>
-                  <div className='w-12 h-12 bg-blue-500/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg'>
-                    <CogIcon className='w-6 h-6 text-blue-300' />
+      {/* Main content */}
+      <section className="pb-20">
+        <div className="container mx-auto px-6 max-w-3xl space-y-6">
+          {/* What your donation supports */}
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8">
+            <h2 className="text-2xl font-bold text-white mb-6 text-center">What Your Donation Supports</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { icon: CogIcon,   color: "bg-blue-500/30",   iconColor: "text-blue-300",   label: "Development",  desc: "New features and improvements to make finding parts easier." },
+                { icon: StarIcon,  color: "bg-yellow-500/20", iconColor: "text-yellow-300", label: "Quality",      desc: "Maintaining high standards and reliable 24/7 service." },
+                { icon: UsersIcon, color: "bg-green-500/20",  iconColor: "text-green-300",  label: "Community",    desc: "Growing our network of Israeli automotive professionals." },
+              ].map(({ icon: Icon, color, iconColor, label, desc }) => (
+                <div key={label} className="text-center">
+                  <div className={`w-12 h-12 ${color} rounded-full flex items-center justify-center mx-auto mb-3`}>
+                    <Icon className={`w-6 h-6 ${iconColor}`} />
                   </div>
-                  <h3 className='font-semibold text-white mb-2'>Development</h3>
-                  <p className='text-sm text-white/80'>
-                    New features and improvements to make finding parts easier
-                  </p>
+                  <h3 className="font-semibold text-white mb-1">{label}</h3>
+                  <p className="text-sm text-white/70">{desc}</p>
                 </div>
-                <div className='text-center transform hover:scale-105 transition-all duration-300'>
-                  <div className='w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg'>
-                    <StarIcon className='w-6 h-6 text-yellow-300' />
-                  </div>
-                  <h3 className='font-semibold text-white mb-2'>Quality</h3>
-                  <p className='text-sm text-white/80'>
-                    Maintaining high standards and reliable service
-                  </p>
-                </div>
-                <div className='text-center transform hover:scale-105 transition-all duration-300'>
-                  <div className='w-12 h-12 bg-blue-400/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg'>
-                    <UsersIcon className='w-6 h-6 text-blue-200' />
-                  </div>
-                  <h3 className='font-semibold text-white mb-2'>Community</h3>
-                  <p className='text-sm text-white/80'>
-                    Growing our network of automotive professionals
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
+          </div>
 
-            {/* Donation Amount Selection */}
-            <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 hover:border-blue-400 hover:ring-2 hover:ring-blue-400'>
-              <h2 className='text-2xl font-bold text-white mb-6 text-center'>
-                Choose Your Donation Amount
-              </h2>
+          {/* Amount picker */}
+          {!paid ? (
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 space-y-6">
+              <h2 className="text-xl font-bold text-white text-center">Choose an Amount</h2>
 
-              {/* Preset Amounts */}
-              <div className='grid grid-cols-3 md:grid-cols-5 gap-3 mb-6'>
-                {presetAmounts.map((amount) => (
+              <div className="grid grid-cols-4 gap-3">
+                {PRESETS.map((v) => (
                   <button
-                    key={amount}
-                    onClick={() => {
-                      setSelectedAmount(amount);
-                      setCustomAmount("");
-                    }}
-                    className={`p-4 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 ${
-                      selectedAmount === amount && !customAmount
-                        ? "border-blue-400 bg-blue-500/30 text-white shadow-lg"
-                        : "border-white/30 bg-white/10 text-white hover:border-white/50 hover:bg-white/20 hover:shadow-lg hover:shadow-blue-500/20"
+                    key={v}
+                    onClick={() => handlePreset(v)}
+                    className={`py-3 rounded-xl font-bold text-lg transition-all ${
+                      amount === v && !custom
+                        ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
+                        : "bg-white/10 text-white/80 hover:bg-white/20"
                     }`}
                   >
-                    <span className='text-lg font-bold'>${amount}</span>
+                    ${v}
                   </button>
                 ))}
               </div>
 
-              {/* Custom Amount */}
-              <div className='mb-6'>
-                <label className='block text-white/90 mb-2 text-sm font-medium'>
-                  Or enter a custom amount
-                </label>
-                <div className='relative'>
-                  <span className='absolute left-4 top-1/2 -translate-y-1/2 text-white/70'>
-                    $
-                  </span>
-                  <input
-                    type='number'
-                    value={customAmount}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setSelectedAmount(0);
-                    }}
-                    placeholder='Enter amount'
-                    className='w-full bg-white/10 border border-white/30 rounded-xl pl-8 pr-4 py-3 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-400 focus:outline-none transition-all duration-300 hover:border-white/50 hover:bg-white/20'
-                    min='1'
-                    step='1'
-                  />
-                </div>
+              <div>
+                <label className="text-sm text-white/60 mb-1 block">Custom amount ($)</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={custom}
+                  onChange={(e) => { setCustom(e.target.value); setShowPayPal(false); setPaid(null); }}
+                  className="w-full bg-white/10 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
+                  placeholder="Enter amount…"
+                />
               </div>
 
-              {/* Donate Button */}
-              <Button
-                variant='primary'
-                onClick={handleDonate}
-                className='w-full py-4 text-lg font-semibold flex items-center justify-center transform hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20'
-                disabled={!selectedAmount && !customAmount}
+              {finalAmount >= 1 && (
+                <div className="text-center">
+                  <p className="text-white/70 mb-3">
+                    You're donating <span className="text-white font-bold text-xl">${finalAmount}</span>
+                  </p>
+                  {!showPayPal ? (
+                    <button
+                      onClick={() => setShowPayPal(true)}
+                      className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 text-lg transition-colors"
+                    >
+                      <HeartIcon className="w-5 h-5" />
+                      Donate via PayPal
+                    </button>
+                  ) : (
+                    <PayPalCheckout
+                      partId="donation"
+                      partName={`GearShare Donation $${finalAmount}`}
+                      amountUsd={finalAmount}
+                      onSuccess={(id) => { setPaid(id); setShowPayPal(false); }}
+                      onError={() => setShowPayPal(false)}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="bg-white/10 border border-white/20 rounded-2xl p-10 text-center">
+              <div className="text-6xl mb-4">❤️</div>
+              <h2 className="text-2xl font-bold text-white mb-2">Thank you for your support!</h2>
+              <p className="text-white/70 mb-1">Your donation of ${finalAmount} was received.</p>
+              <p className="text-white/40 text-sm mb-6">Reference: {paid}</p>
+              <button
+                onClick={() => { setPaid(null); setShowPayPal(false); setCustom(""); setAmount(25); }}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold"
               >
-                <HeartIcon className='w-5 h-5 mr-2 flex-shrink-0' />
-                Donate via PayPal
-              </Button>
-
-              <p className='text-center text-white/70 text-sm mt-4'>
-                Secure payment processed by PayPal
-              </p>
+                Donate again
+              </button>
             </div>
+          )}
 
-            {/* Thank You Message */}
-            <div className='text-center mt-8 transform hover:scale-105 transition-all duration-300'>
-              <p className='text-white/90'>
-                Thank you for supporting GearShare! Your contribution helps us
-                continue building amazing tools for the automotive community.
-              </p>
-            </div>
-          </div>
+          <p className="text-center text-white/40 text-sm">
+            Secure payment processed by PayPal. GearShare is an independent open project.
+          </p>
         </div>
       </section>
     </div>

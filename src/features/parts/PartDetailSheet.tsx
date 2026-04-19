@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { type Part } from "./PartsData";
 import { Button } from "../../components/ui/Button";
-import { StarIcon } from "../../components/icons";
+import { PayPalCheckout } from "../payments/PayPalCheckout";
 
 interface PartDetailSheetProps {
   part: Part | null;
@@ -13,6 +13,14 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
   onClose,
 }) => {
   const isVisible = part !== null;
+  const [showPayPal, setShowPayPal] = useState(false);
+  const [paid, setPaid] = useState<string | null>(null);
+
+  // Reset payment state when part changes
+  React.useEffect(() => {
+    setShowPayPal(false);
+    setPaid(null);
+  }, [part?.id]);
 
   return (
     <>
@@ -45,25 +53,38 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
                 <h2 className='text-lg font-bold text-white truncate'>
                   {part.name}
                 </h2>
-                <p className='text-xs text-white/60'>Part: 000-906-69-06-80</p>
+                <p className='text-xs text-white/60'>Part #: {part.partNumber}</p>
                 <div className='flex items-center gap-2 text-xs text-white/80 mt-1'>
-                  <div className='flex items-center gap-1'>
-                    <StarIcon className='w-3 h-3 text-yellow-400' />
-                    <span>4.8 (500)</span>
-                  </div>
+                  <span>{part.brand}</span>
                   <span>•</span>
-                  <span>{part.distance.toFixed(1)} miles</span>
+                  <span>{part.distance.toFixed(1)} km away</span>
                 </div>
               </div>
             </div>
             <div className='flex items-center justify-between'>
               <span className='text-2xl font-extrabold text-white'>
-                ${part.price}
+                ₪{part.price}
               </span>
-              <Button variant='primary' className='px-4 py-2 text-sm'>
-                Purchase
-              </Button>
+              {!showPayPal && !paid && (
+                <Button variant='primary' className='px-4 py-2 text-sm' onClick={() => setShowPayPal(true)}>
+                  Purchase
+                </Button>
+              )}
             </div>
+            {paid && (
+              <p className='text-green-400 text-sm font-semibold text-center'>Payment complete! Ref: {paid}</p>
+            )}
+            {showPayPal && !paid && (
+              <div className='mt-2'>
+                <PayPalCheckout
+                  partId={part.id}
+                  partName={part.name}
+                  priceIls={part.price}
+                  onSuccess={(id) => { setPaid(id); setShowPayPal(false); }}
+                  onError={() => setShowPayPal(false)}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -113,28 +134,45 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
             {/* Part details */}
             <div className='space-y-2 mb-4'>
               <p className='text-sm text-white/60'>
-                Part Number: 000-906-69-06-80
+                Part #: {part.partNumber}
               </p>
               <div className='flex items-center gap-3 text-sm text-white/80'>
-                <div className='flex items-center gap-1'>
-                  <StarIcon className='w-4 h-4 text-yellow-400' />
-                  <span>4.8 (500 reviews)</span>
-                </div>
+                <span>{part.brand}</span>
                 <span>•</span>
-                <span>{part.distance.toFixed(1)} miles</span>
+                <span className='capitalize'>{part.condition}</span>
+                <span>•</span>
+                <span>{part.distance.toFixed(1)} km away</span>
               </div>
-              <p className='text-sm text-white/70'>{part.description}</p>
+              <p className='text-sm text-white/70'>Seller: {part.seller}</p>
             </div>
 
             {/* Price and action */}
             <div className='flex items-center justify-between'>
               <span className='text-2xl font-extrabold text-white'>
-                ${part.price}
+                ₪{part.price}
               </span>
-              <Button variant='primary' className='px-6 py-2'>
-                Purchase Now
-              </Button>
+              {!showPayPal && !paid && (
+                <Button variant='primary' className='px-6 py-2' onClick={() => setShowPayPal(true)}>
+                  Purchase Now
+                </Button>
+              )}
             </div>
+            {paid && (
+              <p className='text-green-400 text-sm font-semibold text-center mt-2'>
+                Payment complete! Ref: {paid}
+              </p>
+            )}
+            {showPayPal && !paid && (
+              <div className='mt-3'>
+                <PayPalCheckout
+                  partId={part.id}
+                  partName={part.name}
+                  priceIls={part.price}
+                  onSuccess={(id) => { setPaid(id); setShowPayPal(false); }}
+                  onError={() => setShowPayPal(false)}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

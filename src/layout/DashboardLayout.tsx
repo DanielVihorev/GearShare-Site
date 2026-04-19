@@ -8,13 +8,18 @@ import {
   DollarSignIcon,
   CreditCardIcon,
   Users2Icon,
+  TruckIcon,
   ArrowLeftIcon,
   MenuIcon,
   XIcon,
+  DownloadIcon,
 } from "../components/icons";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 
 const navLinks = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
+  { to: "/dashboard/vehicles", label: "My Vehicles", icon: TruckIcon },
   { to: "/dashboard/orders", label: "Orders", icon: ShoppingCartIcon },
   { to: "/dashboard/sales", label: "Sales", icon: DollarSignIcon },
   { to: "/dashboard/billing", label: "Billing", icon: CreditCardIcon },
@@ -49,7 +54,15 @@ const SidebarContent: React.FC<{ onLinkClick?: () => void }> = ({
           ))}
         </nav>
       </div>
-      <div className='mt-auto p-4 border-t border-gray-200'>
+      <div className='mt-auto p-4 border-t border-gray-200 space-y-1'>
+        <a
+          href={`${API_BASE}/api/parts/export.csv`}
+          download
+          className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-green-50 hover:text-green-700 text-sm font-medium'
+        >
+          <DownloadIcon className='h-4 w-4' />
+          Export Parts CSV
+        </a>
         <Link
           to='/'
           className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all hover:bg-blue-50 hover:text-blue-700'

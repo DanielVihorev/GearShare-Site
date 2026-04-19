@@ -2,11 +2,66 @@ import React, { useState } from "react";
 import { pricingPlans, type Plan } from "../features/pricing/pricingData";
 import { CheckIcon } from "../components/icons";
 import { Button } from "../components/ui/Button";
+import { PayPalCheckout } from "../features/payments/PayPalCheckout";
 
-const PricingCard: React.FC<{ plan: Plan; isAnnual: boolean }> = ({
-  plan,
-  isAnnual,
+interface SelectedPlan {
+  plan: Plan;
+  price: number;
+  cycle: string;
+}
+
+const CheckoutModal: React.FC<{ selected: SelectedPlan; onClose: () => void }> = ({
+  selected,
+  onClose,
 }) => {
+  const [paid, setPaid] = useState<string | null>(null);
+
+  return (
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4'>
+      <div className='bg-[#1a1f5e] border border-white/20 rounded-2xl p-8 w-full max-w-md shadow-2xl'>
+        <div className='flex justify-between items-start mb-6'>
+          <div>
+            <h2 className='text-2xl font-bold text-white'>{selected.plan.name}</h2>
+            <p className='text-white/60 mt-1'>
+              ${selected.price}{selected.cycle} — complete your payment below
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className='text-white/40 hover:text-white text-2xl leading-none'
+          >
+            ×
+          </button>
+        </div>
+
+        {paid ? (
+          <div className='text-center py-6'>
+            <div className='text-5xl mb-4'>✓</div>
+            <p className='text-green-400 text-lg font-semibold'>Payment successful!</p>
+            <p className='text-white/60 text-sm mt-2'>Reference: {paid}</p>
+            <Button variant='primary' className='mt-6 w-full justify-center' onClick={onClose}>
+              Done
+            </Button>
+          </div>
+        ) : (
+          <PayPalCheckout
+            partId={`plan-${selected.plan.name.toLowerCase()}`}
+            partName={`GearShare ${selected.plan.name} Plan (${selected.cycle.replace("/", "")})`}
+            amountUsd={selected.price}
+            onSuccess={(id) => setPaid(id)}
+            onError={() => onClose()}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const PricingCard: React.FC<{
+  plan: Plan;
+  isAnnual: boolean;
+  onSelect: (plan: Plan, price: number, cycle: string) => void;
+}> = ({ plan, isAnnual, onSelect }) => {
   const billingCycle = isAnnual ? "/year" : "/month";
   const fullPrice = isAnnual ? plan.price.annually : plan.price.monthly;
 
@@ -49,6 +104,7 @@ const PricingCard: React.FC<{ plan: Plan; isAnnual: boolean }> = ({
       <Button
         variant={plan.isFeatured ? "primary" : "secondary"}
         className='w-full mt-auto justify-center hover:transform hover:scale-105 transition-transform duration-200'
+        onClick={() => onSelect(plan, fullPrice, billingCycle)}
       >
         Choose Plan
       </Button>
@@ -58,6 +114,7 @@ const PricingCard: React.FC<{ plan: Plan; isAnnual: boolean }> = ({
 
 export const PricingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
+  const [selected, setSelected] = useState<SelectedPlan | null>(null);
 
   return (
     <div className='container mx-auto px-6 py-12'>
@@ -102,9 +159,18 @@ export const PricingPage: React.FC = () => {
 
       <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto'>
         {pricingPlans.map((plan) => (
-          <PricingCard key={plan.name} plan={plan} isAnnual={isAnnual} />
+          <PricingCard
+            key={plan.name}
+            plan={plan}
+            isAnnual={isAnnual}
+            onSelect={(p, price, cycle) => setSelected({ plan: p, price, cycle })}
+          />
         ))}
       </div>
+
+      {selected && (
+        <CheckoutModal selected={selected} onClose={() => setSelected(null)} />
+      )}
     </div>
   );
 };

@@ -10,13 +10,63 @@ import {
   AlertCircleIcon,
   CheckIcon,
 } from "../../components/icons";
-import { auth } from "../../lib/firebaseAuth"; // Import our initialized auth service
+import { auth } from "../../lib/firebaseAuth";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
   type AuthError,
 } from "firebase/auth";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
+
+async function syncWithBackend(
+  isLogin: boolean,
+  data: { email: string; password: string; firstName?: string; lastName?: string }
+) {
+  try {
+    if (isLogin) {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email, password: data.password }),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.accessToken) localStorage.setItem("gs_token", json.accessToken);
+      }
+    } else {
+      const username =
+        `${data.firstName ?? ""}${data.lastName ?? ""}`.toLowerCase().replace(/[^a-z0-9]/g, "") +
+        Date.now().toString().slice(-4);
+      await fetch(`${API_BASE}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+          confirmPassword: data.password,
+          firstName: data.firstName ?? "",
+          lastName: data.lastName ?? "",
+          username,
+        }),
+      });
+      // Log in immediately after register to get token
+      const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email, password: data.password }),
+      });
+      if (loginRes.ok) {
+        const json = await loginRes.json();
+        if (json.accessToken) localStorage.setItem("gs_token", json.accessToken);
+      }
+    }
+  } catch (err) {
+    // Backend sync is best-effort — Firebase is source of truth
+    console.error('[GearShare] Backend sync failed:', err);
+  }
+}
 
 // Define a type for our form data for better type safety
 type FormData = {
@@ -73,7 +123,7 @@ export const AuthForm: React.FC = () => {
         break;
       case "password":
         if (!value) return "Password is required";
-        if (value.length < 8) return "Password must be at least 8 characters";
+        if (value.length < 6) return "Password must be at least 6 characters";
         break;
       case "firstName":
         if (!isLogin && !value) return "First name is required";
@@ -131,13 +181,10 @@ export const AuthForm: React.FC = () => {
     try {
       if (isLogin) {
         // Firebase Sign In Logic
-        await signInWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
+        await signInWithEmailAndPassword(auth, formData.email, formData.password);
+        await syncWithBackend(true, { email: formData.email, password: formData.password });
         showNotification("Login successful!", "success");
-        setTimeout(() => navigate("/dashboard"), 1500); // Redirect to dashboard on success
+        setTimeout(() => navigate("/dashboard"), 1500);
       } else {
         // Firebase Sign Up Logic
         const userCredential = await createUserWithEmailAndPassword(
@@ -149,11 +196,18 @@ export const AuthForm: React.FC = () => {
         await updateProfile(userCredential.user, {
           displayName: `${formData.firstName} ${formData.lastName}`,
         });
+        await syncWithBackend(false, {
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+        });
         showNotification("Account created successfully!", "success");
-        setTimeout(() => navigate("/dashboard"), 1500); // Redirect to dashboard on success
+        setTimeout(() => navigate("/dashboard"), 1500);
       }
     } catch (error) {
       const authError = error as AuthError;
+      console.error('[GearShare] Firebase auth error:', authError.code, authError.message);
       let message = "An unknown error occurred.";
       switch (authError.code) {
         case "auth/user-not-found":
@@ -161,13 +215,27 @@ export const AuthForm: React.FC = () => {
         case "auth/invalid-credential":
         case "auth/invalid-email":
           message = "Invalid email or password.";
-          // ADD THIS PART:
-          setErrors({
-            email: "Invalid email or password.",
-            password: " ", // Add a space to trigger the error state without a message
-          });
+          setErrors({ email: "Invalid email or password.", password: " " });
           break;
-        // ... other cases
+        case "auth/email-already-in-use":
+          message = "An account with this email already exists. Please sign in.";
+          setErrors({ email: "Email already registered." });
+          break;
+        case "auth/weak-password":
+          message = "Password must be at least 6 characters.";
+          setErrors({ password: "Password must be at least 6 characters." });
+          break;
+        case "auth/too-many-requests":
+          message = "Too many attempts. Please wait a few minutes and try again.";
+          break;
+        case "auth/network-request-failed":
+          message = "Network error. Check your connection and try again.";
+          break;
+        case "auth/unauthorized-domain":
+          message = "This domain is not authorized. Please contact support.";
+          break;
+        default:
+          message = authError.message || "An unknown error occurred.";
       }
       showNotification(message, "error");
     } finally {
