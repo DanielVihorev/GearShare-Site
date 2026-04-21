@@ -5,6 +5,7 @@ import { SearchIcon } from "../components/icons";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import { PartDetailSheet } from "../features/parts/PartDetailSheet";
+import { RecentlyViewedSidebar, recordRecentlyViewed } from "../features/parts/RecentlyViewedSidebar";
 
 interface CatalogSuggestion {
   id: string;
@@ -106,9 +107,11 @@ export const MapPage: React.FC = () => {
     if (userLocation) loadParts(userLocation, q);
   };
 
+  const [showListView, setShowListView] = useState(false);
+
   const createPriceMarkerIcon = (price: number, isSelected: boolean) =>
     L.divIcon({
-      html: `<div class="flex items-center justify-center font-bold text-sm rounded-full shadow-lg h-8 px-3 ${
+      html: `<div role="button" aria-label="Part priced at ₪${price}" class="flex items-center justify-center font-bold text-sm rounded-full shadow-lg h-8 px-3 ${
         isSelected ? "bg-blue-600 text-white" : "bg-white text-blue-600"
       }">₪${price}</div>`,
       className: "",
@@ -152,6 +155,7 @@ export const MapPage: React.FC = () => {
             onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
             onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
             placeholder="Search part name, number or brand…"
+            aria-label="Search parts by name, number, or brand"
             className="text-blue-600 w-full bg-white/95 backdrop-blur-md border border-gray-300 rounded-xl pl-11 pr-4 py-3 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none transition shadow-lg"
           />
           {isLoadingParts && (
@@ -206,10 +210,71 @@ export const MapPage: React.FC = () => {
             key={part.id}
             position={part.coords}
             icon={createPriceMarkerIcon(part.price, selectedPart?.id === part.id)}
-            eventHandlers={{ click: () => setSelectedPart(part) }}
+            eventHandlers={{ click: () => { setSelectedPart(part); recordRecentlyViewed(part); } }}
           />
         ))}
       </MapContainer>
+
+      {/* List view toggle */}
+      <button
+        onClick={() => setShowListView((v) => !v)}
+        className="absolute bottom-20 right-4 z-20 w-10 h-10 bg-white/90 backdrop-blur-md border border-white/30 rounded-lg shadow-lg flex items-center justify-center text-blue-600 hover:bg-white transition-colors"
+        aria-label={showListView ? "Switch to map view" : "Switch to list view"}
+        title={showListView ? "Map view" : "List view"}
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {showListView ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+          )}
+        </svg>
+      </button>
+
+      {/* Accessible list view */}
+      {showListView && (
+        <div
+          role="region"
+          aria-label="Parts list"
+          className="absolute inset-x-0 bottom-0 top-0 z-30 bg-white overflow-y-auto"
+        >
+          <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shadow-sm">
+            <h2 className="text-lg font-bold text-gray-900">
+              {parts.length} part{parts.length !== 1 ? "s" : ""} nearby
+            </h2>
+            <button
+              onClick={() => setShowListView(false)}
+              className="text-sm text-blue-600 font-medium"
+              aria-label="Close list view"
+            >
+              Back to map
+            </button>
+          </div>
+          {parts.length === 0 ? (
+            <p className="text-center text-gray-400 py-12">No parts found in this area.</p>
+          ) : (
+            <ul className="divide-y divide-gray-100">
+              {parts.map((part) => (
+                <li key={part.id}>
+                  <button
+                    className="w-full flex items-center gap-4 px-4 py-4 hover:bg-blue-50 text-left transition-colors"
+                    onClick={() => { setSelectedPart(part); recordRecentlyViewed(part); setShowListView(false); }}
+                    aria-label={`${part.name} by ${part.seller}, ₪${part.price}, ${part.distance.toFixed(1)} km away`}
+                  >
+                    <img src={part.image} alt={part.name} className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-900 truncate">{part.name}</p>
+                      <p className="text-xs text-gray-500">{part.brand} · {part.condition} · {part.distance.toFixed(1)} km</p>
+                      <p className="text-xs text-gray-500">Seller: {part.seller}</p>
+                    </div>
+                    <span className="text-lg font-bold text-blue-600 shrink-0">₪{part.price}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       {/* Zoom controls */}
       <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
@@ -242,6 +307,9 @@ export const MapPage: React.FC = () => {
           </svg>
         </button>
       </div>
+
+      {/* Recently viewed sidebar */}
+      <RecentlyViewedSidebar onSelect={(p) => { setSelectedPart(p); if (mapRef.current) mapRef.current.setView(p.coords, 15); }} />
 
       {/* Part detail panel */}
       <PartDetailSheet part={selectedPart} onClose={() => setSelectedPart(null)} />

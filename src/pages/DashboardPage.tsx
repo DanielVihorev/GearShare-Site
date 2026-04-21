@@ -4,14 +4,7 @@ import { AddPartForm } from "../features/parts/AddPartForm";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
 
-const recentActivity = [
-  { id: 1, type: "sale",    text: "Brake pads sold to Lior K.",        time: "2 min ago",  dot: "bg-green-500" },
-  { id: 2, type: "listing", text: "New part listed: Alternator 12V",   time: "18 min ago", dot: "bg-blue-500"  },
-  { id: 3, type: "sale",    text: "Headlight assembly sold to Guy M.", time: "1 hr ago",   dot: "bg-green-500" },
-  { id: 4, type: "inquiry", text: "New inquiry on Timing Belt",        time: "3 hr ago",   dot: "bg-yellow-500"},
-  { id: 5, type: "listing", text: "Part delisted: Shock Absorber",     time: "5 hr ago",   dot: "bg-gray-400"  },
-  { id: 6, type: "sale",    text: "Oil Filter (x3) sold to Noa S.",    time: "Yesterday",  dot: "bg-green-500" },
-];
+const recentActivity: Array<{ id: number; type: string; text: string; time: string; dot: string }> = [];
 
 const StatCard: React.FC<{
   title: string;
@@ -84,17 +77,21 @@ export const DashboardPage: React.FC = () => {
         {/* Recent activity */}
         <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl shadow-sm p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h2>
-          <ul className="space-y-4">
-            {recentActivity.map((a) => (
-              <li key={a.id} className="flex items-start gap-3">
-                <span className={`mt-1.5 w-2.5 h-2.5 rounded-full shrink-0 ${a.dot}`} />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-800">{a.text}</p>
-                </div>
-                <span className="text-xs text-gray-400 shrink-0">{a.time}</span>
-              </li>
-            ))}
-          </ul>
+          {recentActivity.length === 0 ? (
+            <p className="text-sm text-gray-400 text-center py-6">No recent activity yet.</p>
+          ) : (
+            <ul className="space-y-4">
+              {recentActivity.map((a) => (
+                <li key={a.id} className="flex items-start gap-3">
+                  <span className={`mt-1.5 w-2.5 h-2.5 rounded-full shrink-0 ${a.dot}`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-gray-800">{a.text}</p>
+                  </div>
+                  <span className="text-xs text-gray-400 shrink-0">{a.time}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Quick actions */}
