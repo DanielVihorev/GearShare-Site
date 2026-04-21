@@ -21,6 +21,7 @@ import { SalesPage } from "./pages/SalesPage";
 import { BillingPage } from "./pages/BillingPage";
 import { ContactsPage } from "./pages/ContactsPage";
 import { VehiclesPage } from "./pages/VehiclesPage";
+import { KafkaDashboardPage } from "./pages/KafkaDashboardPage";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
           { path: "billing", element: <BillingPage /> },
           { path: "contacts", element: <ContactsPage /> },
           { path: "vehicles", element: <VehiclesPage /> },
+          { path: "kafka", element: <KafkaDashboardPage /> },
         ],
       },
     ],

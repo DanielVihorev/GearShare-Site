@@ -2,14 +2,7 @@ import React, { useState } from "react";
 import { PayPalCheckout } from "../features/payments/PayPalCheckout";
 import { apiBase } from "../lib/api";
 
-const invoices = [
-  { id: "INV-2026-012", date: "Apr 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2026-011", date: "Mar 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2026-010", date: "Feb 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2026-009", date: "Jan 1, 2026",  plan: "Professional",  amount: 25,  status: "Paid" },
-  { id: "INV-2025-008", date: "Dec 1, 2025",  plan: "Hobbyist",      amount: 8,   status: "Paid" },
-  { id: "INV-2025-007", date: "Nov 1, 2025",  plan: "Hobbyist",      amount: 8,   status: "Paid" },
-];
+const invoices: Array<{ id: string; date: string; plan: string; amount: number; status: string }> = [];
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => (
   <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
@@ -106,49 +99,55 @@ export const BillingPage: React.FC = () => {
           <h2 className="text-lg font-semibold text-gray-800">Invoice History</h2>
         </div>
 
-        {/* Mobile */}
-        <div className="md:hidden divide-y divide-gray-100">
-          {invoices.map((inv) => (
-            <div key={inv.id} className="p-4 space-y-1">
-              <div className="flex justify-between">
-                <span className="font-medium text-gray-900">{inv.id}</span>
-                <StatusBadge status={inv.status} />
-              </div>
-              <p className="text-sm text-gray-500">{inv.date} · {inv.plan} · ${inv.amount}</p>
-              <a href={`${apiBase}/api/parts/export.csv`} className="text-xs text-blue-600 hover:underline">Download</a>
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-sm text-left text-gray-700">
-            <thead className="text-xs text-gray-500 uppercase bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-6 py-3">Invoice</th>
-                <th className="px-6 py-3">Date</th>
-                <th className="px-6 py-3">Plan</th>
-                <th className="px-6 py-3">Amount</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3"></th>
-              </tr>
-            </thead>
-            <tbody>
+        {invoices.length === 0 ? (
+          <p className="text-sm text-gray-400 text-center py-8">No invoices yet.</p>
+        ) : (
+          <>
+            {/* Mobile */}
+            <div className="md:hidden divide-y divide-gray-100">
               {invoices.map((inv) => (
-                <tr key={inv.id} className="border-b border-gray-100 hover:bg-gray-50">
-                  <td className="px-6 py-4 font-medium text-gray-900">{inv.id}</td>
-                  <td className="px-6 py-4">{inv.date}</td>
-                  <td className="px-6 py-4">{inv.plan}</td>
-                  <td className="px-6 py-4">${inv.amount}.00</td>
-                  <td className="px-6 py-4"><StatusBadge status={inv.status} /></td>
-                  <td className="px-6 py-4">
-                    <button className="text-blue-600 hover:underline text-xs">Download PDF</button>
-                  </td>
-                </tr>
+                <div key={inv.id} className="p-4 space-y-1">
+                  <div className="flex justify-between">
+                    <span className="font-medium text-gray-900">{inv.id}</span>
+                    <StatusBadge status={inv.status} />
+                  </div>
+                  <p className="text-sm text-gray-500">{inv.date} · {inv.plan} · ${inv.amount}</p>
+                  <a href={`${apiBase}/api/parts/export.csv`} className="text-xs text-blue-600 hover:underline">Download</a>
+                </div>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </div>
+
+            {/* Desktop */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-sm text-left text-gray-700">
+                <thead className="text-xs text-gray-500 uppercase bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="px-6 py-3">Invoice</th>
+                    <th className="px-6 py-3">Date</th>
+                    <th className="px-6 py-3">Plan</th>
+                    <th className="px-6 py-3">Amount</th>
+                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invoices.map((inv) => (
+                    <tr key={inv.id} className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="px-6 py-4 font-medium text-gray-900">{inv.id}</td>
+                      <td className="px-6 py-4">{inv.date}</td>
+                      <td className="px-6 py-4">{inv.plan}</td>
+                      <td className="px-6 py-4">${inv.amount}.00</td>
+                      <td className="px-6 py-4"><StatusBadge status={inv.status} /></td>
+                      <td className="px-6 py-4">
+                        <button className="text-blue-600 hover:underline text-xs">Download PDF</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Payment method */}

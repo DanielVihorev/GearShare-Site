@@ -11,29 +11,9 @@ import {
   Bar,
 } from "recharts";
 
-const monthlyRevenue = [
-  { month: "Jan", revenue: 4200, orders: 34 },
-  { month: "Feb", revenue: 5800, orders: 47 },
-  { month: "Mar", revenue: 7100, orders: 58 },
-  { month: "Apr", revenue: 6400, orders: 51 },
-  { month: "May", revenue: 9300, orders: 75 },
-  { month: "Jun", revenue: 8700, orders: 69 },
-  { month: "Jul", revenue: 11200, orders: 90 },
-  { month: "Aug", revenue: 10500, orders: 84 },
-  { month: "Sep", revenue: 12800, orders: 102 },
-  { month: "Oct", revenue: 13400, orders: 107 },
-  { month: "Nov", revenue: 15100, orders: 121 },
-  { month: "Dec", revenue: 17600, orders: 141 },
-];
+const monthlyRevenue: Array<{ month: string; revenue: number; orders: number }> = [];
 
-const topParts = [
-  { name: "Brake Pads", sold: 312, revenue: 9360 },
-  { name: "Alternators", sold: 187, revenue: 22440 },
-  { name: "Shock Absorbers", sold: 245, revenue: 12250 },
-  { name: "Oil Filters", sold: 598, revenue: 5980 },
-  { name: "Headlights", sold: 163, revenue: 8150 },
-  { name: "Timing Belts", sold: 94, revenue: 7520 },
-];
+const topParts: Array<{ name: string; sold: number; revenue: number }> = [];
 
 const StatCard: React.FC<{
   label: string;
@@ -75,10 +55,10 @@ export const SalesPage: React.FC = () => {
 
       {/* KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total Revenue" value="₪121,600" sub="+28% vs last year" color="text-blue-600" />
-        <StatCard label="Orders" value="879" sub="Avg 73 / month" color="text-green-600" />
-        <StatCard label="Avg Order Value" value="₪138" sub="+12% vs last year" color="text-indigo-600" />
-        <StatCard label="Active Listings" value="149" sub="5 added this week" color="text-orange-500" />
+        <StatCard label="Total Revenue" value="₪0" sub="No sales yet" color="text-blue-600" />
+        <StatCard label="Orders" value="0" sub="No orders yet" color="text-green-600" />
+        <StatCard label="Avg Order Value" value="₪0" sub="No data" color="text-indigo-600" />
+        <StatCard label="Active Listings" value="0" sub="List your first part" color="text-orange-500" />
       </div>
 
       {/* Revenue chart */}
@@ -118,9 +98,13 @@ export const SalesPage: React.FC = () => {
 
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Top Selling Parts</h2>
+          {topParts.length === 0 ? (
+            <p className="text-sm text-gray-400 text-center py-8">No sales data yet.</p>
+          ) : (
           <div className="space-y-3">
             {topParts.map((p, i) => {
-              const pct = Math.round((p.sold / 598) * 100);
+              const maxSold = Math.max(...topParts.map((x) => x.sold), 1);
+              const pct = Math.round((p.sold / maxSold) * 100);
               return (
                 <div key={p.name}>
                   <div className="flex justify-between text-sm mb-1">
@@ -140,6 +124,7 @@ export const SalesPage: React.FC = () => {
               );
             })}
           </div>
+          )}
         </div>
       </div>
     </div>
