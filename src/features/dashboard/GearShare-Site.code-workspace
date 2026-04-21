@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "GearShare-Site",
+			"path": "../../.."
+		},
+		{
+			"name": "kafka",
+			"path": "../../../../../../Downloads/kafka"
+		}
+	],
+	"settings": {}
+}
