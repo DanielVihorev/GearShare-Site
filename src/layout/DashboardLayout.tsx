@@ -13,6 +13,7 @@ import {
   MenuIcon,
   XIcon,
   DownloadIcon,
+  ZapIcon,
 } from "../components/icons";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "";
@@ -23,7 +24,8 @@ const navLinks = [
   { to: "/dashboard/orders", label: "Orders", icon: ShoppingCartIcon },
   { to: "/dashboard/sales", label: "Sales", icon: DollarSignIcon },
   { to: "/dashboard/billing", label: "Billing", icon: CreditCardIcon },
-  { to: "/dashboard/contacts", label: "Contacts", icon: Users2Icon },
+  { to: "/dashboard/contacts", label: "Contacts",       icon: Users2Icon },
+  { to: "/dashboard/kafka",    label: "Kafka Monitor",  icon: ZapIcon    },
 ];
 
 const SidebarContent: React.FC<{ onLinkClick?: () => void }> = ({

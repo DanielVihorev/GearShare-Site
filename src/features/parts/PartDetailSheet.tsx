@@ -1,7 +1,96 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { type Part } from "./PartsData";
 import { Button } from "../../components/ui/Button";
 import { PayPalCheckout } from "../payments/PayPalCheckout";
+
+interface ChatMessage {
+  id: number;
+  from: "buyer" | "seller";
+  text: string;
+}
+
+const SellerChatModal: React.FC<{ part: Part; onClose: () => void }> = ({ part, onClose }) => {
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    { id: 1, from: "seller", text: `Hi! I'm selling the ${part.name}. How can I help you?` },
+  ]);
+  const [input, setInput] = useState("");
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const send = () => {
+    const text = input.trim();
+    if (!text) return;
+    setMessages((prev) => [...prev, { id: Date.now(), from: "buyer", text }]);
+    setInput("");
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now() + 1, from: "seller", text: "Thanks for your message! I'll get back to you shortly." },
+      ]);
+    }, 800);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50" onClick={onClose}>
+      <div
+        className="w-full sm:w-96 bg-gray-900 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[80vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+          <div>
+            <p className="text-sm font-bold text-white">{part.seller}</p>
+            <p className="text-xs text-white/50">{part.name}</p>
+          </div>
+          <button onClick={onClose} className="text-white/60 hover:text-white" aria-label="Close chat">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {messages.map((m) => (
+            <div key={m.id} className={`flex ${m.from === "buyer" ? "justify-end" : "justify-start"}`}>
+              <span
+                className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm ${
+                  m.from === "buyer" ? "bg-blue-600 text-white rounded-br-sm" : "bg-gray-700 text-white/90 rounded-bl-sm"
+                }`}
+              >
+                {m.text}
+              </span>
+            </div>
+          ))}
+          <div ref={bottomRef} />
+        </div>
+
+        {/* Input */}
+        <div className="flex items-center gap-2 px-4 py-3 border-t border-white/10">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && send()}
+            placeholder="Type a message…"
+            className="flex-1 bg-gray-800 text-white text-sm rounded-xl px-3 py-2 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Chat message"
+          />
+          <button
+            onClick={send}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-xl text-sm font-semibold transition-colors"
+            aria-label="Send message"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 interface PartDetailSheetProps {
   part: Part | null;
@@ -15,11 +104,12 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
   const isVisible = part !== null;
   const [showPayPal, setShowPayPal] = useState(false);
   const [paid, setPaid] = useState<string | null>(null);
+  const [showChat, setShowChat] = useState(false);
 
-  // Reset payment state when part changes
-  React.useEffect(() => {
+  useEffect(() => {
     setShowPayPal(false);
     setPaid(null);
+    setShowChat(false);
   }, [part?.id]);
 
   return (
@@ -71,6 +161,14 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
                 </Button>
               )}
             </div>
+            {!showPayPal && !paid && (
+              <button
+                onClick={() => setShowChat(true)}
+                className='w-full py-2 text-sm font-semibold bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors'
+              >
+                Chat with Seller
+              </button>
+            )}
             {paid && (
               <p className='text-green-400 text-sm font-semibold text-center'>Payment complete! Ref: {paid}</p>
             )}
@@ -157,6 +255,14 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
                 </Button>
               )}
             </div>
+            {!showPayPal && !paid && (
+              <button
+                onClick={() => setShowChat(true)}
+                className='mt-2 w-full py-2 text-sm font-semibold bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors'
+              >
+                Chat with Seller
+              </button>
+            )}
             {paid && (
               <p className='text-green-400 text-sm font-semibold text-center mt-2'>
                 Payment complete! Ref: {paid}
@@ -176,6 +282,11 @@ export const PartDetailSheet: React.FC<PartDetailSheetProps> = ({
           </div>
         )}
       </div>
+
+      {/* Chat modal */}
+      {showChat && part && (
+        <SellerChatModal part={part} onClose={() => setShowChat(false)} />
+      )}
     </>
   );
 };
