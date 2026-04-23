@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Dropdown</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 16px 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-profile {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .user-name:hover {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .user-text {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .chevron {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .user-name:hover .chevron {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .user-profile:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-header {
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .dropdown-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dropdown-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .dropdown-user-details h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .dropdown-user-details p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 8px 0;
+        }
+
+        .dropdown-menu li {
+            margin: 0;
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(102, 126, 234, 0.08);
+            border-left-color: #667eea;
+            color: #667eea;
+        }
+
+        .dropdown-menu .icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .dropdown-menu a:hover .icon {
+            opacity: 1;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.06);
+            margin: 8px 0;
+        }
+
+        .logout-item a {
+            color: #dc3545;
+        }
+
+        .logout-item a:hover {
+            background: rgba(220, 53, 69, 0.08);
+            border-left-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .demo-content {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+        }
+
+        .demo-content h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-content p {
+            font-size: 16px;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Dashboard</div>
+        
+        <div class="user-profile">
+            <div class="user-name">
+                <div class="user-avatar">JD</div>
+                <span class="user-text">John Doe</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            
+            <div class="dropdown-menu">
+                <div class="dropdown-header">
+                    <div class="dropdown-user-info">
+                        <div class="dropdown-avatar">JD</div>
+                        <div class="dropdown-user-details">
+                            <h3>John Doe</h3>
+                            <p>john.doe@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul>
+                    <li>
+                        <a href="#profile">
+                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                            </svg>
+                            My Account
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings">
+                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                            </svg>
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#billing">
+                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                                <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd" />
+                            </svg>
+                            Billing & Plans
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#notifications">
+                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                            </svg>
+                            Notifications
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#privacy">
+                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            Privacy & Security
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#help">
+                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                            </svg>
+                            Help & Support
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="dropdown-divider"></div>
+                
+                <ul>
+                    <li class="logout-item">
+                        <a href="#logout">
+                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd" />
+                            </svg>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="demo-content">
+        <h2>Hover Over the User Profile</h2>
+        <p>Move your mouse over "John Doe" in the navigation bar to see the dropdown menu in action.</p>
+    </div>
+
+    <script>
+        // Add click functionality for demonstration
+        document.querySelectorAll('.dropdown-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const action = this.getAttribute('href').substring(1);
+                
+                if (action === 'logout') {
+                    if (confirm('Are you sure you want to logout?')) {
+                        alert('Logout functionality would be implemented here');
+                    }
+                } else {
+                    alert(`${action.charAt(0).toUpperCase() + action.slice(1)} page would open here`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
