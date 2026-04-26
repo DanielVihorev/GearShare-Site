@@ -96,11 +96,14 @@ function buildListings(bot, index) {
   const lat = BASE_LAT + dLat;
   const lng = BASE_LNG + dLng;
 
+  // Per-bot offset keeps every brake-pad listing at a distinct price across
+  // all 3 bots (12 cluster listings → 12 unique prices).
+  const clusterPriceOffset = index * 5;
   const cluster = CLUSTER_PRICES.map((price, i) => ({
     partNumber: `BRAKE-PAD-${index + 1}-${i + 1}`,
     name: "Front Brake Pad Set",
     brandName: "Bosch",
-    price,
+    price: price + clusterPriceOffset,
     condition: CLUSTER_CONDITIONS[i],
     lat,
     lng,
